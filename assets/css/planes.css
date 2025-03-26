@@ -1,0 +1,81 @@
+#planes{
+    display: grid;
+    grid-template-columns: 30% 30% 30%;
+    justify-content: center;
+}
+
+#planes div{
+    margin: 0 auto;
+    padding: 2vw; margin: 3vw;
+    background: linear-gradient(#e9e1fc,#595bd4);
+    border-radius: 15px;
+    box-shadow: 0px 0px 10px #e9e1fc;
+}
+
+#planes div > *{
+    padding:1vw ;
+}
+
+#planes div h4{
+    font-weight: 300;
+}
+
+#planes div h2,#planes div h5{
+    font-size: 2vw;
+    text-align: center;
+}
+
+#profesional{
+    position: relative;
+}
+
+#profesional p:first-child{
+position: absolute;
+    top: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    font-size: 1.2vw;
+    font-weight: bold;
+    color: #181F1C;
+}
+
+.call-to-action{
+    border: 1.5px solid #181F1C;
+    background-color: transparent;
+    color: #181F1C;
+    display: block;
+    padding: 1vw; margin: 0 auto;
+
+    transition: all .1s linear;
+}
+
+.call-to-action:hover{
+    background-color: #181F1C;
+    color: #e9e1fc;
+    cursor: pointer;
+}
+
+@media (max-width: 768px){
+    #planes{
+        display: grid;
+        grid-template-columns: auto;
+        justify-content: center;
+    }
+
+    #planes div h2,#planes div h5{
+        font-size: 6vw;
+    }
+
+    #profesional > p{
+        display: none;
+    }
+
+    #planes div{
+        padding: 10vw;
+    }
+
+    .call-to-action{
+        width: 100%;
+    }
+}

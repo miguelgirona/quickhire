@@ -1,0 +1,107 @@
+#buscador{
+    border-radius: 10px;
+    padding: 3vw 1vw;
+    background-color: #595bd4;
+    box-shadow: 0px 0px 10px #e9e1fc;
+}
+
+#buscador > div{
+    width: fit-content;
+    margin: 0 auto;
+}
+
+#buscador input{
+    padding: 0.6vw 0.3vw;
+    width: 25vw;
+    border-radius: 5px;
+    border: none;
+}
+
+#buscador button{
+    padding: 0.6vw 0.3vw;
+    width: 10vw;
+
+    border: none;
+    color: #181F1C;
+    background-color: #e9e1fc;
+    border-radius: 5px;
+
+    transition: all .1s linear;
+}
+
+#buscador button:hover{
+
+    color: #e9e1fc;
+    background-color: #181F1C;
+    cursor: pointer;
+
+}
+
+#buscador label{
+    color: #e9e1fc;
+}
+
+h1,h2{
+    padding: 3vw 0;
+}
+
+section > div{
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    justify-content: center;
+}
+
+section > div > div{
+    margin: 0 1vw;
+}
+
+section > div > div img{
+    border-radius: 5px;
+    transition: all .2s linear;
+}
+
+section > div > div > a{
+    text-decoration: none;
+}
+
+section > div > div > a:hover > img{
+    box-shadow: 0px 0px 10px #181F1C;
+}
+
+img + p{
+    text-align: center;
+}
+
+div + a{
+    display: block;
+    text-align: center;
+    margin: 2vw;
+}
+
+@media (max-width:768px) {
+    #buscador input, #buscador button{
+        display: block;
+        width: 80%;
+
+        margin: 2vw 6vw;
+
+    }
+
+    #buscador * {
+        margin-left: 6vw;
+    }
+
+    .filtros{
+        display: grid;
+        grid-template-columns: auto auto;
+        justify-content: center;
+    }
+    
+    .filtro img{
+        width: 45vw;
+    }
+
+    .filtro p{
+        font-size: 4vw;
+    }
+}

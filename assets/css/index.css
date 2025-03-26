@@ -1,0 +1,105 @@
+#content h1{
+    color: #e9e1fc;
+    font-size: 2vw;
+}
+#content h3{
+    font-size: 1.4vw;
+}
+
+.call-to-action{
+    border: 1.5px solid #181F1C;
+    background-color: transparent;
+    color: #181F1C;
+    padding: 1vw; margin: 1.5vw 0;
+
+    transition: all .1s linear;
+}
+
+.call-to-action:hover{
+    background-color: #181F1C;
+    color: #e9e1fc;
+    cursor: pointer;
+}
+
+#candidatos div{
+    color: #e9e1fc;
+}
+
+#candidatos div img, #empresas div img{
+    width: 100%;
+    margin-top: 50px;
+    mix-blend-mode: multiply;
+}
+
+#content #candidatos-title{
+    padding: 6vw;
+    background-image: url(../img/shape1.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 32vw;
+    width: 20vw;
+    margin-left: 12vw
+}
+
+#content #empresas-title{
+    padding: 6vw;
+    background-image: url(../img/shape1.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 32vw;
+    width: 20vw;
+    margin-right: 12vw
+}
+
+.porque-elegirnos{
+    padding: 2vw 7.5vw;
+}
+
+.porque-elegirnos h2 {
+    font-size: 2vw;
+}
+
+.porque-elegirnos p {
+    margin: 2vw 0;
+}
+
+.porque-elegirnos span {
+    font-weight: bold;
+}
+
+
+@media (max-width: 768px) {
+    #content #candidatos-title, #content #empresas-title{
+        padding: 10vw;
+        background-image: url(../img/shape1.png);
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: 52vw;
+        width: 30vw;
+    }
+    #content h1{
+        color: #e9e1fc;
+        font-size: 3.5vw;
+    }
+    #content h3{
+        color: #181F1C;
+        font-size: 2.5vw;
+    }
+
+    .porque-elegirnos{
+        padding: 2vw 7.5vw;
+    }
+    
+    .porque-elegirnos h2 {
+        font-size: 5vw;
+    }
+    
+    .porque-elegirnos p {
+        font-size: 3vw;
+        margin: 2vw 0;
+    }
+
+    .porque-elegirnos li {
+        font-size: 3vw;
+    }
+}

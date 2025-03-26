@@ -1,0 +1,5 @@
+{
+    "require": {
+        "redsys/tpv": "^2.3"
+    }
+}

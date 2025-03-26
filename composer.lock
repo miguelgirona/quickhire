@@ -1,0 +1,116 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "46c9ea15575eb513ce0dd813d8376ed7",
+    "packages": [
+        {
+            "name": "redsys/messages",
+            "version": "v1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/eusonlito/redsys-Messages.git",
+                "reference": "ee1707651e7dd6f1517c5af377ac5613d3ef6490"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/eusonlito/redsys-Messages/zipball/ee1707651e7dd6f1517c5af377ac5613d3ef6490",
+                "reference": "ee1707651e7dd6f1517c5af377ac5613d3ef6490",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Redsys\\Messages\\": "./"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lito",
+                    "email": "lito@eordes.com"
+                }
+            ],
+            "description": "Redsys/Sermepa/Servired TPV Messages lists",
+            "keywords": [
+                "messages",
+                "redsys",
+                "sermepa",
+                "servired",
+                "tpv"
+            ],
+            "support": {
+                "issues": "https://github.com/eusonlito/redsys-Messages/issues",
+                "source": "https://github.com/eusonlito/redsys-Messages/tree/v1.1.2"
+            },
+            "time": "2021-12-30T22:41:40+00:00"
+        },
+        {
+            "name": "redsys/tpv",
+            "version": "v2.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/eusonlito/redsys-TPV.git",
+                "reference": "c4ead11146b9943004ed96bb46ee72d875b18538"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/eusonlito/redsys-TPV/zipball/c4ead11146b9943004ed96bb46ee72d875b18538",
+                "reference": "c4ead11146b9943004ed96bb46ee72d875b18538",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3",
+                "redsys/messages": "^1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Redsys\\Tpv\\": "src/Redsys/Tpv/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lito",
+                    "email": "lito@eordes.com"
+                }
+            ],
+            "description": "Package to connect with Redsys/Sermepa/Servired TPV",
+            "keywords": [
+                "redsys",
+                "sermepa",
+                "servired",
+                "tpv"
+            ],
+            "support": {
+                "issues": "https://github.com/eusonlito/redsys-TPV/issues",
+                "source": "https://github.com/eusonlito/redsys-TPV/tree/v2.3.3"
+            },
+            "time": "2020-10-06T17:03:54+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {},
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {},
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
+}
