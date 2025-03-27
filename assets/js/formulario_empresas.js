@@ -4,43 +4,36 @@ $(document).ready(function() {
         var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));        
         
         if (match) {
-            return decodeURIComponent(match[2]);  // Aseguramos que se decodifique correctamente
+            return decodeURIComponent(match[2]);
         }
         return null;
     }
-    var csrfToken = getCookie('csrf_cookie_name');
 
-    // Mostrar/Ocultar contraseña para password1
+    // Mostrar ocultar contraseña
     $('#toggle-password1').on('click', function() {
         var passwordField = $('#password1');
         var type = passwordField.attr('type') === 'password' ? 'text' : 'password';
         passwordField.attr('type', type);
 
-        // Alternar el texto del botón
         var buttonText = passwordField.attr('type') === 'password' ? 'Mostrar contraseña' : 'Ocultar contraseña';
         $('#toggle-password1').text(buttonText);
     });
 
-    // Mostrar/Ocultar contraseña para password2
     $('#toggle-password2').on('click', function() {
         var passwordField = $('#password2');
         var type = passwordField.attr('type') === 'password' ? 'text' : 'password';
         passwordField.attr('type', type);
 
-        // Alternar el texto del botón
         var buttonText = passwordField.attr('type') === 'password' ? 'Mostrar contraseña' : 'Ocultar contraseña';
         $('#toggle-password2').text(buttonText);
     });
-
-    // Validación de formulario
+    var csrfToken = getCookie('csrf_cookie_name');
     $('#enviar').click(function(e) {
         e.preventDefault(); // Evita el envío del formulario hasta validar
         csrfToken = getCookie('csrf_cookie_name');
-        // Limpiar mensajes de error previos
         $('.error').remove();
         $('input, textarea').removeClass('error-border');
 
-        // Validación del email
         var email = $('#email').val();
         if (!validateEmail(email)) {
             showError('#email', 'Por favor, introduce un correo electrónico válido.');
@@ -55,7 +48,6 @@ $(document).ready(function() {
             return false;
         }
 
-        // Validar que la contraseña sea segura
         if (!validatePassword(password1)) {
             showError('#password1', 'La contraseña debe tener al menos 6 caracteres, incluir letras mayúsculas, minúsculas, números y caracteres especiales.');
             return false;
@@ -67,49 +59,42 @@ $(document).ready(function() {
         }
 
 
-        // Validación de nombre
         var nombre = $('#nombre').val();
         if (nombre.trim() === '') {
             showError('#nombre', 'Por favor, introduce tu nombre.');
             return false;
         }
 
-        // Validación del nombre de la empresa
         var nombreEmpresa = $('#nombre_empresa').val();
         if (nombreEmpresa.trim() === '') {
             showError('#nombre_empresa', 'Por favor, introduce el nombre de tu empresa.');
             return false;
         }
 
-        // Validación del teléfono (solo números y 9 dígitos)
         var telefono = $('#telefono').val();
         if (!validateTelefono(telefono)) {
             showError('#telefono', 'Por favor, introduce un número de teléfono válido (9 dígitos).');
             return false;
         }
 
-        // Validación del NIF/CIF (Formato general)
         var nif = $('#nif').val();
         if (!validateNIF(nif)) {
             showError('#nif', 'Por favor, introduce un NIF o CIF válido.');
             return false;
         }
 
-        // Validación de descripción de la empresa
         var descripcion = $('#descripcion').val();
         if (descripcion.trim() === '') {
             showError('#descripcion', 'Por favor, introduce una descripción de tu empresa.');
             return false;
         }
 
-        // Validación del checkbox de política de privacidad
         var politicaPrivacidad = $('#politica_privacidad').is(':checked');
         if (!politicaPrivacidad) {
             showError('#politica_privacidad', 'Debes aceptar la política de privacidad.');
             return false;
         }
 
-        // Si todo es válido, puedes enviar el formulario (por ejemplo, con AJAX)
         var hashedPassword = CryptoJS.SHA256(password1).toString(CryptoJS.enc.Base64);
 
         // Enviar los datos al servidor a través de AJAX
