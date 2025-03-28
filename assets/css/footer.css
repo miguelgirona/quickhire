@@ -19,10 +19,6 @@ footer > div div ul li{
     list-style-type: none;
 }
 
-footer > div div ul{
-    margin: 0px auto;
-}
-
 @media (max-width: 768px) {
     footer > div {
         display: grid;

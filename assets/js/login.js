@@ -16,16 +16,22 @@ $(document).ready(function(){
     });
 
     $("#candidato").click(function(){
-        $(this).toggleClass("selected");
-        $("#empresa").toggleClass("selected");
-        sessionStorage.tipoUsuario = "candidato";
-        $(".two-cols h1 span").text(" en tu búsqueda de empleo.")
+        if(sessionStorage.tipoUsuario == "empresa"){
+
+            $(this).toggleClass("selected");
+            $("#empresa").toggleClass("selected");
+            sessionStorage.tipoUsuario = "candidato";
+            $(".two-cols h1 span").text(" en tu búsqueda de empleo.")
+        }
     });
 
     $("#empresa").click(function(){
-        $(this).toggleClass("selected");
-        $("#candidato").toggleClass("selected");
-        sessionStorage.tipoUsuario = "empresa";
-        $(".two-cols h1 span").text(" buscando un candidato ideal.")
+        if(sessionStorage.tipoUsuario == "candidato"){
+
+            $(this).toggleClass("selected");
+            $("#candidato").toggleClass("selected");
+            sessionStorage.tipoUsuario = "empresa";
+            $(".two-cols h1 span").text(" buscando un candidato ideal.")
+        }
     });
 });

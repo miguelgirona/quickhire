@@ -6,15 +6,16 @@ $(document).ready(function () {
   });
   
 
+  //devuelve promise
   function getOfertas() {
-    return $.ajax({  // $.ajax() ya devuelve un Promise
+    return $.ajax({  
       url: "https://miguelgirona.com.es/quickhire_api/public/ofertas",
       method: "GET",
     });
   }
   
   function getEmpresa(id) {
-    return $.ajax({  // $.ajax() ya devuelve un Promise
+    return $.ajax({
       url: "https://miguelgirona.com.es/quickhire_api/public/empresas/"+id,
       method: "GET",
     });
@@ -28,7 +29,7 @@ $(document).ready(function () {
   }
   
   function getSectores() {
-    return $.ajax({  // $.ajax() ya devuelve un Promise
+    return $.ajax({
       url: "https://miguelgirona.com.es/quickhire_api/public/sectores",
       method: "GET",
     });
