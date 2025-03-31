@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="assets/css/footer.css">
     <link rel="stylesheet" href="assets/css/login.css">
     <script src="assets/js/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
     <script src="assets/js/main.js"></script>
     <script src="assets/js/login.js"></script>
 </head>
@@ -26,8 +27,8 @@
                 <section id="login">
                     <p style="font-weight:bold; border-bottom:1px solid #181F1C;">Introduce tus datos</p>
                         <form>
-                            <label for="candidato">Nombre de usuario</label>
-                            <input id="candidato" type="text">
+                            <label for="nombre">Nombre de usuario</label>
+                            <input id="nombre" type="text">
                             <label for="password">Introduce tu contraseña</label>
                             <input id="password" type="password">
                             <button id="iniciar-sesion">Iniciar sesión</button>

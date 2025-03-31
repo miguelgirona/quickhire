@@ -10,4 +10,5 @@ $(document).ready(function() {
     $("#link-to-candidatos").click(function(){
         window.location="candidatos.php";
     })
+
 });
