@@ -65,6 +65,38 @@
                 <div id="estudios">
                     <h2>Estudios</h2>
                     <div id="estudios-datos"></div>
+                    <button class="añadir" id="nuevo-est">Añadir</button>
+                    <div id="form-dialog-est" title="Añadir Nuevo Estudio" style="display:none;">
+                        <form id="form-est">
+                            <label for="nivel_estudios">Nivel:</label>
+                            <select name="nivel_estudios" id="nivel_estudios">
+                                <option value="Bachillerato">Bachillerato</option>
+                                <option value="Formación Profesional Básica">Formación Profesional Básica</option>
+                                <option value="Formación Profesional de Grado Medio">Formación Profesional de Grado Medio</option>
+                                <option value="Formación Profesional de Grado Superior">Formación Profesional de Grado Superior</option>
+                                <option value="Diplomatura">Diplomatura</option>
+                                <option value="Ingeniería Técnica">Ingeniería Técnica</option>
+                                <option value="Ingeniería Superior">Ingeniería Superior</option>
+                                <option value="Licenciatura">Licenciatura</option>
+                                <option value="Máster">Máster</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                            
+                            <label for="titulo">Título:</label>
+                            <input type="text" id="titulo" name="titulo" required><br><br>
+                            
+                            <label for="centro">Centro:</label>
+                            <input type="text" id="centro" name="centro" required><br><br>
+                            
+                            <label for="fecha_inicio_est">Fecha de inicio:</label>
+                            <input type="date" id="fecha_inicio_est" name="fecha_inicio_est" required><br><br>
+                            
+                            <label for="fecha_fin_est">*Fecha de fin:</label>
+                            <input type="date" id="fecha_fin_est" name="fecha_fin_est"><br><br>
+                            <p>*Dejar vacío para indicar actual</p>
+
+                        </form>
+                    </div>
                 </div>
                 <div id="habilidades">
                     <h2>Habilidades</h2>

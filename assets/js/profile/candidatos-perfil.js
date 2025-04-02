@@ -55,11 +55,72 @@ $(document).ready(function(){
         getFoto(user.id).then(foto =>{
             
             let cand = candidato[0];
+            
+            //AÑADIR NUEVO ESTUDIO
+            $("#nuevo-est").click(function(){
+                csrfToken = getCookie('csrf_cookie_name');
+                $("#form-est")[0].reset();
+                $("#form-dialog-est").dialog({
+                    modal: true,  // Hace que sea un diálogo modal
+                    width: 400,   // Puedes ajustar el ancho del diálogo
+                    buttons: {
+                        "Guardar": function() {
+                            // Recolectar datos del formulario
+                            let newEst ={
+                                id: Date.now(),
+                                nivel_estudios: $("#nivel_estudios").val(),
+                                titulo: $("#titulo").val(),
+                                centro: $("#centro").val(),
+                                fecha_inicio: $("#fecha_inicio_est").val(),
+                                fecha_fin: $("#fecha_fin_est").val() == "" ? "actual" : $("#fecha_fin").val()
+                            } ;
+                            let estudiosExistentes = JSON.parse(cand.educacion);
+                            estudiosExistentes.push(newEst);
+                            console.log(estudiosExistentes);
+                            
+                            if(newEst.fecha_inicio > newEst.fecha_fin && newEst.fecha_fin !== "actual"){
+                                alert("duracion invalida");
+                            }else if(newEst.titulo == "" || newEst.centro == "" || newEst.fecha_inicio == ""){
+                                alert("No puedes dejar esos campos vacios");
+                            } else {
+                                
+                                // Enviar los datos usando AJAX
+                                $.ajax({
+                                    url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + user.id,
+                                    method: "PUT",
+                                    credentials: 'include',
+                                    contentType: 'application/json',
+                                    data: JSON.stringify({
+                                        educacion: estudiosExistentes, // Convertir el objeto a JSON
+                                    }),
+                                    headers: {
+                                        "Authorization": "Bearer " + sessionStorage.token, // Agregar token de autorización
+                                        'X-CSRF-TOKEN': csrfToken, // Agregar token CSRF si es necesario
+                                    },
+                                    success: function(response) {
+                                        $("#form-dialog-est").dialog("close");
+                                        location.reload();
+                                    },
+                                    error: function(xhr, status, error) {
+                                        alert("Error al añadir estudio: " + error);
+                                        console.log(xhr.responseText); // Verifica la respuesta del servidor para detalles
+                                    }
+                                });
+                            }
+                            
+                        },
+                        "Cancelar": function() {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+            });
 
+            //AÑADIR NUEVA EXPERIENCIA
             $("#nueva-exp").click(function(){
                 csrfToken = getCookie('csrf_cookie_name');
                 $("#form-exp")[0].reset();
-                $("#form-form-dialog-exp").dialog({
+                $("#form-dialog-exp").dialog({
                     modal: true,  // Hace que sea un diálogo modal
                     width: 400,   // Puedes ajustar el ancho del diálogo
                     buttons: {
@@ -80,6 +141,8 @@ $(document).ready(function(){
                             
                             if(newExp.fecha_inicio > newExp.fecha_fin && newExp.fecha_fin !== "actual"){
                                 alert("duracion invalida")
+                            } else if(newExp.nombre_puesto == "" || newExp.empresa == "" || newExp.descripcion_puesto == "" || newExp.fecha_inicio == ""){
+                                alert("No puedes dejar esos campos vacios");
                             } else {
                                 
                                 // Enviar los datos usando AJAX
@@ -96,7 +159,7 @@ $(document).ready(function(){
                                         'X-CSRF-TOKEN': csrfToken, // Agregar token CSRF si es necesario
                                     },
                                     success: function(response) {
-                                        $("#form-dialog-exp-dialog").dialog("close");
+                                        $("#form-dialog-exp").dialog("close");
                                         location.reload();
                                     },
                                     error: function(xhr, status, error) {
@@ -136,12 +199,14 @@ $(document).ready(function(){
                         "<h3>Descripción:</h3>"+
                         "<p>"+e.descripcion_puesto+"</p>"+
                         "<h3>Duración:</h3>"+
-                        "<p>"+new Date(e.fecha_inicio).toLocaleDateString("es-ES")+" - "+new Date(e.fecha_fin).toLocaleDateString("es-ES")+"</p>"+
-                        "<button id=eliminar-"+e.id+">Eliminar</button>"+
-                        "<button id=editar-"+e.id+">Editar</button>"+
+                        "<p>"+new Date(e.fecha_inicio).toLocaleDateString("es-ES")+" - "+(e.fecha_fin == "actual" ? e.fecha_fin : new Date(e.fecha_fin).toLocaleDateString("es-ES"))+"</p>"+
+                        "<button id=eliminar-exp-"+e.id+">Eliminar</button>"+
+                        "<button id=editar-exp-"+e.id+">Editar</button>"+
                     "</div>"
                 );
-                $("#eliminar-"+e.id).click(function(){
+
+                //eliminar experiencia
+                $("#eliminar-exp-"+e.id).click(function(){
                     if(confirm("¿Seguro que quieres borrar esta experiencia?")){
                         let experienciasExistentes = JSON.parse(cand.experiencia);
                        console.log(experienciasExistentes);
@@ -173,8 +238,8 @@ $(document).ready(function(){
                     }
                 });
 
-                //editar
-                $("#editar-"+e.id).click(function(){
+                //editar experiencia
+                $("#editar-exp-"+e.id).click(function(){
                     $("#nombre_puesto").val(e.nombre_puesto);
                     $("#empresa").val(e.empresa);
                     $("#sector").val(e.sector);
@@ -182,7 +247,7 @@ $(document).ready(function(){
                     $("#fecha_inicio").val(e.fecha_inicio);
                     if ($("#fecha_fin").val() != "actual") $("#fecha_fin").val(e.fecha_fin)
 
-                        $("#form-form-dialog-exp").dialog({
+                        $("#form-dialog-exp").dialog({
                             modal: true,  // Hace que sea un diálogo modal
                             width: 400,   // Puedes ajustar el ancho del diálogo
                             buttons: {
@@ -213,7 +278,7 @@ $(document).ready(function(){
                                             location.reload();
                                         },
                                         error: function(xhr, status, error) {
-                                            alert("Error al eliminar experiencia: " + error);
+                                            alert("Error al editar experiencia: " + error);
                                             console.log(xhr.responseText); // Verifica la respuesta del servidor para detalles
             
                                         }
@@ -239,9 +304,96 @@ $(document).ready(function(){
                         "<h3>Centro:</h3>"+
                         "<p>"+ e.centro +"</p>"+
                         "<h3>Duración:</h3>"+
-                        "<p>"+ e.fecha_inicio +" - "+ e.fecha_fin +"</p>"+
+                        "<p>"+ new Date(e.fecha_inicio).toLocaleDateString("es-ES") +" - "+ (e.fecha_fin == "actual" ? e.fecha_fin : new Date(e.fecha_fin).toLocaleDateString("es-ES")) +"</p>"+
+                        "<button id=eliminar-est-"+e.id+">Eliminar</button>"+
+                        "<button id=editar-est-"+e.id+">Editar</button>"+
                     "</div>"
                 );
+
+                //eliminar estudio
+                $("#eliminar-est-"+e.id).click(function(){
+                    if(confirm("¿Seguro que quieres borrar este estudio?")){
+                        let estudiosExistentes = JSON.parse(cand.educacion);
+                        console.log(estudiosExistentes);
+                        
+                        
+                        let nuevosEstudios = estudiosExistentes.filter(est => est.id !== e.id);
+                        console.log(nuevosEstudios);
+                        
+                        $.ajax({
+                            url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + user.id,
+                            method: "PUT",
+                            contentType: 'application/json',
+                            data: JSON.stringify({
+                                educacion: nuevosEstudios,
+                            }),
+                            headers: {
+                                "Authorization": "Bearer " + sessionStorage.token,
+                                'X-CSRF-TOKEN': csrfToken,
+                            },
+                            success: function(response) {
+                                location.reload(); // Eliminar el elemento del DOM
+                            },
+                            error: function(xhr, status, error) {
+                                alert("Error al eliminar estudio: " + error);
+                                console.log(xhr.responseText); // Verifica la respuesta del servidor para detalles
+
+                            }
+                        });
+                    }
+                });
+
+                //editar estudio
+                $("#editar-est-"+e.id).click(function(){
+                    $("#nivel_estudios").val(e.nivel_estudios);
+                    $("#titulo").val(e.titulo);
+                    $("#centro").val(e.centro);
+                    $("#fecha_inicio_est").val(e.fecha_inicio);
+                    if ($("#fecha_fin_est").val() != "actual") $("#fecha_fin_est").val(e.fecha_fin)
+
+                        $("#form-dialog-est").dialog({
+                            modal: true,  // Hace que sea un diálogo modal
+                            width: 400,   // Puedes ajustar el ancho del diálogo
+                            buttons: {
+                                "Guardar": function() {
+                                    let estudiosExistentes = JSON.parse(cand.educacion);
+                                    let estEditar = estudiosExistentes.filter(est => est.id == e.id)[0];
+                                    console.log(estEditar);
+                                    
+                                    estEditar.nivel_estudios = $("#nivel_estudios").val();
+                                    estEditar.titulo = $("#titulo").val();
+                                    estEditar.centro = $("#centro").val();
+                                    estEditar.fecha_inicio = $("#fecha_inicio_est").val();
+                                    estEditar.fecha_fin = $("#fecha_fin_est").val();
+
+                                    $.ajax({
+                                        url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + user.id,
+                                        method: "PUT",
+                                        contentType: 'application/json',
+                                        data: JSON.stringify({
+                                            educacion: estudiosExistentes,
+                                        }),
+                                        headers: {
+                                            "Authorization": "Bearer " + sessionStorage.token,
+                                            'X-CSRF-TOKEN': csrfToken,
+                                        },
+                                        success: function(response) {
+                                            location.reload();
+                                        },
+                                        error: function(xhr, status, error) {
+                                            alert("Error al editar experiencia: " + error);
+                                            console.log(xhr.responseText); // Verifica la respuesta del servidor para detalles
+            
+                                        }
+                                    });
+                                    
+                                },
+                                "Cancelar": function() {
+                                    $(this).dialog("close");
+                                }
+                            }
+                        });
+                    });
             }
 
             //habilidades
