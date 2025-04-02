@@ -1,0 +1,47 @@
+#content{
+    display: grid;
+    grid-template-columns: 33% 67%;
+    gap: 20px;
+}
+
+#otros-datos{
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 20px;
+    grid-auto-rows: auto;
+}
+
+.añadir{
+    display: block;
+    background: none;
+    margin:  0 auto;
+    width: fit-content;
+    
+}
+
+.añadir:hover{
+    cursor: pointer;
+}
+
+#otros-datos > div{
+    background-color: #e9e1fc;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#otros-datos > div > div > div{
+    background-color: rgba(89, 91, 212,0.6);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+#datos-personales > div{
+    background-color: rgba(89, 91, 212,0.6);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#form-dialog {
+    padding: 20px;
+}

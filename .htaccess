@@ -1,15 +1,25 @@
 RewriteEngine On
+RewriteBase /quickhire/
 
-# Eliminar extensión .php de la URL
+# Eliminar extensión .php de la URL si el archivo existe
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.php -f
 RewriteRule ^(.+)$ $1.php [L]
 
-# Opcional: Redirigir URLs con extensión a sin extensión
+# Redirigir URLs con extensión .php a sin extensión
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s([^.]+)\.php [NC]
 RewriteRule ^ %1 [R=301,L]
 
-# Redirigir peticiones sin ".php" a la carpeta /pages/
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
+# Manejar archivos PHP individuales dentro de /pages/
+RewriteCond %{DOCUMENT_ROOT}/quickhire/pages/$1.php -f
 RewriteRule ^([^/]+)/?$ pages/$1.php [L]
+
+# Manejar carpetas dentro de /pages/ y permitir múltiples archivos dentro de ellas
+RewriteCond %{DOCUMENT_ROOT}/quickhire/pages/$1 -d
+RewriteCond %{DOCUMENT_ROOT}/quickhire/pages/$1/$2.php -f
+RewriteRule ^([^/]+)/([^/]+)/?$ pages/$1/$2.php [L]
+
+# Si una carpeta es accedida sin archivo específico, servir index.php por defecto
+RewriteCond %{DOCUMENT_ROOT}/quickhire/pages/$1 -d
+RewriteCond %{DOCUMENT_ROOT}/quickhire/pages/$1/index.php -f
+RewriteRule ^([^/]+)/?$ pages/$1/index.php [L]

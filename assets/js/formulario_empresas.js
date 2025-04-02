@@ -105,6 +105,7 @@ $(document).ready(function() {
             data: {
                 nombre: nombre,
                 mail: email,
+                url_imagen:"https://miguelgirona.com.es/quickhire/qh-admin/uploads/default/empresa-default.png" ,
                 contraseña: hashedPassword,
                 telefono:telefono,
                 tipo_usuario: "Empresa",

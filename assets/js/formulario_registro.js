@@ -88,6 +88,7 @@ $(document).ready(function(){
             data: {
                 nombre: nombre,
                 mail: email,
+                url_imagen:"https://miguelgirona.com.es/quickhire/qh-admin/uploads/default/candidato-default.jpg" ,
                 contraseña: hashedPassword,
                 tipo_usuario: "Candidato",
                 csrf_test_name: csrfToken // Agregar el token CSRF

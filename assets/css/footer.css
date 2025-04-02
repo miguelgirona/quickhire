@@ -3,6 +3,11 @@ footer {
     padding: 2vw;
 }
 
+footer *::selection{
+    background-color: #e9e1fc; /* Color de fondo */
+    color: #595bd4;
+}
+
 footer > div {
     display: grid;
     grid-template-columns: auto auto auto;

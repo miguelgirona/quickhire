@@ -1,5 +1,15 @@
 $(document).ready(function(){
 
+    function getCookie(name) {
+        var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));        
+        
+        if (match) {
+            return decodeURIComponent(match[2]);
+        }
+        return null;
+    }
+    var csrfToken = getCookie('csrf_cookie_name');
+
     if(window.location.href.includes("logout")){
         sessionStorage.clear();
         window.location.replace("https://miguelgirona.com.es/quickhire/login.php");
@@ -46,7 +56,8 @@ $(document).ready(function(){
 
     $("#iniciar-sesion").click(function(event){
         event.preventDefault();
-        console.log("nombre",$("#nombre").val(),"contraseña",$("#password").val());
+        csrfToken = getCookie('csrf_cookie_name');
+
         
         $.ajax({
             url: 'https://miguelgirona.com.es/quickhire_api/public/usuarios/login',
@@ -55,7 +66,11 @@ $(document).ready(function(){
             data: JSON.stringify({
                 nombre: $("#nombre").val(),
                 contraseña: $("#password").val(),
+                csrf_test_name: csrfToken
             }),
+            headers: {
+                'X-CSRF-TOKEN': csrfToken // También enviarlo en el header
+            },
             success: function(response) {
                 console.log(response.token);
                 
@@ -67,12 +82,14 @@ $(document).ready(function(){
                 
                 $("#login").after("<p>¡Bienvenido/a "+ user.nombre +"!</p>")
                 $("form")[0].reset();
-                window.location.href = "https://miguelgirona.com.es/quickhire/profile/"
+                if(user.tipo_usuario == "Candidato") window.location.replace("https://miguelgirona.com.es/quickhire/profile");
+                if(user.tipo_usuario == "Empresa") window.location.replace("https://miguelgirona.com.es/quickhire/empresa");
+                if(user.tipo_usuario == "Administrador") window.location.replace("https://miguelgirona.com.es/quickhire/admin");
             },
             error: function(error){
                 console.log(error);
                 
-                $("#login").after("<p>Error al iniciar session</p>")
+                $("#login").after("<p>Error al iniciar sesion</p>")
             }
         });
     });

@@ -7,6 +7,12 @@
     color: #181F1C;
 }
 
+*::selection {
+    background-color: #595bd4; /* Color de fondo */
+    color: #181F1C;              /* Color del texto */
+}
+
+
 html, body {
     height: 100%;
     width: 100%;
@@ -27,8 +33,14 @@ body {
     grid-template-columns: 50% 50%;
 }
 
+#container{
+    position: relative;
+    width: 100%;
+}
+
 #content{
-    margin: 1vw 7vw;
+    width: 85%;
+    margin: 1vw auto;
 }
 
 #menu ul {
