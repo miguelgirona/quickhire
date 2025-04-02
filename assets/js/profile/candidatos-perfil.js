@@ -56,6 +56,63 @@ $(document).ready(function(){
             
             let cand = candidato[0];
             
+            //AÑADIR NUEVO IDIOMA
+            $("#nuevo-idi").click(function(){
+                csrfToken = getCookie('csrf_cookie_name');
+                $("#form-idi")[0].reset();
+                $("#form-dialog-idi").dialog({
+                    modal: true,  // Hace que sea un diálogo modal
+                    width: 400,   // Puedes ajustar el ancho del diálogo
+                    buttons: {
+                        "Guardar": function() {
+                            // Recolectar datos del formulario
+                            let newIdi ={
+                                id: Date.now(),
+                                idioma: $("#idioma").val(),
+                                nivel: $("#nivel_idi").val(),
+                            } ;
+                            let idiomasExistentes = JSON.parse(cand.idiomas);
+                            
+                            idiomasExistentes.push(newIdi);
+                            console.log(idiomasExistentes);
+                            
+                            if(newIdi.idioma == ""){
+                                alert("No puedes dejar esos campos vacios");
+                            } else {
+                                
+                                // Enviar los datos usando AJAX
+                                $.ajax({
+                                    url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + user.id,
+                                    method: "PUT",
+                                    credentials: 'include',
+                                    contentType: 'application/json',
+                                    data: JSON.stringify({
+                                        idiomas: idiomasExistentes, // Convertir el objeto a JSON
+                                    }),
+                                    headers: {
+                                        "Authorization": "Bearer " + sessionStorage.token, // Agregar token de autorización
+                                        'X-CSRF-TOKEN': csrfToken, // Agregar token CSRF si es necesario
+                                    },
+                                    success: function(response) {                                        
+                                        $("#form-dialog-idi").dialog("close");
+                                        location.reload();
+                                        
+                                    },
+                                    error: function(xhr, status, error) {
+                                        alert("Error al añadir idioma: " + error);
+                                        console.log(xhr.responseText); // Verifica la respuesta del servidor para detalles
+                                    }
+                                });
+                            }
+                            
+                        },
+                        "Cancelar": function() {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+            });
+
             //AÑADIR NUEVA HABILIDAD
             $("#nueva-hab").click(function(){
                 csrfToken = getCookie('csrf_cookie_name');
@@ -97,7 +154,7 @@ $(document).ready(function(){
                                         location.reload();
                                     },
                                     error: function(xhr, status, error) {
-                                        alert("Error al añadir estudio: " + error);
+                                        alert("Error al añadir habilidad: " + error);
                                         console.log(xhr.responseText); // Verifica la respuesta del servidor para detalles
                                     }
                                 });
@@ -318,26 +375,32 @@ $(document).ready(function(){
                                     expEditar.fecha_inicio = $("#fecha_inicio").val();
                                     expEditar.fecha_fin = $("#fecha_fin").val();
 
-                                    $.ajax({
-                                        url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + user.id,
-                                        method: "PUT",
-                                        contentType: 'application/json',
-                                        data: JSON.stringify({
-                                            experiencia: experienciasExistentes,
-                                        }),
-                                        headers: {
-                                            "Authorization": "Bearer " + sessionStorage.token,
-                                            'X-CSRF-TOKEN': csrfToken,
-                                        },
-                                        success: function(response) {
-                                            location.reload();
-                                        },
-                                        error: function(xhr, status, error) {
-                                            alert("Error al editar experiencia: " + error);
-                                            console.log(xhr.responseText); // Verifica la respuesta del servidor para detalles
-            
-                                        }
-                                    });
+                                    if(expEditar.fecha_inicio > expEditar.fecha_fin && expEditar.fecha_fin !== "actual"){
+                                        alert("duracion invalida")
+                                    } else if(expEditar.nombre_puesto == "" || expEditar.empresa == "" || expEditar.descripcion_puesto == "" || expEditar.fecha_inicio == ""){
+                                        alert("No puedes dejar esos campos vacios");
+                                    } else {
+                                        $.ajax({
+                                            url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + user.id,
+                                            method: "PUT",
+                                            contentType: 'application/json',
+                                            data: JSON.stringify({
+                                                experiencia: experienciasExistentes,
+                                            }),
+                                            headers: {
+                                                "Authorization": "Bearer " + sessionStorage.token,
+                                                'X-CSRF-TOKEN': csrfToken,
+                                            },
+                                            success: function(response) {
+                                                location.reload();
+                                            },
+                                            error: function(xhr, status, error) {
+                                                alert("Error al editar experiencia: " + error);
+                                                console.log(xhr.responseText); // Verifica la respuesta del servidor para detalles
+                
+                                            }
+                                        });
+                                    }
                                     
                                 },
                                 "Cancelar": function() {
@@ -421,26 +484,32 @@ $(document).ready(function(){
                                     estEditar.fecha_inicio = $("#fecha_inicio_est").val();
                                     estEditar.fecha_fin = $("#fecha_fin_est").val();
 
-                                    $.ajax({
-                                        url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + user.id,
-                                        method: "PUT",
-                                        contentType: 'application/json',
-                                        data: JSON.stringify({
-                                            educacion: estudiosExistentes,
-                                        }),
-                                        headers: {
-                                            "Authorization": "Bearer " + sessionStorage.token,
-                                            'X-CSRF-TOKEN': csrfToken,
-                                        },
-                                        success: function(response) {
-                                            location.reload();
-                                        },
-                                        error: function(xhr, status, error) {
-                                            alert("Error al editar experiencia: " + error);
-                                            console.log(xhr.responseText); // Verifica la respuesta del servidor para detalles
-            
-                                        }
-                                    });
+                                    if(estEditar.fecha_inicio > estEditar.fecha_fin && estEditar.fecha_fin !== "actual"){
+                                        alert("duracion invalida");
+                                    }else if(estEditar.titulo == "" || estEditar.centro == "" || estEditar.fecha_inicio == ""){
+                                        alert("No puedes dejar esos campos vacios");
+                                    } else {
+                                        $.ajax({
+                                            url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + user.id,
+                                            method: "PUT",
+                                            contentType: 'application/json',
+                                            data: JSON.stringify({
+                                                educacion: estudiosExistentes,
+                                            }),
+                                            headers: {
+                                                "Authorization": "Bearer " + sessionStorage.token,
+                                                'X-CSRF-TOKEN': csrfToken,
+                                            },
+                                            success: function(response) {
+                                                location.reload();
+                                            },
+                                            error: function(xhr, status, error) {
+                                                alert("Error al editar experiencia: " + error);
+                                                console.log(xhr.responseText); // Verifica la respuesta del servidor para detalles
+                
+                                            }
+                                        });
+                                    }
                                     
                                 },
                                 "Cancelar": function() {
@@ -512,26 +581,30 @@ $(document).ready(function(){
                                 habEditar.habilidad = $("#habilidad").val();
                                 habEditar.nivel = $("#nivel").val();
 
-                                $.ajax({
-                                    url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + user.id,
-                                    method: "PUT",
-                                    contentType: 'application/json',
-                                    data: JSON.stringify({
-                                        habilidades: habilidadesExistentes,
-                                    }),
-                                    headers: {
-                                        "Authorization": "Bearer " + sessionStorage.token,
-                                        'X-CSRF-TOKEN': csrfToken,
-                                    },
-                                    success: function(response) {
-                                        location.reload();
-                                    },
-                                    error: function(xhr, status, error) {
-                                        alert("Error al editar habilidad: " + error);
-                                        console.log(xhr.responseText); // Verifica la respuesta del servidor para detalles
-        
-                                    }
-                                });
+                                if(habEditar.habilidad == ""){
+                                    alert("No puedes dejar esos campos vacios");
+                                } else {
+                                    $.ajax({
+                                        url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + user.id,
+                                        method: "PUT",
+                                        contentType: 'application/json',
+                                        data: JSON.stringify({
+                                            habilidades: habilidadesExistentes,
+                                        }),
+                                        headers: {
+                                            "Authorization": "Bearer " + sessionStorage.token,
+                                            'X-CSRF-TOKEN': csrfToken,
+                                        },
+                                        success: function(response) {
+                                            location.reload();
+                                        },
+                                        error: function(xhr, status, error) {
+                                            alert("Error al editar habilidad: " + error);
+                                            console.log(xhr.responseText); // Verifica la respuesta del servidor para detalles
+            
+                                        }
+                                    });
+                                }
                                 
                             },
                             "Cancelar": function() {
@@ -548,8 +621,93 @@ $(document).ready(function(){
                     "<div class='idi'>"+
                         "<h3>"+ i.idioma +"</h3>"+
                         "<p>"+ i.nivel +"</p>"+
+                        "<button id=eliminar-idi-"+i.id+">Eliminar</button>"+
+                        "<button id=editar-idi-"+i.id+">Editar</button>"+
                     "</div>"
                 );
+
+                //eliminar idioma
+                $("#eliminar-idi-"+i.id).click(function(){
+                    if(confirm("¿Seguro que quieres borrar este idioma?")){
+                        let idiomasExistentes = JSON.parse(cand.idiomas);
+                        console.log(idiomasExistentes);
+                        
+                        
+                        let nuevosIdiomas = idiomasExistentes.filter(idi => idi.id !== i.id);
+                        console.log(nuevosIdiomas);
+                        
+                        $.ajax({
+                            url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + user.id,
+                            method: "PUT",
+                            contentType: 'application/json',
+                            data: JSON.stringify({
+                                idiomas: nuevosIdiomas,
+                            }),
+                            headers: {
+                                "Authorization": "Bearer " + sessionStorage.token,
+                                'X-CSRF-TOKEN': csrfToken,
+                            },
+                            success: function(response) {
+                                location.reload(); // Eliminar el elemento del DOM
+                            },
+                            error: function(xhr, status, error) {
+                                alert("Error al eliminar idioma: " + error);
+                                console.log(xhr.responseText); // Verifica la respuesta del servidor para detalles
+
+                            }
+                        });
+                    }
+                });
+
+                //editar idioma
+                $("#editar-idi-"+i.id).click(function(){
+                    $("#idioma").val(i.idioma);
+                    $("#nivel_idi").val(i.nivel);
+
+                    $("#form-dialog-idi").dialog({
+                        modal: true,  // Hace que sea un diálogo modal
+                        width: 400,   // Puedes ajustar el ancho del diálogo
+                        buttons: {
+                            "Guardar": function() {
+                                let idiomasExistentes = JSON.parse(cand.idiomas);
+                                let idiEditar = idiomasExistentes.filter(idi => idi.id == i.id)[0];
+                                console.log(idiEditar);
+                                
+                                idiEditar.idioma = $("#idioma").val();
+                                idiEditar.nivel = $("#nivel_idi").val();
+
+                                if(idiEditar.idioma == ""){
+                                    alert("No puedes dejar esos campos vacios");
+                                } else {
+                                    $.ajax({
+                                        url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + user.id,
+                                        method: "PUT",
+                                        contentType: 'application/json',
+                                        data: JSON.stringify({
+                                            idiomas: idiomasExistentes,
+                                        }),
+                                        headers: {
+                                            "Authorization": "Bearer " + sessionStorage.token,
+                                            'X-CSRF-TOKEN': csrfToken,
+                                        },
+                                        success: function(response) {
+                                            location.reload();
+                                        },
+                                        error: function(xhr, status, error) {
+                                            alert("Error al editar idioma: " + error);
+                                            console.log(xhr.responseText); // Verifica la respuesta del servidor para detalles
+            
+                                        }
+                                    });
+                                }
+                                
+                            },
+                            "Cancelar": function() {
+                                $(this).dialog("close");
+                            }
+                        }
+                    });
+                });
             }
  
         });

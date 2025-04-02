@@ -120,6 +120,22 @@
                 <div id="idiomas">
                     <h2>Idiomas</h2>
                     <div id="idiomas-datos"></div>
+                    <button class="añadir" id="nuevo-idi">Añadir</button>
+                    <div id="form-dialog-idi" title="Añadir Nuevo Idioma" style="display:none;">
+                        <form id="form-idi">
+                            <label for="idioma">Idioma:</label>
+                            <input type="text" id="idioma" name="idioma" required><br><br>
+                            
+                            <label for="nivel_idi">Nivel:</label>
+                            <select name="nivel_idi" id="nivel_idi">
+                                <option value="Básico">Básico</option>
+                                <option value="Intermedio">Intermedio</option>
+                                <option value="Avanzado">Avanzado</option>
+                                <option value="Nativo">Nativo</option>
+                            </select>
+
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
