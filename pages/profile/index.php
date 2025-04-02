@@ -101,6 +101,21 @@
                 <div id="habilidades">
                     <h2>Habilidades</h2>
                     <div id="habilidades-datos"></div>
+                    <button class="añadir" id="nueva-hab">Añadir</button>
+                    <div id="form-dialog-hab" title="Añadir Nueva Habilidad" style="display:none;">
+                        <form id="form-hab">
+                            <label for="habilidad">Habilidad:</label>
+                            <input type="text" id="habilidad" name="habilidad" required><br><br>
+                            
+                            <label for="nivel">Nivel:</label>
+                            <select name="nivel" id="nivel">
+                                <option value="Básico">Básico</option>
+                                <option value="Intermedio">Intermedio</option>
+                                <option value="Avanzado">Avanzado</option>
+                            </select>
+
+                        </form>
+                    </div>
                 </div>
                 <div id="idiomas">
                     <h2>Idiomas</h2>

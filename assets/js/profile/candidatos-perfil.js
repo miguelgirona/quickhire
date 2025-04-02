@@ -56,6 +56,61 @@ $(document).ready(function(){
             
             let cand = candidato[0];
             
+            //AÑADIR NUEVA HABILIDAD
+            $("#nueva-hab").click(function(){
+                csrfToken = getCookie('csrf_cookie_name');
+                $("#form-hab")[0].reset();
+                $("#form-dialog-hab").dialog({
+                    modal: true,  // Hace que sea un diálogo modal
+                    width: 400,   // Puedes ajustar el ancho del diálogo
+                    buttons: {
+                        "Guardar": function() {
+                            // Recolectar datos del formulario
+                            let newHab ={
+                                id: Date.now(),
+                                habilidad: $("#habilidad").val(),
+                                nivel: $("#nivel").val(),
+                            } ;
+                            let habilidadesExistentes = JSON.parse(cand.habilidades);
+                            habilidadesExistentes.push(newHab);
+                            console.log(habilidadesExistentes);
+                            
+                            if(newHab.habilidad == ""){
+                                alert("No puedes dejar esos campos vacios");
+                            } else {
+                                
+                                // Enviar los datos usando AJAX
+                                $.ajax({
+                                    url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + user.id,
+                                    method: "PUT",
+                                    credentials: 'include',
+                                    contentType: 'application/json',
+                                    data: JSON.stringify({
+                                        habilidades: habilidadesExistentes, // Convertir el objeto a JSON
+                                    }),
+                                    headers: {
+                                        "Authorization": "Bearer " + sessionStorage.token, // Agregar token de autorización
+                                        'X-CSRF-TOKEN': csrfToken, // Agregar token CSRF si es necesario
+                                    },
+                                    success: function(response) {
+                                        $("#form-dialog-hab").dialog("close");
+                                        location.reload();
+                                    },
+                                    error: function(xhr, status, error) {
+                                        alert("Error al añadir estudio: " + error);
+                                        console.log(xhr.responseText); // Verifica la respuesta del servidor para detalles
+                                    }
+                                });
+                            }
+                            
+                        },
+                        "Cancelar": function() {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+            });
+
             //AÑADIR NUEVO ESTUDIO
             $("#nuevo-est").click(function(){
                 csrfToken = getCookie('csrf_cookie_name');
@@ -402,8 +457,89 @@ $(document).ready(function(){
                     "<div class='hab'>"+
                         "<h3>"+ h.habilidad +"</h3>"+
                         "<p>"+ h.nivel +"</p>"+
+                        "<button id=eliminar-hab-"+h.id+">Eliminar</button>"+
+                        "<button id=editar-hab-"+h.id+">Editar</button>"+
                     "</div>"
                 );
+
+                //eliminar habilidad
+                $("#eliminar-hab-"+h.id).click(function(){
+                    if(confirm("¿Seguro que quieres borrar esta habilidad?")){
+                        let habilidadExistentes = JSON.parse(cand.habilidades);
+                        console.log(habilidadExistentes);
+                        
+                        
+                        let nuevasHabilidades = habilidadExistentes.filter(hab => hab.id !== h.id);
+                        console.log(nuevasHabilidades);
+                        
+                        $.ajax({
+                            url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + user.id,
+                            method: "PUT",
+                            contentType: 'application/json',
+                            data: JSON.stringify({
+                                habilidades: nuevasHabilidades,
+                            }),
+                            headers: {
+                                "Authorization": "Bearer " + sessionStorage.token,
+                                'X-CSRF-TOKEN': csrfToken,
+                            },
+                            success: function(response) {
+                                location.reload(); // Eliminar el elemento del DOM
+                            },
+                            error: function(xhr, status, error) {
+                                alert("Error al eliminar habilidad: " + error);
+                                console.log(xhr.responseText); // Verifica la respuesta del servidor para detalles
+
+                            }
+                        });
+                    }
+                });
+
+                //editar habilidad
+                $("#editar-hab-"+h.id).click(function(){
+                    $("#habilidad").val(h.habilidad);
+                    $("#nivel").val(h.nivel);
+
+                    $("#form-dialog-hab").dialog({
+                        modal: true,  // Hace que sea un diálogo modal
+                        width: 400,   // Puedes ajustar el ancho del diálogo
+                        buttons: {
+                            "Guardar": function() {
+                                let habilidadesExistentes = JSON.parse(cand.habilidades);
+                                let habEditar = habilidadesExistentes.filter(hab => hab.id == h.id)[0];
+                                console.log(habEditar);
+                                
+                                habEditar.habilidad = $("#habilidad").val();
+                                habEditar.nivel = $("#nivel").val();
+
+                                $.ajax({
+                                    url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + user.id,
+                                    method: "PUT",
+                                    contentType: 'application/json',
+                                    data: JSON.stringify({
+                                        habilidades: habilidadesExistentes,
+                                    }),
+                                    headers: {
+                                        "Authorization": "Bearer " + sessionStorage.token,
+                                        'X-CSRF-TOKEN': csrfToken,
+                                    },
+                                    success: function(response) {
+                                        location.reload();
+                                    },
+                                    error: function(xhr, status, error) {
+                                        alert("Error al editar habilidad: " + error);
+                                        console.log(xhr.responseText); // Verifica la respuesta del servidor para detalles
+        
+                                    }
+                                });
+                                
+                            },
+                            "Cancelar": function() {
+                                $(this).dialog("close");
+                            }
+                        }
+                    });
+                });
             }
 
             //idiomas
