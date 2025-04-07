@@ -132,4 +132,6 @@ $(document).ready(function () {
     $("#ver_filtros").text() == "Mostrar filtros" ? $("#ver_filtros").text("Ocultar filtros") : $("#ver_filtros").text("Mostrar filtros");
 
   });
+
+  
 });

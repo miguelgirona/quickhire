@@ -6,20 +6,25 @@
 
 #otros-datos{
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: 50% 50%;
     gap: 20px;
     grid-auto-rows: auto;
 }
 
 .añadir{
     display: block;
-    background: none;
-    margin:  0 auto;
-    width: fit-content;
+    color: #181F1C;
+    border: 1px solid #181F1C;
+    padding: 5px;
+    margin: 3px auto;
+    border-radius: 5px;
+    background-color: white;
+
+    transition: all .1s linear;
     
 }
 
-.añadir:hover{
+button:hover{
     cursor: pointer;
 }
 
@@ -30,18 +35,204 @@
 }
 
 #otros-datos > div > div > div{
-    background-color: rgba(89, 91, 212,0.6);
+    background-color: white;
     padding: 20px;
     border-radius: 10px;
     margin: 10px;
+
+    transition: all .1s linear;
+}
+
+#otros-datos > div > div > div:hover{
+    background-color: rgb(222, 220, 220);
+
+}
+
+#otros-datos > div > div > div:nth-child(odd){
+    background-color: rgb(222, 220, 220);
 }
 
 #datos-personales > div{
     background-color: rgba(89, 91, 212,0.6);
     padding: 20px;
     border-radius: 10px;
+    margin-bottom: 10px;
 }
 
 #form-dialog {
     padding: 20px;
 }
+
+.eliminar{
+    color: #181F1C;
+    border: 1px solid red;
+    padding: 5px;
+    margin: 3px;
+    border-radius: 5px;
+    background-color: rgb(213, 125, 125);
+}
+
+.editar{
+    color: #181F1C;
+    border: 1px solid #181F1C;
+    padding: 5px;
+    margin: 3px;
+    border-radius: 5px;
+    background-color: white;
+
+    transition: all .1s linear;
+}
+
+.añadir:hover,.editar:hover{
+    background-color: rgba(89, 91, 212,0.6);
+}
+
+.form-dialog {
+    display: none;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 500px;
+    margin: 10px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    position: relative;
+}
+
+.form-dialog label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #555;
+}
+
+.form-dialog input[type="text"],
+.form-dialog input[type="file"],
+.form-dialog input[type="date"],
+.form-dialog select,
+.form-dialog textarea {
+    width: 80%;
+    padding: 10px 12px;
+    margin-bottom: 6px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border 0.3s, box-shadow 0.3s;
+    font-family: inherit;
+    resize: vertical;
+}
+
+.form-dialog input[type="text"]:focus,
+.form-dialog input[type="file"]:focus,
+.form-dialog input[type="date"]:focus,
+.form-dialog select:focus,
+.form-dialog textarea:focus {
+    border-color: #595bd4;
+    box-shadow: 0 0 0 2px rgba(89, 91, 212, 0.2);
+    outline: none;
+}
+
+.form-dialog textarea {
+    min-height: 100px;
+    max-height: 300px;
+}
+
+.form-dialog select {
+    background-color: #fff;
+    -webkit-appearance: none; /* Estilo consistente en navegadores */
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    padding-right: 20px; /* Espacio para el ícono del selector */
+}
+
+.seccion:hover{
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    
+    h2{
+        font-size: 16px;
+    }
+    h3{
+        font-size: 14px;
+    }
+    p,button{
+        font-size: 12px;
+    }
+
+    img{
+        width: 50px; height: 50px;
+    }
+
+    #content button{
+        padding: 5px;
+    }
+
+    #content {
+        display: block; /* Cambiamos grid a block para mayor control */
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+    
+    #datos-personales, #otros-datos {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    
+    #otros-datos {
+        display: block; /* Eliminamos el grid */
+    }
+    
+    #otros-datos > div {
+        width:100%; /* Restamos el padding */
+        margin: 10px 0;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+    
+    #otros-datos > div > div > div {
+        width: 100%;
+        margin: 5px 0;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+    
+    .form-dialog {
+        width: 100%;
+        max-width: 100%;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+    
+    /* Aseguramos que todos los inputs sean responsive */
+    .form-dialog input[type="text"],
+    .form-dialog input[type="file"],
+    .form-dialog input[type="date"],
+    .form-dialog select,
+    .form-dialog textarea {
+        width: 100% !important;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Eliminamos cualquier transformación que pueda causar desbordamiento */
+    #otros-datos > div > div > div:hover {
+        transform: none;
+    }
+    
+    /* Ajustamos los botones */
+    .añadir, .editar, .eliminar {
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+    }
+    
+}
+

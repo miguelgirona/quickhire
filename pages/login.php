@@ -26,14 +26,14 @@
                 </div>
                 <section id="login">
                     <p style="font-weight:bold; border-bottom:1px solid #181F1C;">Introduce tus datos</p>
-                        <form>
-                            <label for="nombre">Nombre de usuario</label>
-                            <input id="nombre" type="text">
-                            <label for="password">Introduce tu contraseña</label>
-                            <input id="password" type="password">
-                            <button id="iniciar-sesion">Iniciar sesión</button>
-                            <button id="registrarse">Regístrate</button>
-                        </form>
+                    <form>
+                        <label for="nombre">Nombre de usuario</label>
+                        <input id="nombre" type="text">
+                        <label for="password">Introduce tu contraseña</label>
+                        <input id="password" type="password">
+                        <button id="iniciar-sesion">Iniciar sesión</button>
+                        <button id="registrarse">Regístrate</button>
+                    </form>
                 </section>
             </div>
         </div>

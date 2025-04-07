@@ -78,7 +78,6 @@ $(document).ready(function(){
             return false;
         }
 
-        var hashedPassword = CryptoJS.SHA256(password1).toString(CryptoJS.enc.Base64);
 
         // Enviar los datos al servidor a través de AJAX
         $.ajax({
@@ -88,8 +87,8 @@ $(document).ready(function(){
             data: {
                 nombre: nombre,
                 mail: email,
-                url_imagen:"https://miguelgirona.com.es/quickhire/qh-admin/uploads/default/candidato-default.jpg" ,
-                contraseña: hashedPassword,
+                url_imagen:"https://miguelgirona.com.es/quickhire/qh-admin/uploads/default/candidato-default.png" ,
+                contraseña: password1,
                 tipo_usuario: "Candidato",
                 csrf_test_name: csrfToken // Agregar el token CSRF
             },

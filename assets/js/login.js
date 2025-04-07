@@ -31,7 +31,7 @@ $(document).ready(function(){
 
     $("#registrarse").click(function(event){
         event.preventDefault();
-        window.location = sessionStorage.tipoUsuario == "candidato" ? "registro.php" : "empresas.php";
+        window.location = (sessionStorage.tipoUsuario == "candidato" || !sessionStorage.tipoUsuario) ? "registro.php" : "empresas.php";
     });
 
     $("#candidato").click(function(){
@@ -53,11 +53,9 @@ $(document).ready(function(){
             $(".two-cols h1 span").text(" buscando un candidato ideal.")
         }
     });
-
     $("#iniciar-sesion").click(function(event){
         event.preventDefault();
         csrfToken = getCookie('csrf_cookie_name');
-
         
         $.ajax({
             url: 'https://miguelgirona.com.es/quickhire_api/public/usuarios/login',
@@ -82,12 +80,13 @@ $(document).ready(function(){
                 
                 $("#login").after("<p>¡Bienvenido/a "+ user.nombre +"!</p>")
                 $("form")[0].reset();
-                if(user.tipo_usuario == "Candidato") window.location.replace("https://miguelgirona.com.es/quickhire/profile");
+                if(user.tipo_usuario == "Candidato") window.location.href = "https://miguelgirona.com.es/quickhire/profile";
                 if(user.tipo_usuario == "Empresa") window.location.replace("https://miguelgirona.com.es/quickhire/empresa");
                 if(user.tipo_usuario == "Administrador") window.location.replace("https://miguelgirona.com.es/quickhire/admin");
             },
-            error: function(error){
+            error: function(xhr,status,error){
                 console.log(error);
+                console.log(xhr.responseText);
                 
                 $("#login").after("<p>Error al iniciar sesion</p>")
             }
