@@ -34,6 +34,7 @@
                     <p style="font-weight:bold;">Ciudad:</p>
                     <p id="ciudad"></p>
                     <button class="editar" id="editar-datos-personales">Editar datos personales</button>
+                    <button class="editar" id="linkedin">Rellenar datos con Linkedin</button>
                     <div class="form-dialog" id="form-dialog-datos-personales" style="display:none;">
                         <form id="form-datos-personales">
                             <label for="imagen">Imagen:</label>
