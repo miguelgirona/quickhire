@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+
+
   let parametros = new URLSearchParams(window.location.search);
   if(parametros.get("search") && parametros.get("provincia")){
     $("#palabraClave").val(parametros.get("search"));
@@ -33,10 +35,14 @@ $(document).ready(function () {
   
 
   //devuelve promise
-  function getOfertas() {
+  function getOfertas(page) {
     return $.ajax({  
       url: "https://miguelgirona.com.es/quickhire_api/public/ofertas",
       method: "GET",
+      data: {
+        page: page,
+        limit: 6,
+      }
     });
   }
   
@@ -69,18 +75,46 @@ $(document).ready(function () {
   });
   
 
+  let pagActual = 1;
 
-  getOfertas().then(ofertas => {
+  getOfertas(pagActual).then(ofertas => {
+    console.log(ofertas);
+    
+    $("#pag").text(pagActual);
+    $("#totalPags").text(ofertas.pagination.total_pages);
+    $("#siguiente").click(function(){
+      if(ofertas.pagination.total_pages > pagActual){
+        pagActual++;
+        $("#pag").text(pagActual);
+        getOfertas(pagActual).then(ofertas => {
+          todasLasOfertas = ofertas.data;
+          aplicarFiltros();
+        });
+      }
+    });
+
+    $("#anterior").click(function(){
+      if(pagActual > 1){
+        pagActual--;
+        $("#pag").text(pagActual);
+        getOfertas(pagActual).then(ofertas => {
+          todasLasOfertas = ofertas.data;
+          aplicarFiltros();
+        });
+      }
+    });
+    
+
     let comprobarJornada = parametros.get("filtro") == "jornada";
     let comprobarModalidad = parametros.get("filtro") == "teletrabajo";
 
-    let provincias = Array.from(new Set(ofertas.map(oferta => oferta.provincia)));
+    let provincias = Array.from(new Set(ofertas.data.map(oferta => oferta.provincia)));
     provincias.forEach(provincia => $("#provincias").append(`<div class='checkbox'><input type='checkbox' id='prov_${encodeURIComponent(provincia)}' data-valor='${provincia}'><label for='prov_${encodeURIComponent(provincia)}'>${provincia}</label></div>`));
   
-    let estudios = Array.from(new Set(ofertas.map(oferta => oferta.requisitos.estudios)));
+    let estudios = Array.from(new Set(ofertas.data.map(oferta => oferta.requisitos.estudios)));
     estudios.forEach(estudio => $("#estudios").append(`<div class='checkbox'><input type='checkbox' id='est_${encodeURIComponent(estudio)}' data-valor='${estudio}'><label for='est_${encodeURIComponent(estudio)}'>${estudio}</label></div>`));
   
-    let jornadas = Array.from(new Set(ofertas.map(oferta => oferta.requisitos.jornada)));
+    let jornadas = Array.from(new Set(ofertas.data.map(oferta => oferta.requisitos.jornada)));
     jornadas.forEach(jornada =>{
       let checkedJornada = "";
       if(comprobarJornada && encodeURIComponent(jornada) == "Parcial"){
@@ -90,10 +124,10 @@ $(document).ready(function () {
       $("#jornadas").append(`<div class='checkbox'><input type='checkbox' ${checkedJornada} id='jorn_${encodeURIComponent(jornada)}' data-valor='${jornada}'><label for='jorn_${encodeURIComponent(jornada)}'>${jornada}</label></div>`)
     });
   
-    let tipo_contratos = Array.from(new Set(ofertas.map(oferta => oferta.requisitos.tipo_contrato)));
+    let tipo_contratos = Array.from(new Set(ofertas.data.map(oferta => oferta.requisitos.tipo_contrato)));
     tipo_contratos.forEach(tipo_contrato => $("#tipo_contrato").append(`<div class='checkbox'><input type='checkbox' id='cont_${encodeURIComponent(tipo_contrato)}' data-valor='${tipo_contrato}'><label for='cont_${encodeURIComponent(tipo_contrato)}'>${tipo_contrato}</label></div>`));
   
-    let modalidades = Array.from(new Set(ofertas.map(oferta => oferta.requisitos.modalidad)));
+    let modalidades = Array.from(new Set(ofertas.data.map(oferta => oferta.requisitos.modalidad)));
     modalidades.forEach(modalidad =>{
       let checkedModalidad = "";
       if(comprobarModalidad && encodeURIComponent(modalidad) == "Teletrabajo"){
@@ -106,14 +140,14 @@ $(document).ready(function () {
     getSectores().then(sectores => {
       
       
-      sectores = sectores.filter(sector => ofertas.some(oferta => oferta.id_sector == sector.id));
+      sectores = sectores.filter(sector => ofertas.data.some(oferta => oferta.id_sector == sector.id));
       sectores.forEach(sector =>{
 
         let checked = parametros.get('sector') == sector.sector ? "checked" : "";
 
         $("#sectores").append(`<div class='checkbox'><input type='checkbox' ${checked} id='sect_${sector.id}' data-valor='${sector.id}'><label for='sect_${sector.id}'>${sector.sector}</label></div>`);
       } )
-      todasLasOfertas = ofertas;
+      todasLasOfertas = ofertas.data;
       aplicarFiltros();
     });
   

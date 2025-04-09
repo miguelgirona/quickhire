@@ -73,6 +73,11 @@
                     </div>
                 </div>
                 <section id="ofertas"></section>
+                <div id="controles">
+                    <button id="anterior">&larr;</button>
+                    <span>Página <span id="pag"></span> de <span id="totalPags"></span></span>
+                    <button id="siguiente">&rarr;</button>
+                </div>
             </div>
         </div>
         <?php include_once("../includes/footer.php")?>
