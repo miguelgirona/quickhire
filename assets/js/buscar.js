@@ -1,15 +1,25 @@
 $(document).ready(function () {
 
+  let parametros = new URLSearchParams(window.location.search);
+  if(parametros.get("search") && parametros.get("provincia")){
+    $("#palabraClave").val(parametros.get("search"));
+    $("#ubicacion").val(parametros.get("provincia"));
+  } else if(parametros.get("search")){
+    $("#palabraClave").val(parametros.get("search"));
+  } else  if(parametros.get("provincia")){
+    $("#ubicacion").val(parametros.get("provincia"));
+  }
+
   const provinciasEspaña = [
-    "Álava", "Albacete", "Alicante", "Almería", "Asturias", "Ávila", "Badajoz",
-    "Barcelona", "Burgos", "Cáceres", "Cádiz", "Cantabria", "Castellón",
-    "Ciudad Real", "Córdoba", "Cuenca", "Gerona", "Granada", "Guadalajara",
-    "Guipúzcoa", "Huelva", "Huesca", "Islas Baleares", "Jaén", "A Coruña",
-    "La Rioja", "Las Palmas", "León", "Lérida", "Lugo", "Madrid", "Málaga",
-    "Murcia", "Navarra", "Orense", "Palencia", "Pontevedra", "Salamanca",
-    "Santa Cruz de Tenerife", "Segovia", "Sevilla", "Soria", "Tarragona",
-    "Teruel", "Toledo", "Valencia", "Valladolid", "Vizcaya", "Zamora", "Zaragoza"
-  ].sort(); // Ordenar alfabéticamente
+    "A Coruña", "Álava", "Albacete", "Alicante", "Almería", "Asturias", "Ávila",
+    "Badajoz", "Barcelona", "Bizkaia", "Burgos", "Cáceres", "Cádiz", "Cantabria",
+    "Castellón", "Ciudad Real", "Córdoba", "Cuenca", "Gipuzkoa", "Girona", "Granada",
+    "Guadalajara", "Huelva", "Huesca", "Illes Balears", "Jaén", "León", "Lleida",
+    "Lugo", "Madrid", "Málaga", "Murcia", "Navarra", "Ourense", "Palencia",
+    "Las Palmas", "Pontevedra", "La Rioja", "Salamanca", "Santa Cruz de Tenerife",
+    "Segovia", "Sevilla", "Soria", "Tarragona", "Teruel", "Toledo", "Valencia",
+    "Valladolid", "Zamora", "Zaragoza"
+  ].sort();
 
   $("#ubicacion").autocomplete({
     source: provinciasEspaña
@@ -61,6 +71,9 @@ $(document).ready(function () {
 
 
   getOfertas().then(ofertas => {
+    let comprobarJornada = parametros.get("filtro") == "jornada";
+    let comprobarModalidad = parametros.get("filtro") == "teletrabajo";
+
     let provincias = Array.from(new Set(ofertas.map(oferta => oferta.provincia)));
     provincias.forEach(provincia => $("#provincias").append(`<div class='checkbox'><input type='checkbox' id='prov_${encodeURIComponent(provincia)}' data-valor='${provincia}'><label for='prov_${encodeURIComponent(provincia)}'>${provincia}</label></div>`));
   
@@ -68,21 +81,42 @@ $(document).ready(function () {
     estudios.forEach(estudio => $("#estudios").append(`<div class='checkbox'><input type='checkbox' id='est_${encodeURIComponent(estudio)}' data-valor='${estudio}'><label for='est_${encodeURIComponent(estudio)}'>${estudio}</label></div>`));
   
     let jornadas = Array.from(new Set(ofertas.map(oferta => oferta.requisitos.jornada)));
-    jornadas.forEach(jornada => $("#jornadas").append(`<div class='checkbox'><input type='checkbox' id='jorn_${encodeURIComponent(jornada)}' data-valor='${jornada}'><label for='jorn_${encodeURIComponent(jornada)}'>${jornada}</label></div>`));
+    jornadas.forEach(jornada =>{
+      let checkedJornada = "";
+      if(comprobarJornada && encodeURIComponent(jornada) == "Parcial"){
+        checkedJornada = "checked";
+        comprobarJornada = false; 
+      }
+      $("#jornadas").append(`<div class='checkbox'><input type='checkbox' ${checkedJornada} id='jorn_${encodeURIComponent(jornada)}' data-valor='${jornada}'><label for='jorn_${encodeURIComponent(jornada)}'>${jornada}</label></div>`)
+    });
   
     let tipo_contratos = Array.from(new Set(ofertas.map(oferta => oferta.requisitos.tipo_contrato)));
     tipo_contratos.forEach(tipo_contrato => $("#tipo_contrato").append(`<div class='checkbox'><input type='checkbox' id='cont_${encodeURIComponent(tipo_contrato)}' data-valor='${tipo_contrato}'><label for='cont_${encodeURIComponent(tipo_contrato)}'>${tipo_contrato}</label></div>`));
   
     let modalidades = Array.from(new Set(ofertas.map(oferta => oferta.requisitos.modalidad)));
-    modalidades.forEach(modalidad => $("#modalidades").append(`<div class='checkbox'><input type='checkbox' id='mod_${encodeURIComponent(modalidad)}' data-valor='${modalidad}'><label for='mod_${encodeURIComponent(modalidad)}'>${modalidad}</label></div>`));
-  
-    getSectores().then(sectores => {
-      sectores = sectores.filter(sector => ofertas.some(oferta => oferta.id_sector == sector.id));
-      sectores.forEach(sector => $("#sectores").append(`<div class='checkbox'><input type='checkbox' id='sect_${sector.id}' data-valor='${sector.id}'><label for='sect_${sector.id}'>${sector.sector}</label></div>`));
+    modalidades.forEach(modalidad =>{
+      let checkedModalidad = "";
+      if(comprobarModalidad && encodeURIComponent(modalidad) == "Teletrabajo"){
+        checkedModalidad = "checked";
+        comprobarModalidad = false; 
+      }
+      $("#modalidades").append(`<div class='checkbox'><input type='checkbox' ${checkedModalidad} id='mod_${encodeURIComponent(modalidad)}' data-valor='${modalidad}'><label for='mod_${encodeURIComponent(modalidad)}'>${modalidad}</label></div>`)
     });
   
-    todasLasOfertas = ofertas;
-    aplicarFiltros();
+    getSectores().then(sectores => {
+      
+      
+      sectores = sectores.filter(sector => ofertas.some(oferta => oferta.id_sector == sector.id));
+      sectores.forEach(sector =>{
+
+        let checked = parametros.get('sector') == sector.sector ? "checked" : "";
+
+        $("#sectores").append(`<div class='checkbox'><input type='checkbox' ${checked} id='sect_${sector.id}' data-valor='${sector.id}'><label for='sect_${sector.id}'>${sector.sector}</label></div>`);
+      } )
+      todasLasOfertas = ofertas;
+      aplicarFiltros();
+    });
+  
   });
   
   
@@ -92,19 +126,18 @@ $(document).ready(function () {
     range: true,
     min: 0,
     max: 6000,
-    step: 200,
-    values: [0, 6000],
+    step: 100,
+    values: [parametros.get("filtro") == "salario" ? 3500 : 0, 6000],
     slide: function (event, ui) {
       let amountText = ui.values[0] + "€ - " + (ui.values[1] === 6000 ? "+6000€" : ui.values[1] + "€");
       $("#amount").val(amountText);
     }
   });
   
-  // Aseguramos que el valor inicial se actualice correctamente
   $("#amount").val(
       $("#slider-range").slider("values", 0) +
       "€ - " +
-      ($("#slider-range").slider("values", 1) === 60000 ? "+60000€" : $("#slider-range").slider("values", 1) + "€")
+      ($("#slider-range").slider("values", 1) === 6000 ? "+6000€" : $("#slider-range").slider("values", 1) + "€")
   );
   
 
@@ -127,9 +160,7 @@ $(document).ready(function () {
     aplicarFiltros(); // Llamamos a aplicarFiltros para filtrar las ofertas cuando se cambia el valor del select
   });
 
-  $("#ver_filtros").click(function(){
-    console.log("entra");
-    
+  $("#ver_filtros").click(function(){    
     $("#filtros").toggle();
 
     $("#ver_filtros").text() == "Mostrar filtros" ? $("#ver_filtros").text("Ocultar filtros") : $("#ver_filtros").text("Mostrar filtros");
@@ -170,8 +201,6 @@ $(document).ready(function () {
   
       // Filtramos nulls por si hubo interrupciones
       resultados = resultados.filter(r => r !== null);
-
-      console.log(resultados);
       
       // Ordenamos por el plan: premium > profesional > basico
       const ordenPlan = { premium: 2, profesional: 1, basico: 0 };
@@ -203,73 +232,72 @@ $(document).ready(function () {
   
   
 
-function aplicarFiltros() {
-  // Limpia las ofertas en el DOM antes de renderizar
-  $("#ofertas").empty();
+  function aplicarFiltros() {
+    // Limpia las ofertas en el DOM antes de renderizar
+    $("#ofertas").empty();
 
-  let provinciaChecked = $("#provincias input:checked").map(function () { return $(this).data("valor"); }).get();
-  let estudiosChecked = $("#estudios input:checked").map(function () { return $(this).data("valor"); }).get();
-  let jornadasChecked = $("#jornadas input:checked").map(function () { return $(this).data("valor"); }).get();
-  let contratosChecked = $("#tipo_contrato input:checked").map(function () { return $(this).data("valor"); }).get();
-  let modalidadesChecked = $("#modalidades input:checked").map(function () { return $(this).data("valor"); }).get();
-  let sectoresChecked = $("#sectores input:checked").map(function () { return $(this).data("valor").toString(); }).get();
+    let provinciaChecked = $("#provincias input:checked").map(function () { return $(this).data("valor"); }).get();
+    let estudiosChecked = $("#estudios input:checked").map(function () { return $(this).data("valor"); }).get();
+    let jornadasChecked = $("#jornadas input:checked").map(function () { return $(this).data("valor"); }).get();
+    let contratosChecked = $("#tipo_contrato input:checked").map(function () { return $(this).data("valor"); }).get();
+    let modalidadesChecked = $("#modalidades input:checked").map(function () { return $(this).data("valor"); }).get();
+    let sectoresChecked = $("#sectores input:checked").map(function () { return $(this).data("valor").toString(); }).get();
+    
+    let salarioMin = $("#slider-range").slider("values", 0);
+    let salarioMax = $("#slider-range").slider("values", 1);
+    let experienciaMin = parseInt($("#experiencia").val());
 
-  let salarioMin = $("#slider-range").slider("values", 0);
-  let salarioMax = $("#slider-range").slider("values", 1);
-  let experienciaMin = parseInt($("#experiencia").val());
+    let keyword = $("#palabraClave").val().toLowerCase();
+    let ubicacion = $("#ubicacion").val().toLowerCase();
+    
+    // Filtrar las ofertas según los filtros
+    let ofertasFiltradas = todasLasOfertas.filter(oferta => {
+      let matchesPalabraClave = !keyword || (
+        oferta.titulo.toLowerCase().includes(keyword) ||
+        oferta.descripcion.toLowerCase().includes(keyword)
+      );
 
-  let keyword = $("#palabraClave").val().toLowerCase();
-  let ubicacion = $("#ubicacion").val().toLowerCase();
-  console.log(experienciaMin);
-  
-  // Filtrar las ofertas según los filtros
-  let ofertasFiltradas = todasLasOfertas.filter(oferta => {
-    let matchesPalabraClave = !keyword || (
-      oferta.titulo.toLowerCase().includes(keyword) ||
-      oferta.descripcion.toLowerCase().includes(keyword)
-    );
+      let matchesUbicacion = !ubicacion || (
+        oferta.provincia.toLowerCase().includes(ubicacion)
+      );
 
-    let matchesUbicacion = !ubicacion || (
-      oferta.provincia.toLowerCase().includes(ubicacion)
-    );
+      return (
+        matchesPalabraClave &&
+        matchesUbicacion &&
+        (provinciaChecked.length === 0 || provinciaChecked.includes(oferta.provincia)) &&
+        (estudiosChecked.length === 0 || estudiosChecked.includes(oferta.requisitos.estudios)) &&
+        (jornadasChecked.length === 0 || jornadasChecked.includes(oferta.requisitos.jornada)) &&
+        (contratosChecked.length === 0 || contratosChecked.includes(oferta.requisitos.tipo_contrato)) &&
+        (modalidadesChecked.length === 0 || modalidadesChecked.includes(oferta.requisitos.modalidad)) &&
+        (sectoresChecked.length === 0 || sectoresChecked.includes(String(oferta.id_sector))) &&
+        (oferta.salario_min >= salarioMin && (salarioMax === 6000 || oferta.salario_max <= salarioMax))&&
+        (parseInt(oferta.requisitos.experiencia) >= experienciaMin)
+      );
+    });
 
-    return (
-      matchesPalabraClave &&
-      matchesUbicacion &&
-      (provinciaChecked.length === 0 || provinciaChecked.includes(oferta.provincia)) &&
-      (estudiosChecked.length === 0 || estudiosChecked.includes(oferta.requisitos.estudios)) &&
-      (jornadasChecked.length === 0 || jornadasChecked.includes(oferta.requisitos.jornada)) &&
-      (contratosChecked.length === 0 || contratosChecked.includes(oferta.requisitos.tipo_contrato)) &&
-      (modalidadesChecked.length === 0 || modalidadesChecked.includes(oferta.requisitos.modalidad)) &&
-      (sectoresChecked.length === 0 || sectoresChecked.includes(String(oferta.id_sector))) &&
-      (oferta.salario_min >= salarioMin && (salarioMax === 6000 || oferta.salario_max <= salarioMax))&&
-      (parseInt(oferta.requisitos.experiencia) >= experienciaMin)
-    );
+    // Renderizar las ofertas filtradas
+    renderOfertas(ofertasFiltradas);
+  }
+
+  $("#vaciar-filtros").click(function() {
+    // Vaciar todos los checkboxes
+    $("#filtros input:checkbox").prop("checked", false);
+    
+    // Restablecer el valor del slider de salario
+    $("#slider-range").slider("values", [0, 6000]);
+    $("#amount").val("0€ - +6000€");
+    
+    // Restablecer el valor del slider de experiencia
+    $("#experiencia").prop("selectedIndex", 0);
+    $("#slider").slider("value", 0);
+    
+    // Vaciar los campos de texto
+    $("#palabraClave").val('');
+    $("#ubicacion").val('');
+    
+    // Llamar a aplicarFiltros() después de restablecer para mostrar todas las ofertas
+    aplicarFiltros();
   });
-
-  // Renderizar las ofertas filtradas
-  renderOfertas(ofertasFiltradas);
-}
-
-$("#vaciar-filtros").click(function() {
-  // Vaciar todos los checkboxes
-  $("#filtros input:checkbox").prop("checked", false);
-  
-  // Restablecer el valor del slider de salario
-  $("#slider-range").slider("values", [0, 6000]);
-  $("#amount").val("0€ - +6000€");
-  
-  // Restablecer el valor del slider de experiencia
-  $("#experiencia").prop("selectedIndex", 0);
-  $("#slider").slider("value", 0);
-  
-  // Vaciar los campos de texto
-  $("#palabraClave").val('');
-  $("#ubicacion").val('');
-  
-  // Llamar a aplicarFiltros() después de restablecer para mostrar todas las ofertas
-  aplicarFiltros();
-});
 
 
 });
