@@ -76,35 +76,25 @@ $(document).ready(function () {
   
 
   let pagActual = 1;
-
+  
   getOfertas(pagActual).then(ofertas => {
     console.log(ofertas);
     
-    $("#pag").text(pagActual);
-    $("#totalPags").text(ofertas.pagination.total_pages);
-    $("#siguiente").click(function(){
-      if(ofertas.pagination.total_pages > pagActual){
-        pagActual++;
-        $("#pag").text(pagActual);
-        getOfertas(pagActual).then(ofertas => {
-          todasLasOfertas = ofertas.data;
-          aplicarFiltros();
-        });
-      }
-    });
-
-    $("#anterior").click(function(){
-      if(pagActual > 1){
-        pagActual--;
-        $("#pag").text(pagActual);
-        getOfertas(pagActual).then(ofertas => {
-          todasLasOfertas = ofertas.data;
-          aplicarFiltros();
-        });
-      }
+    $("#mostrar-mas").click(function(){
+      pagActual++;
+      getOfertas(pagActual).then(ofertas => {
+        todasLasOfertas = todasLasOfertas.concat(ofertas.data);
+        if(todasLasOfertas.length < 6){
+          pagActual++;
+          getOfertas(pagActual).then(ofertas => {
+            todasLasOfertas = todasLasOfertas.concat(ofertas.data);
+          });
+        }
+        aplicarFiltros();
+      });
+      
     });
     
-
     let comprobarJornada = parametros.get("filtro") == "jornada";
     let comprobarModalidad = parametros.get("filtro") == "teletrabajo";
 
@@ -212,7 +202,7 @@ $(document).ready(function () {
     renderId++;
     const currentRenderId = renderId;
   
-    // Vamos a usar un array para almacenar promesas
+    //array para almacenar promesas
     const promesas = ofertas.map(oferta => {
       return getEmpresa(oferta.id_empresa).then(empresa => {
         if (currentRenderId !== renderId) return null;
@@ -245,7 +235,7 @@ $(document).ready(function () {
         return ordenPlan[planB] - ordenPlan[planA];  // ¡Invertido! Ahora premium (2) será primero
       });
       
-  
+      
       // Renderizamos en orden
       resultados.forEach(({ oferta, empresa, foto }) => {
         $("#ofertas").append(`
@@ -308,7 +298,7 @@ $(document).ready(function () {
         (parseInt(oferta.requisitos.experiencia) >= experienciaMin)
       );
     });
-
+    
     // Renderizar las ofertas filtradas
     renderOfertas(ofertasFiltradas);
   }

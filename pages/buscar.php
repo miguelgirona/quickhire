@@ -21,11 +21,6 @@
             <aside id="filtros">
                 <div>
                     <button id="vaciar-filtros" type="button">Vaciar filtros</button>
-    
-                    <div id="ordenar_filtro">
-                        <input type="radio" name="ordenar" value="fecha"><label for="ordenar"> Ordenar por fecha</label><br>
-                        <input type="radio" name="ordenar" value="relevancia"><label for="ordenar"> Ordenar por relevancia</label>
-                    </div>
                     <div>
                         <h3>Provincias</h3>
                         <div id="provincias"></div>
@@ -74,9 +69,7 @@
                 </div>
                 <section id="ofertas"></section>
                 <div id="controles">
-                    <button id="anterior">&larr;</button>
-                    <span>Página <span id="pag"></span> de <span id="totalPags"></span></span>
-                    <button id="siguiente">&rarr;</button>
+                    <button id="mostrar-mas">Mostrar más</button>
                 </div>
             </div>
         </div>

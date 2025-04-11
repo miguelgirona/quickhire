@@ -130,6 +130,22 @@
     background-color: #181F1C;
 }
 
+#mostrar-mas, #vaciar-filtros{
+    border: none;
+    background: none;
+    text-decoration: underline;
+}
+
+#mostrar-mas{
+    display: block;
+    margin: 0 auto;
+    width: fit-content;
+}
+
+#mostrar-mas:hover, #vaciar-filtros:hover{
+    cursor: pointer;
+}
+
 @media (max-width:768px) {
 
     #filtros{
