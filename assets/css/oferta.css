@@ -1,0 +1,131 @@
+#titulo {
+    padding: 3vw 1vw;
+    background-color: #e9e1fc;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 3vw;
+
+}
+
+#titulo_oferta,#nombre_empresa{
+    margin-left: 15px;
+}
+
+#titulo > div:first-child {
+    display: grid;
+    grid-template-columns: 23% 67%;
+}
+
+#detalles ul{
+    margin: 20px;
+    display: inline-block;
+}
+
+#foto_empresa {
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 1vw;
+}
+
+
+#detalles li {
+    font-size: 1.2rem;
+    margin-bottom: 1vw;
+}
+
+button.inscribirme {
+    padding: 0.8vw 1.5vw;
+    background-color: #595bd4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: block;
+}
+
+button.inscribirme:hover {
+    background-color: #181F1C;
+}
+
+/* Requisitos section */
+#requisitos {
+    padding: 2vw;
+    background-color: #e9e1fc;
+    border-radius: 10px;
+    margin-bottom: 3vw;
+}
+
+#requisitos h2 {
+    margin-top: 0;
+}
+
+#requisitos p {
+    font-size: 1.1rem;
+}
+
+/* Descripción section */
+#descripcion {
+    padding: 2vw;
+    background-color: #e9e1fc;
+    border-radius: 10px;
+}
+
+#descripcion h2 {
+    margin-top: 0;
+}
+
+#descripcion p {
+    font-size: 1.1rem;
+}
+
+/* Responsiveness for mobile */
+@media (max-width: 768px) {
+
+    .two-cols{
+        display: block;
+    }
+    #content {
+        display: block;
+    }
+
+    #titulo {
+        padding: 2vw;
+    }
+
+    #content p, #content li{
+        font-size: 12px;
+    }
+
+    #content h1{
+        font-size: 25px;
+    }
+
+    #content h2{
+        font-size: 18px;
+    }
+
+    #content h3{
+        font-size: 16px;
+    }
+
+    button.inscribirme {
+        width: 100%;
+        font-size: 3.5vw;
+    }
+
+    #requisitos, #descripcion {
+        padding: 3vw;
+    }
+
+
+    /* Adjustments for image */
+    #foto_empresa {
+        width: 100%;
+        max-width: 100px;
+    }
+}

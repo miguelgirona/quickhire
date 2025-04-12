@@ -251,9 +251,12 @@ $(document).ready(function () {
           </div>
         `);
       });
+      $(".oferta").click(function(){       
+        window.location.href = "/quickhire/oferta?id="+$(this).attr("id");
+      });
+
     });
   }
-  
   
 
   function aplicarFiltros() {
