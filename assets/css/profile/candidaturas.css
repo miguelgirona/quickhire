@@ -1,0 +1,108 @@
+.candidatura {
+    margin: 10px;
+    border-radius: 10px;
+    background-color: #e9e1fc;
+    display: grid;
+    grid-template-columns: 17% 83%;
+    align-items: center; /* Centra verticalmente */
+    gap: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+    max-width: 100%;
+
+    transition: all .1s linear;
+    position: relative;
+}
+
+.candidatura:hover{
+    background-color: rgba(89, 91, 212,0.5);
+    cursor: pointer;
+}
+
+.candidatura img {
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 5px;
+
+    display: block;
+    margin: 0 auto;
+}
+
+
+.candidatura div {
+    padding: 20px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    max-width: 100%;
+}
+
+.candidatura p {
+    margin: 5px 0;
+    white-space: normal;
+}
+
+.candidatura * {
+    text-decoration: none;
+}
+
+.borrar-inscripcion {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background: none;
+    color: red;
+    text-decoration: underline;
+    border-radius: 10px;
+
+    padding: 10px;
+
+    transition: all .2s linear;
+}
+
+.borrar-inscripcion:hover{
+    cursor: pointer;
+    background-color: #e9e1fc;
+}
+
+.estado{
+    border: 1px solid #181F1C;
+    border-radius: 10px;
+    width: fit-content;
+    padding: 10px;
+}
+
+@media (max-width:768px) {
+    .candidatura h2{
+        font-size: 4vw;
+    }
+
+    .candidatura p{
+        margin: 2px 0;
+        font-size: 3.5vw;
+    }
+
+    .borrar-inscripcion{
+        top: auto;
+        bottom: 0px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .estado{
+
+        padding: 5px;
+    }
+
+    .candidatura{
+        align-items: start;
+    }
+
+    .candidatura > div {
+        /* border: 1px solid red; */
+        padding: 5px 5px 20px 0px; margin: 0px;
+    }
+
+}

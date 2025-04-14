@@ -544,7 +544,7 @@ $(document).ready(function(){
             //experiencia
             for(let e of JSON.parse(cand.experiencia)){
                 $("#experiencia-datos").append(
-                    "<div class='exp'>"+
+                    "<div class='exp' data-id='"+ e.id +"'>"+
                         "<h3>Nombre del puesto:</h3>"+
                         "<p>"+e.nombre_puesto+"</p>"+
                         "<h3>Empresa:</h3>"+
@@ -592,7 +592,7 @@ $(document).ready(function(){
                                      'X-CSRF-TOKEN': csrfToken,
                                  },
                                  success: function(response) {
-                                     location.reload(); // Eliminar el elemento del DOM
+                                    $(".exp[data-id='"+ e.id +"']").remove(); // Eliminar el elemento del DOM
                                  },
                                  error: function(xhr, status, error) {
                                      alert("Error al eliminar experiencia: " + error);
@@ -668,7 +668,7 @@ $(document).ready(function(){
             //estudios
             for(let e of JSON.parse(cand.educacion)){
                 $("#estudios-datos").append(
-                    "<div class='est'>"+
+                    "<div class='est' data-id='"+ e.id +"'>"+
                         "<h3>Nivel:</h3>"+
                         "<p>"+ e.nivel_estudios +"</p>"+
                         "<h3>Título:</h3>"+
@@ -714,7 +714,7 @@ $(document).ready(function(){
                                     'X-CSRF-TOKEN': csrfToken,
                                 },
                                 success: function(response) {
-                                    location.reload(); // Eliminar el elemento del DOM
+                                    $(".est[data-id='"+ e.id +"']").remove(); // Eliminar el elemento del DOM
                                 },
                                 error: function(xhr, status, error) {
                                     alert("Error al eliminar estudio: " + error);
@@ -788,7 +788,7 @@ $(document).ready(function(){
             //habilidades
             for(let h of JSON.parse(cand.habilidades)){
                 $("#habilidades-datos").append(
-                    "<div class='hab'>"+
+                    "<div class='hab' data-id='"+ h.id +"'>"+
                         "<h3>"+ h.habilidad +"</h3>"+
                         "<p>"+ h.nivel +"</p>"+
                         "<button class='eliminar' id=eliminar-hab-"+h.id+">Eliminar</button>"+
@@ -828,7 +828,7 @@ $(document).ready(function(){
                                     'X-CSRF-TOKEN': csrfToken,
                                 },
                                 success: function(response) {
-                                    location.reload(); // Eliminar el elemento del DOM
+                                    $(".hab[data-id='"+ h.id +"']").remove(); // Eliminar el elemento del DOM
                                 },
                                 error: function(xhr, status, error) {
                                     alert("Error al eliminar habilidad: " + error);
@@ -894,7 +894,7 @@ $(document).ready(function(){
             //idiomas
             for(let i of JSON.parse(cand.idiomas)){
                 $("#idiomas-datos").append(
-                    "<div class='idi'>"+
+                    "<div class='idi' data-id='"+ i.id +"'>"+
                         "<h3>"+ i.idioma +"</h3>"+
                         "<p>"+ i.nivel +"</p>"+
                         "<button class='eliminar' id=eliminar-idi-"+i.id+">Eliminar</button>"+
@@ -934,7 +934,7 @@ $(document).ready(function(){
                                     'X-CSRF-TOKEN': csrfToken,
                                 },
                                 success: function(response) {
-                                    location.reload(); // Eliminar el elemento del DOM
+                                    $(".idi[data-id='"+ i.id +"']").remove(); // Eliminar el elemento del DOM
                                 },
                                 error: function(xhr, status, error) {
                                     alert("Error al eliminar idioma: " + error);

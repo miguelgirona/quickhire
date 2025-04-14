@@ -67,6 +67,9 @@
                         <button id="buscar">Buscar ofertas</button>
                     </div>
                 </div>
+                <div id="loading" style="text-align:center; margin-top: 20px;">
+                    <img src="/quickhire/assets/img/loading.gif" alt="Cargando..." style="width: 60px;">
+                </div>
                 <section id="ofertas"></section>
                 <div id="controles">
                     <button id="mostrar-mas">Mostrar más</button>

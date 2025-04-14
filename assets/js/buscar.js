@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-
+  $("#loading").show();
 
   let parametros = new URLSearchParams(window.location.search);
   if(parametros.get("search") && parametros.get("provincia")){
@@ -251,6 +251,8 @@ $(document).ready(function () {
           </div>
         `);
       });
+      $("#loading").hide();
+
       $(".oferta").click(function(){       
         window.location.href = "/quickhire/oferta?id="+$(this).attr("id");
       });
