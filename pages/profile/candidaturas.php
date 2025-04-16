@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QuickHire - Mis candidaturas</title>
+    <link rel="icon" href="/quickhire/assets/img/iconos/logo.png" type="image/png">
     <link rel="stylesheet" href="/quickhire/assets/css/menu.css">
     <link rel="stylesheet" href="/quickhire/assets/css/footer.css">
     <link rel="stylesheet" href="/quickhire/assets/css/profile/candidaturas.css">
@@ -20,6 +21,20 @@
         <?php include_once("../../includes/menu.php")?>
         <div id="content">
             <h1>Mis candidaturas</h1>
+            <div id="filtro">
+                <div class="checkbox">
+                    <input type="checkbox" id="pendiente">
+                    <label for="pendiente">Pendiente</label>
+                </div>
+                <div class="checkbox">
+                    <input type="checkbox" id="en-proceso">
+                    <label for="en-proceso">En Proceso</label>
+                </div>
+                <div class="checkbox">
+                    <input type="checkbox" id="aceptado">
+                    <label for="aceptado">Aceptado</label>
+                </div>
+            </div>
             <div id="loading-candidaturas" style="text-align:center; margin-top: 20px;">
                 <img src="/quickhire/assets/img/loading.gif" alt="Cargando..." style="width: 60px;">
             </div>

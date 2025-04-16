@@ -57,10 +57,11 @@ $(document).ready(function(){
         event.preventDefault();
     
         // 1. Petición para generar la cookie
-        $.get("https://miguelgirona.com.es/quickhire_api/public/usuarios/token", function(){
-            // 2. Luego hacemos el login
-            csrfToken = getCookie('csrf_cookie_name');
-    
+        document.cookie = "csrf_cookie_name=; path=/; domain=miguelgirona.com.es; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+        
+        // 2. Luego hacemos el login
+        csrfToken = getCookie('csrf_cookie_name');
+        setTimeout(()=>{
             $.ajax({
                 url: 'https://miguelgirona.com.es/quickhire_api/public/usuarios/login',
                 method: "POST",
@@ -82,16 +83,18 @@ $(document).ready(function(){
                     $("form")[0].reset();
     
                     if(user.tipo_usuario == "Candidato") window.location.href = "https://miguelgirona.com.es/quickhire/profile";
-                    if(user.tipo_usuario == "Empresa") window.location.replace("https://miguelgirona.com.es/quickhire/empresa");
+                    if(user.tipo_usuario == "Empresa") window.location.href = "https://miguelgirona.com.es/quickhire/empresa";
                     if(user.tipo_usuario == "Administrador") window.location.replace("https://miguelgirona.com.es/quickhire/admin");
                 },
                 error: function(xhr,status,error){
                     console.log(error);
                     console.log(xhr.responseText);
-                    $("#login").after("<p>Error al iniciar sesión</p>");
+                    $("#error").remove();
+                    $("#login").after("<p id='error'>Error al iniciar sesión</p>");
                 }
             });
-        });
+        },200)
+        
     });
     
 });

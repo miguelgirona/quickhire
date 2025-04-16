@@ -75,6 +75,10 @@ body {
 
 /* Estilos para pantallas pequeñas */
 @media (max-width: 768px) {
+
+    body {
+        background: none; /* Permite que el fondo se mueva con el contenido */
+    }
     #menu ul {
         display: none; /* Oculta el menú en dispositivos pequeños */
         flex-direction: column; /* Los elementos del menú se apilan verticalmente */

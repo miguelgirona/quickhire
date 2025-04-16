@@ -6,6 +6,7 @@
     <meta name="description" content="Registra tu empresa en QuickHire y comienza a reclutar a los mejores talentos. Crea una cuenta fácilmente y accede a nuestros planes de contratación adaptados a tus necesidades." />
     <meta name="keywords" content="reclutamiento, empleo, contratación, empresas, QuickHire, contratar empleados, búsqueda de talento, selección de personal, plan de contratación" />
     <title>QuickHire - Empresas</title>
+    <link rel="icon" href="/quickhire/assets/img/iconos/logo.png" type="image/png">
     <link rel="stylesheet" href="assets/css/menu.css">
     <link rel="stylesheet" href="assets/css/footer.css">
     <link rel="stylesheet" href="assets/css/formulario.css">

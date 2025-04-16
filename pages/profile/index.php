@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QuickHire - Candidatos</title>
+    <link rel="icon" href="/quickhire/assets/img/iconos/logo.png" type="image/png">
     <link rel="stylesheet" href="assets/css/menu.css">
     <link rel="stylesheet" href="assets/css/footer.css">
     <link rel="stylesheet" href="assets/css/profile/candidatos-perfil.css">
@@ -21,7 +22,10 @@
         <div id="content">
             <div id="datos-personales">
                 <div>
-                    <h2>Datos personales</h2>
+                    <div>
+                        <h2 style="display:inline;">Datos personales</h2>
+                        <button class="editarLapiz" id="editar-datos-personales"><img src="/quickhire/assets/img/iconos/editar.png" alt="botón editar"></button>
+                    </div>
                     <p><img width=100px height=100px style="border-radius:50px; object-fit:cover;" id="img_perfil" src=""></p>
                     <p style="font-weight:bold;">Nombre:</p>
                     <p id="nombre"></p>
@@ -33,14 +37,13 @@
                     <p id="telefono"></p>
                     <p style="font-weight:bold;">Ciudad:</p>
                     <p id="ciudad"></p>
-                    <button class="editar" id="editar-datos-personales">Editar datos personales</button>
                     <button class="editar" id="linkedin">Rellenar datos con Linkedin</button>
                     <div class="form-dialog" id="form-dialog-datos-personales" style="display:none;">
                         <form id="form-datos-personales">
                             <label for="imagen">Imagen:</label>
                             <input type="file" id="imagen" name="imagen">
                             
-                            <label for="editar_nombre">Nombre del puesto:</label>
+                            <label for="editar_nombre">Nombre:</label>
                             <input type="text" id="editar_nombre" name="editar_nombre" required><br><br>
                             
                             <label for="editar_apellidos">Apellidos:</label>

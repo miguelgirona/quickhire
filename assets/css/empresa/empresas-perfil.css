@@ -4,13 +4,6 @@
     gap: 20px;
 }
 
-#otros-datos{
-    display: grid;
-    grid-template-columns: 50% 50%;
-    gap: 20px;
-    grid-auto-rows: auto;
-}
-
 .añadir{
     display: block;
     color: #181F1C;
@@ -32,27 +25,10 @@ button:hover{
     background-color: #e9e1fc;
     padding: 20px;
     border-radius: 10px;
+    margin-bottom: 20px;
 }
 
-#otros-datos > div > div > div{
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    margin: 10px;
-
-    transition: all .1s linear;
-}
-
-#otros-datos > div > div > div:hover{
-    background-color: rgb(222, 220, 220);
-
-}
-
-#otros-datos > div > div > div:nth-child(odd){
-    background-color: rgb(222, 220, 220);
-}
-
-#datos-personales > div{
+#datos-usuario > div{
     background-color: rgba(89, 91, 212,0.6);
     padding: 20px;
     border-radius: 10px;
@@ -72,47 +48,20 @@ button:hover{
     background-color: rgb(213, 125, 125);
 }
 
-.editar-top-right{
-    position: absolute;
-    top: 10px; right: 10px;
-}
-.eliminar-top-right{
-    position: absolute;
-    top: 10px; right: 40px;
-    
-}
-
-.eliminar-top-right img{
-    width: 16px;
-    border-radius: 10px;
-    padding: 5px;
-}
-
-.editarLapiz,.editar-top-right,.eliminar-top-right{
+.editar{
     background: none;
     border: none;
     margin-left: 5px;
     
 }
 
-.editarLapiz img,.editar-top-right img {
+.editar img {
     width: 16px;
     border-radius: 10px;
     padding: 5px;
 }
 
-.editar{
-    color: #181F1C;
-    border: 1px solid #181F1C;
-    padding: 5px;
-    margin: 3px;
-    border-radius: 5px;
-    background-color: white;
-
-    transition: all .1s linear;
-}
-
-.añadir:hover,.editar:hover{
+.añadir:hover{
     background-color: rgba(89, 91, 212,0.6);
 }
 
@@ -184,7 +133,7 @@ button:hover{
 
 @media (max-width: 768px) {
     
-    .editarLapiz img,.editar-top-right img,.eliminar-top-right img{
+    .editar img {
         width: 12px; height: 12px;
     }
 
@@ -213,7 +162,7 @@ button:hover{
         box-sizing: border-box;
     }
     
-    #datos-personales, #otros-datos {
+    #datos-usuario, #otros-datos {
         width: 100%;
         margin: 0;
         padding: 0;
@@ -228,7 +177,6 @@ button:hover{
         margin: 10px 0;
         padding: 15px;
         box-sizing: border-box;
-        
     }
     
     #otros-datos > div > div > div {
@@ -236,7 +184,6 @@ button:hover{
         margin: 5px 0;
         padding: 10px;
         box-sizing: border-box;
-        
     }
     
     .form-dialog {
@@ -263,7 +210,7 @@ button:hover{
     }
     
     /* Ajustamos los botones */
-    .añadir, .editar, .eliminar {
+    .añadir, .eliminar {
         width: 100%;
         box-sizing: border-box;
         text-align: center;

@@ -1,4 +1,4 @@
-.candidatura {
+.oferta {
     margin: 10px;
     border-radius: 10px;
     background-color: #e9e1fc;
@@ -11,15 +11,14 @@
     max-width: 100%;
 
     transition: all .1s linear;
-    position: relative;
 }
 
-.candidatura:hover{
+.oferta:hover{
     background-color: rgba(89, 91, 212,0.5);
     cursor: pointer;
 }
 
-.candidatura img {
+.oferta img {
     width: 100%;
     max-width: 150px;
     height: auto;
@@ -31,76 +30,39 @@
 }
 
 
-.candidatura div {
+.oferta div {
     padding: 20px;
     overflow-wrap: break-word;
     word-wrap: break-word;
     max-width: 100%;
 }
 
-.candidatura p {
+.oferta p {
     margin: 5px 0;
     white-space: normal;
 }
 
-.candidatura * {
+#content a {
     text-decoration: none;
-}
 
-.borrar-inscripcion {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    border: none;
-    background: none;
-    border-radius: 10px;
-
-    padding: 10px;
-
-    transition: all .2s linear;
-}
-
-.borrar-inscripcion img {
-    width: 16px;
-}
-
-.borrar-inscripcion:hover{
-    cursor: pointer;
-    background-color: #e9e1fc;
-}
-
-.estado{
-    border: 1px solid #181F1C;
-    border-radius: 10px;
-    width: fit-content;
-    padding: 10px;
 }
 
 @media (max-width:768px) {
-    .candidatura h2{
+    .oferta h2{
         font-size: 4vw;
     }
 
-    .candidatura p{
+    .oferta p{
         margin: 2px 0;
         font-size: 3.5vw;
     }
 
-    .borrar-inscripcion img{
-        width: 12px;
-    }
 
-    .estado{
-
-        padding: 5px;
-    }
-
-    .candidatura{
+    .oferta{
         align-items: start;
     }
 
-    .candidatura > div {
-        /* border: 1px solid red; */
+    .oferta > div {
         padding: 5px 5px 20px 0px; margin: 0px;
     }
 

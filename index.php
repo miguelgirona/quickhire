@@ -6,6 +6,7 @@
     <meta name="description" content="Encuentra trabajo rápido con QuickHire. Conectamos talento con empresas, con filtros avanzados y postulaciones fáciles. ¡Empieza hoy!">
     <meta name="keywords" content="empleo, trabajo rápido, ofertas de empleo, buscar trabajo, contratar personal, selección de personal, QuickHire">
     <title>QuickHire - Encuentra trabajo rápido</title>
+    <link rel="icon" href="/quickhire/assets/img/iconos/logo.png" type="image/png">
     <link rel="stylesheet" href="assets/css/index.css">
     <link rel="stylesheet" href="assets/css/menu.css">
     <link rel="stylesheet" href="assets/css/footer.css">

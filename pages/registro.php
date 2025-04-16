@@ -1,19 +1,10 @@
-<?php
-session_start();
-
-// Generar un token CSRF aleatorio si no existe en la sesión
-if (!isset($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); // Genera un token CSRF
-}
-
-?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QuickHire - Regístrate y empieza tu búsqueda de empleo</title>
+    <link rel="icon" href="/quickhire/assets/img/iconos/logo.png" type="image/png">
     <link rel="stylesheet" href="assets/css/menu.css">
     <link rel="stylesheet" href="assets/css/footer.css">
     <link rel="stylesheet" href="assets/css/formulario.css">
@@ -42,7 +33,6 @@ if (!isset($_SESSION['csrf_token'])) {
                     <button type="button" id="toggle-password2">Mostrar contraseña</button><br><br>
                     <input type="checkbox" id="politica_privacidad"><label for="politica_privacidad"> He leído y acepto la <a href="">Política de Privacidad</a></label>
                     <br>
-                    <input type="hidden" id="csrf_token" value="<?= $_SESSION['csrf_token']; ?>">
                     <button id="enviar">Crear cuenta</button>
                 </form>
             </section>

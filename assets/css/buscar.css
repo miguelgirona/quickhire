@@ -152,6 +152,10 @@
         display: none;
     }
 
+    .oferta{
+        align-items: start;
+    }
+
     .oferta div{
         padding: 10px;
     }

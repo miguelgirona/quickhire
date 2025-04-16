@@ -6,6 +6,7 @@
     <meta name="description" content="En QuickHire ofrecemos planes de contratación adaptados a empresas de todos los tamaños. Desde el plan básico para pequeñas startups hasta el plan premium para grandes corporaciones, encuentra el que mejor se ajuste a tus necesidades y empieza a contratar hoy mismo.">
     <meta name="keywords" content="planes de contratación, QuickHire, empleo, ofertas de trabajo, contratación para empresas, plan básico, plan profesional, plan premium, empresas, startups, grandes empresas, encontrar talento, contratación rápida, oferta de empleo">
     <title>QuickHire - Selecciona el mejor plan para tu empresa</title>
+    <link rel="icon" href="/quickhire/assets/img/iconos/logo.png" type="image/png">
     <link rel="stylesheet" href="assets/css/planes.css">
     <link rel="stylesheet" href="assets/css/menu.css">
     <link rel="stylesheet" href="assets/css/footer.css">
