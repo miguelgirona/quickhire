@@ -22,7 +22,7 @@ $(document).ready(function(){
         return $.ajax({  
             url: "https://miguelgirona.com.es/quickhire_api/public/candidaturas/getCandidaturasByOferta/"+idOferta,
             method: "GET",
-          });
+        });
     }
 
     function getEmpresa(id, token) {
@@ -43,7 +43,6 @@ $(document).ready(function(){
           method: "GET",
         });
     }
-console.log(user);
 
     getEmpresa(user.id,sessionStorage.token).then(e => {
         let empresa = e[0];

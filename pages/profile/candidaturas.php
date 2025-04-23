@@ -27,8 +27,8 @@
                     <label for="pendiente">Pendiente</label>
                 </div>
                 <div class="checkbox">
-                    <input type="checkbox" id="en-proceso">
-                    <label for="en-proceso">En Proceso</label>
+                    <input type="checkbox" id="cv-leido">
+                    <label for="cv-leido">CV Leído</label>
                 </div>
                 <div class="checkbox">
                     <input type="checkbox" id="aceptado">

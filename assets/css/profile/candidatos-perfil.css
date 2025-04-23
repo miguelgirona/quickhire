@@ -4,11 +4,15 @@
     gap: 20px;
 }
 
+.size-4 {
+    width: 16px;
+}
+
 #otros-datos{
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-    grid-auto-rows: auto;
+    grid-auto-flow: row dense;
 }
 
 .añadir{
@@ -28,13 +32,14 @@ button:hover{
     cursor: pointer;
 }
 
-#otros-datos > div{
+#otros-datos > div > div{
     background-color: #e9e1fc;
     padding: 20px;
     border-radius: 10px;
+    margin-bottom: 10px;
 }
 
-#otros-datos > div > div > div{
+#otros-datos > div > div > div > div{
     background-color: white;
     padding: 20px;
     border-radius: 10px;
@@ -43,14 +48,15 @@ button:hover{
     transition: all .1s linear;
 }
 
-#otros-datos > div > div > div:hover{
+#otros-datos > div > div > div > div:hover{
     background-color: rgb(222, 220, 220);
 
 }
 
-#otros-datos > div > div > div:nth-child(odd){
+#otros-datos > div > div > div > div:nth-child(odd){
     background-color: rgb(222, 220, 220);
 }
+
 
 #datos-personales > div{
     background-color: rgba(89, 91, 212,0.6);
@@ -223,7 +229,7 @@ button:hover{
         display: block; /* Eliminamos el grid */
     }
     
-    #otros-datos > div {
+    #otros-datos > div > div {
         width:100%; /* Restamos el padding */
         margin: 10px 0;
         padding: 15px;
@@ -231,7 +237,7 @@ button:hover{
         
     }
     
-    #otros-datos > div > div > div {
+    #otros-datos > div > div > div > div {
         width: 100%;
         margin: 5px 0;
         padding: 10px;
@@ -258,7 +264,7 @@ button:hover{
     }
     
     /* Eliminamos cualquier transformación que pueda causar desbordamiento */
-    #otros-datos > div > div > div:hover {
+    #otros-datos > div > div > div > div:hover {
         transform: none;
     }
     

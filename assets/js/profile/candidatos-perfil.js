@@ -322,13 +322,14 @@ $(document).ready(function(){
                             titulo: $("#titulo").val(),
                             centro: $("#centro").val(),
                             fecha_inicio: $("#fecha_inicio_est").val(),
-                            fecha_fin: $("#fecha_fin_est").val() == "" ? "actual" : $("#fecha_fin").val()
+                            fecha_fin: $("#fecha_fin_est").val() == "" ? "actual" : $("#fecha_fin_est").val()
+                            
                         } ;
                         let estudiosExistentes = JSON.parse(cand.educacion);
                         estudiosExistentes.push(newEst);
                         console.log(estudiosExistentes);
                         
-                        if(newEst.fecha_inicio > newEst.fecha_fin && newEst.fecha_fin !== "actual"){
+                        if(newEst.fecha_fin !== "actual" && new Date(newEst.fecha_inicio) > new Date(newEst.fecha_fin)){
                             alert("duracion invalida");
                         }else if(newEst.titulo == "" || newEst.centro == "" || newEst.fecha_inicio == ""){
                             alert("No puedes dejar esos campos vacios");
@@ -389,7 +390,7 @@ $(document).ready(function(){
                         experienciasExistentes.push(newExp);
                         console.log(experienciasExistentes);
                         
-                        if(newExp.fecha_inicio > newExp.fecha_fin && newExp.fecha_fin !== "actual"){
+                        if(new Date(newExp.fecha_inicio) > new Date(newExp.fecha_fin) && newExp.fecha_fin !== "actual"){
                             alert("duracion invalida")
                         } else if(newExp.nombre_puesto == "" || newExp.empresa == "" || newExp.descripcion_puesto == "" || newExp.fecha_inicio == ""){
                             alert("No puedes dejar esos campos vacios");
@@ -587,7 +588,8 @@ $(document).ready(function(){
                                 'X-CSRF-TOKEN': csrfToken,
                             },
                             success: function(response) {
-                            $(".exp[data-id='"+ e.id +"']").remove(); // Eliminar el elemento del DOM
+                                cand.experiencia = JSON.stringify(nuevasExperiencias);
+                                $(".exp[data-id='"+ e.id +"']").remove(); // Eliminar el elemento del DOM
                             },
                             error: function(xhr, status, error) {
                                 alert("Error al eliminar experiencia: " + error);
@@ -609,6 +611,7 @@ $(document).ready(function(){
                 $("#fecha_inicio").val(e.fecha_inicio);
                 if ($("#fecha_fin").val() != "actual") $("#fecha_fin").val(e.fecha_fin)
 
+
                 $("#form-dialog-exp").dialog({
                     modal: true,  
                     width: 400,   
@@ -623,9 +626,9 @@ $(document).ready(function(){
                             expEditar.sector = $("#sector").val();
                             expEditar.descripcion_puesto = $("#descripcion_puesto").val();
                             expEditar.fecha_inicio = $("#fecha_inicio").val();
-                            expEditar.fecha_fin = $("#fecha_fin").val();
+                            expEditar.fecha_fin = $("#fecha_fin").val() == "" ? "actual" : $("#fecha_fin").val();
 
-                            if(expEditar.fecha_inicio > expEditar.fecha_fin && expEditar.fecha_fin !== "actual"){
+                            if(new Date(expEditar.fecha_inicio) > new Date(expEditar.fecha_fin) && expEditar.fecha_fin !== "actual"){
                                 alert("duracion invalida")
                             } else if(expEditar.nombre_puesto == "" || expEditar.empresa == "" || expEditar.descripcion_puesto == "" || expEditar.fecha_inicio == ""){
                                 alert("No puedes dejar esos campos vacios");
@@ -709,6 +712,7 @@ $(document).ready(function(){
                                 'X-CSRF-TOKEN': csrfToken,
                             },
                             success: function(response) {
+                                cand.educacion = JSON.stringify(nuevosEstudios);
                                 $(".est[data-id='"+ e.id +"']").remove(); // Eliminar el elemento del DOM
                             },
                             error: function(xhr, status, error) {
@@ -743,9 +747,9 @@ $(document).ready(function(){
                             estEditar.titulo = $("#titulo").val();
                             estEditar.centro = $("#centro").val();
                             estEditar.fecha_inicio = $("#fecha_inicio_est").val();
-                            estEditar.fecha_fin = $("#fecha_fin_est").val();
+                            estEditar.fecha_fin = $("#fecha_fin_est").val() == "" ? "actual" : $("#fecha_fin_est").val();
 
-                            if(estEditar.fecha_inicio > estEditar.fecha_fin && estEditar.fecha_fin !== "actual"){
+                            if(estEditar.fecha_fin !== "actual" && new Date(estEditar.fecha_inicio) > new Date(estEditar.fecha_fin)){
                                 alert("duracion invalida");
                             }else if(estEditar.titulo == "" || estEditar.centro == "" || estEditar.fecha_inicio == ""){
                                 alert("No puedes dejar esos campos vacios");
@@ -824,6 +828,7 @@ $(document).ready(function(){
                                 'X-CSRF-TOKEN': csrfToken,
                             },
                             success: function(response) {
+                                cand.habilidades = JSON.stringify(nuevasHabilidades);
                                 $(".hab[data-id='"+ h.id +"']").remove(); // Eliminar el elemento del DOM
                             },
                             error: function(xhr, status, error) {
@@ -929,6 +934,7 @@ $(document).ready(function(){
                                 'X-CSRF-TOKEN': csrfToken,
                             },
                             success: function(response) {
+                                cand.idiomas = JSON.stringify(nuevosIdiomas);
                                 $(".idi[data-id='"+ i.id +"']").remove(); // Eliminar el elemento del DOM
                             },
                             error: function(xhr, status, error) {

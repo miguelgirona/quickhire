@@ -26,7 +26,7 @@
 
                         <h2 style="display:inline;">Datos de usuario</h2><button class='editar' id="editar-datos-usuario"><img src="/quickhire/assets/img/iconos/editar.png" alt="botón editar"></button>
                     </div>
-                    <p><img width=100px height=100px style="border-radius:50px; object-fit:cover;" id="img_perfil" src=""></p>
+                    <p><img width=100px height=100px style="border-radius:10px; object-fit:cover;" id="img_perfil" src=""></p>
                     <p style="font-weight:bold;">Nombre usuario:</p>
                     <p id="nombre"></p>
                     <p style="font-weight:bold;">Correo electrónico:</p>

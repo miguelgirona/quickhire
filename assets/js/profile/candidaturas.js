@@ -151,7 +151,7 @@ $(document).ready(function(){
         const estadosSeleccionados = [];
     
         if ($("#pendiente").is(":checked")) estadosSeleccionados.push("Pendiente");
-        if ($("#en-proceso").is(":checked")) estadosSeleccionados.push("En Proceso");
+        if ($("#cv-leido").is(":checked")) estadosSeleccionados.push("CV Leído");
         if ($("#aceptado").is(":checked")) estadosSeleccionados.push("Aceptado");
     
         let filtradas = [];
