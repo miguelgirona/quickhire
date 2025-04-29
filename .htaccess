@@ -23,3 +23,7 @@ RewriteRule ^([^/]+)/([^/]+)/?$ pages/$1/$2.php [L]
 RewriteCond %{DOCUMENT_ROOT}/quickhire/pages/$1 -d
 RewriteCond %{DOCUMENT_ROOT}/quickhire/pages/$1/index.php -f
 RewriteRule ^([^/]+)/?$ pages/$1/index.php [L]
+
+# Redirigir /empresa/chats/chat a /pages/empresa/chats/chat.php si existe
+RewriteCond %{DOCUMENT_ROOT}/quickhire/pages/$1/$2/$3.php -f
+RewriteRule ^([^/]+)/([^/]+)/([^/]+)/?$ pages/$1/$2/$3.php [L]

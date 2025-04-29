@@ -1,5 +1,6 @@
 {
     "require": {
-        "redsys/tpv": "^2.3"
+        "redsys/tpv": "^2.3",
+        "cboden/ratchet": "^0.4.4"
     }
 }

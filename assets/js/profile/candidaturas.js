@@ -104,7 +104,7 @@ $(document).ready(function(){
                                 if (result.isConfirmed) {
                                     let csrfToken = getCookie('csrf_cookie_name');
                                     $.ajax({
-                                        url: 'https://miguelgirona.com.es/quickhire_api/public/candidaturas/' + candidatura.id + '?idCandidato=' + user.id,
+                                        url: 'https://miguelgirona.com.es/quickhire_api/public/candidaturas/' + candidatura.id + '?idCandidato=' + candidatura.id_candidato,
                                         type: 'DELETE',
                                         headers: {
                                             "Authorization": "Bearer " + sessionStorage.token,
