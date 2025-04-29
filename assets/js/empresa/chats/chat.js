@@ -99,10 +99,6 @@ $(document).ready(function () {
                 getCandidato(chat.id_candidato, sessionStorage.token).then(c => {
                     let candidato = c[0];
                     getUsuario(candidato.id_usuario, sessionStorage.token).then(usuario => {
-                        console.log("Candidato: ", candidato);
-                        console.log("Usuario: ", usuario);
-                        console.log("Chat: ", chat);
-                        
                         $("#chats").append(
                             `<div class='user-chat' id='${chat.id}'>
                                 <img src='${usuario.url_imagen}' alt='Imagen usuario'>
@@ -122,35 +118,47 @@ $(document).ready(function () {
     // 1) ws debe ser let si quieres reassign en onclose
     let ws = connectSocket();
 
+    console.log(ws.readyState); 
+    
+
     function connectSocket() {
         const proto = location.protocol === 'https:' ? 'wss' : 'ws';
-        
-        return new WebSocket(`${proto}://${location.host}:8082`);
+        const host = location.hostname === 'localhost' ? 'localhost:8082' : 'miguelgirona.com.es:8082';
+        return new WebSocket(`wss://rv-selection-trial-lo.trycloudflare.com `);
     }
+    
+    function scrollToBottom() {
+        var messagesContainer = $("#messages");
+        messagesContainer.scrollTop(messagesContainer[0].scrollHeight);
+    }
+    
 
     ws.onopen = function () {
         console.log('WebSocket connection established');
     };
 
-    ws.onmessage = (e) => {
+    ws.onmessage = function (e) {
         const data = JSON.parse(e.data);
-        // 2) Asume que selectedChatId ya es number
-        console.log("Mensaje recibido:", data);
-        console.log("ID del chat seleccionado:", selectedChatId);
-        
+
+        // Mostrar el mensaje solo si pertenece al chat seleccionado
         if (data.id_chat == selectedChatId) {
-          $("#messages").append(`
-            <div class="message">
-              <strong>${data.sender}:</strong> ${data.message}
-              <span class="timestamp">${data.timestamp}</span>
-            </div>
-          `);
+            $("#messages").append(
+                `<div class="message">
+                    <strong>${data.sender}:</strong> ${data.message}
+                    <span class="timestamp">${data.timestamp}</span>
+                </div>`
+            );
         }
+        scrollToBottom(); // Desplazar hacia abajo al recibir un nuevo mensaje
     };
 
-    ws.onclose = () => {
+    ws.onclose = function() {
         console.log('WS cerrado, reintentando...');
         setTimeout(() => { ws = connectSocket(); }, 1000);
+    };
+
+    ws.onerror = (err) => {
+        console.error("WebSocket error:", err);
     };
 
     // Detectar clic en un chat
@@ -162,7 +170,6 @@ $(document).ready(function () {
             console.error("No se pudo obtener el ID del chat seleccionado.");
             return;
         }
-        console.log("Chat seleccionado con ID:", selectedChatId);
 
         // Limpiar mensajes previos y cargar mensajes del chat seleccionado
         $("#messages").empty();
@@ -208,9 +215,12 @@ $(document).ready(function () {
                     message: messageData.mensaje,
                     timestamp: new Date().toISOString()
                 }));
+            } else {
+                console.error("WebSocket no está abierto.");
             }
-                
+
             $("#messageInput").val(''); // Limpiar el campo de entrada
+            scrollToBottom(); // Desplazar hacia abajo al enviar un nuevo mensaje
         }).catch(err => {
             console.error("Error al guardar el mensaje:", err);
         });

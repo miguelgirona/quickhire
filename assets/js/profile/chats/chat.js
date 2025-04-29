@@ -118,11 +118,17 @@ $(document).ready(function () {
     // Conexión al servidor WebSocket
     // 1) ws debe ser let si quieres reassign en onclose
     let ws = connectSocket();
-
+    console.log(ws);
+    
     function connectSocket() {
         const proto = location.protocol === 'https:' ? 'wss' : 'ws';
-        
-        return new WebSocket(`${proto}://${location.host}:8082/chat`);
+        const host = location.hostname === 'localhost' ? 'localhost:8082' : 'miguelgirona.com.es:8082';
+        return new WebSocket(`wss://rv-selection-trial-lo.trycloudflare.com`);
+    }
+    
+    function scrollToBottom() {
+        var messagesContainer = $("#messages");
+        messagesContainer.scrollTop(messagesContainer[0].scrollHeight);
     }
 
     ws.onopen = function () {
@@ -143,11 +149,16 @@ $(document).ready(function () {
             </div>
           `);
         }
+        scrollToBottom(); // Desplazar hacia abajo al recibir un nuevo mensaje
     };
 
     ws.onclose = () => {
         console.log('WS cerrado, reintentando...');
         setTimeout(() => { ws = connectSocket(); }, 1000);
+    };
+
+    ws.onerror = (err) => {
+        console.error("WebSocket error:", err);
     };
 
     // Detectar clic en un chat
@@ -207,6 +218,7 @@ $(document).ready(function () {
             }
                 
             $("#messageInput").val(''); // Limpiar el campo de entrada
+            scrollToBottom(); // Desplazar hacia abajo al enviar un nuevo mensaje
         }).catch(err => {
             console.error("Error al guardar el mensaje:", err);
         });
