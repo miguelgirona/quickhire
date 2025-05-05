@@ -1,50 +1,63 @@
 .candidatura {
-    margin: 10px;
-    border-radius: 10px;
-    background-color: #e9e1fc;
+    margin: 15px 0;
+    border-radius: 8px;
+    background-color: #f9f9f9;
     display: grid;
-    grid-template-columns: 17% 83%;
-    align-items: center; /* Centra verticalmente */
-    gap: 10px;
-    padding: 10px;
-    box-sizing: border-box;
-    max-width: 100%;
-
-    transition: all .1s linear;
+    grid-template-columns: 20% 80%;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     position: relative;
 }
 
-.candidatura:hover{
-    background-color: rgba(89, 91, 212,0.5);
+.candidatura:hover {
+    background-color: #f1f1f1;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
     cursor: pointer;
 }
 
 .candidatura img {
     width: 100%;
-    max-width: 150px;
+    max-width: 120px;
     height: auto;
     object-fit: cover;
-    border-radius: 5px;
-
+    border-radius: 8px;
     display: block;
     margin: 0 auto;
 }
 
-
 .candidatura div {
-    padding: 20px;
+    padding: 10px;
     overflow-wrap: break-word;
     word-wrap: break-word;
     max-width: 100%;
 }
 
-.candidatura p {
+.candidatura h2 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
     margin: 5px 0;
-    white-space: normal;
 }
 
-.candidatura * {
-    text-decoration: none;
+.candidatura p {
+    margin: 5px 0;
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.4;
+}
+
+.candidatura a {
+    color: #4a90e2;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.candidatura a:hover {
+    color: #3a3db8;
 }
 
 .borrar-inscripcion {
@@ -53,55 +66,58 @@
     right: 10px;
     border: none;
     background: none;
-    border-radius: 10px;
-
-    padding: 10px;
-
-    transition: all .2s linear;
+    border-radius: 50%;
+    padding: 8px;
+    transition: background-color 0.2s ease;
 }
 
 .borrar-inscripcion img {
-    width: 16px;
+    width: 18px;
+    height: 18px;
 }
 
-.borrar-inscripcion:hover{
+.borrar-inscripcion:hover {
     cursor: pointer;
-    background-color: #e9e1fc;
+    background-color: rgba(89, 91, 212, 0.1);
 }
 
-.estado{
-    border: 1px solid #181F1C;
-    border-radius: 10px;
-    width: fit-content;
-    padding: 10px;
+.estado {
+    display: inline-block;
+    border: 1px solid #4a90e2;
+    border-radius: 20px;
+    padding: 5px 15px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #4a90e2;
+    background-color: #f3f3ff;
 }
 
-@media (max-width:768px) {
-    .candidatura h2{
-        font-size: 4vw;
-    }
-
-    .candidatura p{
-        margin: 2px 0;
-        font-size: 3.5vw;
-    }
-
-    .borrar-inscripcion img{
-        width: 12px;
-    }
-
-    .estado{
-
-        padding: 5px;
-    }
-
-    .candidatura{
+@media (max-width: 768px) {
+    .candidatura {
+        grid-template-columns: 1fr;
         align-items: start;
+        padding: 10px;
     }
 
-    .candidatura > div {
-        /* border: 1px solid red; */
-        padding: 5px 5px 20px 0px; margin: 0px;
+    .candidatura img {
+        max-width: 100px;
     }
 
+    .candidatura h2 {
+        font-size: 1rem;
+    }
+
+    .candidatura p {
+        font-size: 0.85rem;
+    }
+
+    .borrar-inscripcion img {
+        width: 14px;
+        height: 14px;
+    }
+
+    .estado {
+        font-size: 0.8rem;
+        padding: 4px 10px;
+    }
 }

@@ -1,81 +1,147 @@
-#planes{
+/* Contenedor principal de los planes */
+#planes {
     display: grid;
-    grid-template-columns: 30% 30% 30%;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
     justify-content: center;
+    padding: 20px;
 }
 
-#planes div{
+/* Estilo de cada plan */
+#planes div {
     margin: 0 auto;
-    padding: 2vw; margin: 3vw;
-    background: linear-gradient(#e9e1fc,#595bd4);
+    padding: 2rem;
+    background: linear-gradient(135deg, #ffffff, #f3f4f6);
     border-radius: 15px;
-    box-shadow: 0px 0px 10px #e9e1fc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-#planes div > *{
-    padding:1vw ;
+#planes div:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-#planes div h4{
-    font-weight: 300;
+/* Elementos dentro de cada plan */
+#planes div > * {
+    padding: 0.5rem 0;
 }
 
-#planes div h2,#planes div h5{
-    font-size: 2vw;
-    text-align: center;
-}
-
-#profesional{
-    position: relative;
-}
-
-#profesional p:first-child{
-position: absolute;
-    top: 3px;
-    left: 50%;
-    transform: translateX(-50%);
-
-    font-size: 1.2vw;
+/* Títulos de los planes */
+#planes div h2 {
+    font-size: 1.8rem;
     font-weight: bold;
-    color: #181F1C;
+    text-align: center;
+    color: #333;
+    margin-bottom: 0.5rem;
 }
 
-.call-to-action{
-    border: 1.5px solid #181F1C;
+#planes div h4 {
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: center;
+    color: #555;
+    margin-bottom: 1rem;
+}
+
+#planes div h5 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    color: #4a90e2;
+    margin-bottom: 1rem;
+}
+
+/* Botón de acción */
+.call-to-action {
+    border: 2px solid #4a90e2;
     background-color: transparent;
-    color: #181F1C;
+    color: #4a90e2;
     display: block;
-    padding: 1vw; margin: 0 auto;
-
-    transition: all .1s linear;
-}
-
-.call-to-action:hover{
-    background-color: #181F1C;
-    color: #e9e1fc;
+    padding: 0.8rem 1.5rem;
+    margin: 1rem auto;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    transition: all 0.3s ease;
     cursor: pointer;
 }
 
-@media (max-width: 768px){
-    #planes{
-        display: grid;
-        grid-template-columns: auto;
-        justify-content: center;
+.call-to-action:hover {
+    background-color: #4a90e2;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* Listas dentro de los planes */
+#planes div ul {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0;
+}
+
+#planes div ul li {
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+#planes div ul li::before {
+    content: "✔";
+    color: #4a90e2;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
+
+/* Plan profesional destacado */
+#profesional {
+    position: relative;
+    background: linear-gradient(135deg, #e9f5ff, #d6eaff);
+    border: 2px solid #4a90e2;
+}
+
+#profesional p:first-child {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4a90e2;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding: 0.3rem 1rem;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    #planes {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
 
-    #planes div h2,#planes div h5{
-        font-size: 6vw;
+    #planes div {
+        padding: 1.5rem;
     }
 
-    #profesional > p{
-        display: none;
+    #planes div h2 {
+        font-size: 1.5rem;
     }
 
-    #planes div{
-        padding: 10vw;
+    #planes div h5 {
+        font-size: 1.2rem;
     }
 
-    .call-to-action{
+    #planes div ul li {
+        font-size: 0.9rem;
+    }
+
+    .call-to-action {
         width: 100%;
     }
 }

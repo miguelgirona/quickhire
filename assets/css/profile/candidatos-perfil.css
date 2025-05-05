@@ -165,7 +165,7 @@ button:hover{
 .form-dialog input[type="date"]:focus,
 .form-dialog select:focus,
 .form-dialog textarea:focus {
-    border-color: #595bd4;
+    border-color: #4a90e2;
     box-shadow: 0 0 0 2px rgba(89, 91, 212, 0.2);
     outline: none;
 }

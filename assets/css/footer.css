@@ -1,11 +1,11 @@
 footer {
-    background-color: #595bd4;
+    background-color: #4a90e2;
     padding: 2vw;
 }
 
 footer *::selection{
     background-color: #e9e1fc; /* Color de fondo */
-    color: #595bd4;
+    color: #4a90e2;
 }
 
 footer > div {

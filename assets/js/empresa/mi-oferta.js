@@ -138,23 +138,34 @@ $(document).ready(function(){
                     
                             const candidaturaID = $(this).data('id');
                             const cvURL = $(this).data('url');
-                    
-                            $.ajax({
-                                url: "https://miguelgirona.com.es/quickhire_api/public/candidaturas/" + candidaturaID,
-                                method: "PUT",
-                                contentType: 'application/json',
-                                data: JSON.stringify({ estado: "CV Leído" }),
-                                headers: {
-                                    "Authorization": "Bearer " + sessionStorage.token,
-                                    'X-CSRF-TOKEN': getCookie('csrf_cookie_name'),
-                                },
-                                success: function(response) {
-                                    window.open(cvURL, '_blank');
-                                },
-                                error: function(xhr, status, error) {
-                                    console.log("Error al actualizar estado:", xhr.responseText);
-                                }
-                            });
+
+                            const row = $('#tabla').DataTable().row($(this).closest('tr')).data();
+
+                            console.log(row);
+                            
+
+                            if(row.estado === "Aceptado") {
+                                window.open(cvURL, '_blank');
+                            } else {
+                                $.ajax({
+                                    url: "https://miguelgirona.com.es/quickhire_api/public/candidaturas/" + candidaturaID,
+                                    method: "PUT",
+                                    contentType: 'application/json',
+                                    data: JSON.stringify({ estado: "CV Leído" }),
+                                    headers: {
+                                        "Authorization": "Bearer " + sessionStorage.token,
+                                        'X-CSRF-TOKEN': getCookie('csrf_cookie_name'),
+                                    },
+                                    success: function(response) {
+                                        window.open(cvURL, '_blank');
+                                    },
+                                    error: function(xhr, status, error) {
+                                        console.log("Error al actualizar estado:", xhr.responseText);
+                                    }
+                                });
+                            }
+
+                                
                         });
                     
                     });

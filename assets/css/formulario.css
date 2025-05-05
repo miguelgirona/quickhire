@@ -25,7 +25,7 @@ input, textarea , select{
 
 /* Efecto de foco */
 input:focus, textarea:focus,select:focus {
-    border-color: #595bd4; /* Borde azul en foco */
+    border-color: #4a90e2; /* Borde azul en foco */
     background-color: #fff; /* Fondo blanco en foco */
     box-shadow: 0 0 5px rgba(89, 91, 212, 0.5); /* Sombra azul sutil */
     outline: none; /* Elimina el borde predeterminado del navegador */
@@ -63,7 +63,7 @@ textarea {
 #enviar {
     margin: 2vw 0; padding: 1vw;
     color: #e9e1fc;
-    background-color: #595bd4;
+    background-color: #4a90e2;
     border: none;
     border-radius: 5px;
 

@@ -1,6 +1,6 @@
 #buscador{
     padding: 3vw 1vw;
-    background-color: #595bd4;
+    background-color: #4a90e2;
 }
 
 #buscador > div{
@@ -60,7 +60,7 @@
 }
 
 #slider-range .ui-slider-range,#slider .ui-slider-range{
-    background: #595bd4;
+    background: #4a90e2;
 }
 
 #slider-range .ui-slider-handle,#slider .ui-slider-handle{

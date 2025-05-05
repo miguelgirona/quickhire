@@ -53,48 +53,57 @@ $(document).ready(function(){
             $(".two-cols h1 span").text(" buscando un candidato ideal.")
         }
     });
+
     $("#iniciar-sesion").click(function(event){
         event.preventDefault();
     
-        // 1. Petición para generar la cookie
-        document.cookie = "csrf_cookie_name=; path=/; domain=miguelgirona.com.es; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-        
-        // 2. Luego hacemos el login
-        csrfToken = getCookie('csrf_cookie_name');
-        setTimeout(()=>{
-            $.ajax({
-                url: 'https://miguelgirona.com.es/quickhire_api/public/usuarios/login',
-                method: "POST",
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    nombre: $("#nombre").val(),
-                    contraseña: $("#password").val(),
-                    csrf_test_name: csrfToken
-                }),
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken
-                },
-                success: function(response) {
-                    sessionStorage.token = response.token;
-                    sessionStorage.user = JSON.stringify(jwt_decode(response.token));
-                    const user = JSON.parse(sessionStorage.user);
+        // Paso 1: Petición GET para obtener la cookie CSRF
+        $.get('https://miguelgirona.com.es/quickhire_api/public/usuarios/token', function() {
+            // Esperamos un poco para asegurarnos que la cookie se setea correctamente
+            setTimeout(() => {
+                csrfToken = getCookie('csrf_cookie_name');
     
-                    $("#login").after("<p>¡Bienvenido/a "+ user.nombre +"!</p>")
-                    $("form")[0].reset();
-    
-                    if(user.tipo_usuario == "Candidato") window.location.href = "https://miguelgirona.com.es/quickhire/profile";
-                    if(user.tipo_usuario == "Empresa") window.location.href = "https://miguelgirona.com.es/quickhire/empresa";
-                    if(user.tipo_usuario == "Administrador") window.location.replace("https://miguelgirona.com.es/quickhire/admin");
-                },
-                error: function(xhr,status,error){
-                    console.log(error);
-                    console.log(xhr.responseText);
+                if (!csrfToken) {
                     $("#error").remove();
-                    $("#login").after("<p id='error'>Error al iniciar sesión</p>");
+                    $("#login").after("<p id='error'>No se pudo obtener el token CSRF</p>");
+                    return;
                 }
-            });
-        },200)
-        
+    
+                // Paso 2: Petición POST con token CSRF correcto
+                $.ajax({
+                    url: 'https://miguelgirona.com.es/quickhire_api/public/usuarios/login',
+                    method: "POST",
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        nombre: $("#nombre").val(),
+                        contraseña: $("#password").val(),
+                        csrf_test_name: csrfToken
+                    }),
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    success: function(response) {
+                        sessionStorage.token = response.token;
+                        sessionStorage.user = JSON.stringify(jwt_decode(response.token));
+                        const user = JSON.parse(sessionStorage.user);
+    
+                        $("#login").after("<p>¡Bienvenido/a "+ user.nombre +"!</p>");
+                        $("form")[0].reset();
+    
+                        if(user.tipo_usuario == "Candidato") window.location.href = "https://miguelgirona.com.es/quickhire/profile";
+                        if(user.tipo_usuario == "Empresa") window.location.href = "https://miguelgirona.com.es/quickhire/empresa";
+                        if(user.tipo_usuario == "Administrador") window.location.replace("https://miguelgirona.com.es/quickhire/admin");
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(error);
+                        console.log(xhr.responseText);
+                        $("#error").remove();
+                        $("#login").after("<p id='error'>Error al iniciar sesión</p>");
+                    }
+                });
+            }, 200); // Pequeño delay para que el navegador guarde la cookie
+        });
     });
+    
     
 });

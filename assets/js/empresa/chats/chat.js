@@ -100,7 +100,7 @@ $(document).ready(function () {
                     let candidato = c[0];
                     getUsuario(candidato.id_usuario, sessionStorage.token).then(usuario => {
                         $("#chats").append(
-                            `<div class='user-chat' id='${chat.id}'>
+                            `<div class='user-chat' id='${chat.id} '>
                                 <img src='${usuario.url_imagen}' alt='Imagen usuario'>
                                 <div>
                                     <h4>${candidato.nombre} ${candidato.apellidos}</h4>
@@ -122,9 +122,7 @@ $(document).ready(function () {
     
 
     function connectSocket() {
-        const proto = location.protocol === 'https:' ? 'wss' : 'ws';
-        const host = location.hostname === 'localhost' ? 'localhost:8082' : 'miguelgirona.com.es:8082';
-        return new WebSocket(`wss://rv-selection-trial-lo.trycloudflare.com `);
+        return new WebSocket(`wss://though-isle-stud-preventing.trycloudflare.com`);
     }
     
     function scrollToBottom() {
@@ -145,7 +143,13 @@ $(document).ready(function () {
             $("#messages").append(
                 `<div class="message">
                     <strong>${data.sender}:</strong> ${data.message}
-                    <span class="timestamp">${data.timestamp}</span>
+                    <span class="timestamp">${new Date(data.timestamp).toLocaleDateString('es-ES', {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    })}</span>
                 </div>`
             );
         }
@@ -163,7 +167,7 @@ $(document).ready(function () {
 
     // Detectar clic en un chat
     $(document).on("click", ".user-chat", function () {
-
+        
         selectedChatId = $(this).attr("id"); // Obtener el ID del chat seleccionado
         
         if (!selectedChatId) {
@@ -177,11 +181,18 @@ $(document).ready(function () {
             messages.messages.forEach(message => {
                 $("#messages").append(
                     `<div class="message">
-                        <strong>${message.id_remitente == user.id ? "Tú" : "Candidato/a"}:</strong> ${message.mensaje}
-                        <span class="timestamp">${message.fecha_envio}</span>
+                        <strong>${message.id_remitente == user.id ? user.nombre : "Candidato/a"}:</strong> ${message.mensaje}
+                        <span class="timestamp">${new Date(message.fecha_envio).toLocaleDateString('es-ES', {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit"
+                        })}</span>
                     </div>`
                 );
             });
+            scrollToBottom(); // Desplazar hacia abajo al seleccionar un chat
         }).catch(err => {
             console.error("Error al cargar los mensajes:", err);
         });
