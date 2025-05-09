@@ -91,149 +91,155 @@ $(document).ready(function () {
 
     let selectedChatId = null; // ID del chat seleccionado
 
+    // → Pusher: inicialización
+    // Asegúrate en tu HTML de incluir:
+    // <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+    Pusher.logToConsole = true;
+    var pusher = new Pusher('6cdc8e60b7e31ff23fb2', {
+        cluster: 'eu',
+        encrypted: true
+    });
+
+    // Cargar chats y suscribirse a canales
     getEmpresa(user.id, sessionStorage.token).then(e => {
         let empresa = e[0];
-
         getChats(empresa.id, sessionStorage.token).then(chats => {
             chats.forEach(chat => {
+                // → Pusher: suscripción al canal correspondiente
+                var channel = pusher.subscribe('chat.' + chat.id);
+                channel.bind('new-message', data => {
+                    if (data.id_chat != selectedChatId) return;
+                    let html = `<strong>${data.sender}:</strong> `;
+                    
+                    // Texto
+                    if (data.message) {
+                        html += data.message;
+                    }
+                    
+                    // Archivo
+                    if (data.fileUrl) {
+                        // Detectar extensión de imagen
+                        const ext = data.fileUrl.split('.').pop().toLowerCase();
+                        const imageExts = ['png','jpg','jpeg','gif','bmp','webp'];
+                        
+                        if (imageExts.includes(ext)) {
+                            // Si es imagen, embébela
+                            html += `<br/><img src="${data.fileUrl}" style="max-width:200px; max-height:200px; border-radius:4px;" alt="Imagen enviada"/>`;
+                        } else {
+                            // Si no, como enlace
+                            html += `<br/><a href="${data.fileUrl}" target="_blank">📎 Ver archivo</a>`;
+                        }
+                    }
+                    
+                    // Timestamp
+                    html += `<div class="timestamp">${new Date(data.timestamp).toLocaleDateString('es-ES', {
+                        day: "2-digit", month: "2-digit", year: "numeric",
+                        hour: "2-digit", minute: "2-digit"
+                    })}</div>`;
+                
+                    $("#messages").append(`<div class="message">${html}</div>`);
+                    scrollToBottom();
+                });
+                
+                
+
+                // Renderizar lista de chats
                 getCandidato(chat.id_candidato, sessionStorage.token).then(c => {
                     let candidato = c[0];
                     getUsuario(candidato.id_usuario, sessionStorage.token).then(usuario => {
                         $("#chats").append(
-                            `<div class='user-chat' id='${chat.id} '>
+                            `<div class='user-chat' id='${chat.id.trim()}'>
                                 <img src='${usuario.url_imagen}' alt='Imagen usuario'>
                                 <div>
-                                    <h4>${candidato.nombre} ${candidato.apellidos}</h4>
+                                    <h4>${candidato.nombre}</h4>
                                 </div>
                             </div>`
                         );
                     });
-
                 });
             });
         });
     });
 
-    // Conexión al servidor WebSocket
-    // 1) ws debe ser let si quieres reassign en onclose
-    let ws = connectSocket();
-
-    console.log(ws.readyState); 
-    
-
-    function connectSocket() {
-        return new WebSocket(`wss://though-isle-stud-preventing.trycloudflare.com`);
-    }
-    
     function scrollToBottom() {
         var messagesContainer = $("#messages");
         messagesContainer.scrollTop(messagesContainer[0].scrollHeight);
     }
-    
 
-    ws.onopen = function () {
-        console.log('WebSocket connection established');
-    };
-
-    ws.onmessage = function (e) {
-        const data = JSON.parse(e.data);
-
-        // Mostrar el mensaje solo si pertenece al chat seleccionado
-        if (data.id_chat == selectedChatId) {
-            $("#messages").append(
-                `<div class="message">
-                    <strong>${data.sender}:</strong> ${data.message}
-                    <span class="timestamp">${new Date(data.timestamp).toLocaleDateString('es-ES', {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit"
-                    })}</span>
-                </div>`
-            );
-        }
-        scrollToBottom(); // Desplazar hacia abajo al recibir un nuevo mensaje
-    };
-
-    ws.onclose = function() {
-        console.log('WS cerrado, reintentando...');
-        setTimeout(() => { ws = connectSocket(); }, 1000);
-    };
-
-    ws.onerror = (err) => {
-        console.error("WebSocket error:", err);
-    };
-
-    // Detectar clic en un chat
+    // Seleccionar chat y cargar historial
     $(document).on("click", ".user-chat", function () {
-        
-        selectedChatId = $(this).attr("id"); // Obtener el ID del chat seleccionado
-        
-        if (!selectedChatId) {
-            console.error("No se pudo obtener el ID del chat seleccionado.");
-            return;
-        }
+        selectedChatId = $(this).attr("id");
+        if (!selectedChatId) return console.error("ID de chat inválido.");
 
-        // Limpiar mensajes previos y cargar mensajes del chat seleccionado
         $("#messages").empty();
-        getMessagesByChatId(selectedChatId, sessionStorage.token).then(messages => {
-            messages.messages.forEach(message => {
-                $("#messages").append(
-                    `<div class="message">
-                        <strong>${message.id_remitente == user.id ? user.nombre : "Candidato/a"}:</strong> ${message.mensaje}
-                        <span class="timestamp">${new Date(message.fecha_envio).toLocaleDateString('es-ES', {
-                            day: "2-digit",
-                            month: "2-digit",
-                            year: "numeric",
-                            hour: "2-digit",
-                            minute: "2-digit"
-                        })}</span>
-                    </div>`
-                );
+        getMessagesByChatId(selectedChatId, sessionStorage.token).then(res => {
+            res.messages.forEach(msg => {
+                let html = `<strong>${msg.id_remitente == user.id ? user.nombre : "Candidato/a"}:</strong> `;
+                
+                // Texto
+                if (msg.mensaje) {
+                    html += msg.mensaje;
+                }
+        
+                // Archivo
+                if (msg.url_archivo) {
+                    const ext = msg.url_archivo.split('.').pop().toLowerCase();
+                    const imageExts = ['png','jpg','jpeg','gif','bmp','webp'];
+                    
+                    if (imageExts.includes(ext)) {
+                        html += `<br/><img src="${msg.url_archivo}" style="max-width:200px; max-height:200px; border-radius:4px;" alt="Imagen enviada"/>`;
+                    } else {
+                        html += `<br/><a href="${msg.url_archivo}" target="_blank">📎 Ver archivo</a>`;
+                    }
+                }
+        
+                html += `<div class="timestamp">${new Date(msg.fecha_envio).toLocaleDateString('es-ES', {
+                    day: "2-digit", month: "2-digit", year: "numeric",
+                    hour: "2-digit", minute: "2-digit"
+                })}</div>`;
+        
+                $("#messages").append(`<div class="message">${html}</div>`);
             });
-            scrollToBottom(); // Desplazar hacia abajo al seleccionar un chat
-        }).catch(err => {
-            console.error("Error al cargar los mensajes:", err);
+            scrollToBottom();
         });
+        
     });
 
     // Enviar mensaje
     $("#sendMessage").on("click", function () {
         if (!selectedChatId) {
-            alert("Por favor, selecciona un chat antes de enviar un mensaje.");
-            return;
+            return alert("Por favor, selecciona un chat antes de enviar un mensaje.");
         }
-
+    
         const messageContent = $("#messageInput").val().trim();
-        if (!messageContent) {
-            alert("El mensaje no puede estar vacío.");
-            return;
+        const file = $("#fileInput")[0].files[0];
+    
+        if (!messageContent && !file) {
+            return alert("Debe haber un texto o un archivo para enviar.");
         }
-
-        const messageData = {
-            id_chat: selectedChatId,
-            id_remitente: user.id,
-            mensaje: messageContent
-        };
-
-        // Guardar mensaje en la base de datos y enviarlo por WebSocket
-        saveMessage(messageData, sessionStorage.token).then(() => {
-            if (ws.readyState === WebSocket.OPEN) {
-                ws.send(JSON.stringify({
-                    id_chat: selectedChatId,
-                    sender: user.nombre,
-                    message: messageData.mensaje,
-                    timestamp: new Date().toISOString()
-                }));
-            } else {
-                console.error("WebSocket no está abierto.");
-            }
-
-            $("#messageInput").val(''); // Limpiar el campo de entrada
-            scrollToBottom(); // Desplazar hacia abajo al enviar un nuevo mensaje
-        }).catch(err => {
-            console.error("Error al guardar el mensaje:", err);
-        });
+    
+        // Preparamos FormData en lugar de JSON
+        const fd = new FormData();
+        fd.append("id_chat", selectedChatId);
+        fd.append("id_remitente", user.id);
+        if (messageContent) fd.append("mensaje", messageContent);
+        if (file)           fd.append("archivo", file);
+    
+        $.ajax({
+            url: "https://miguelgirona.com.es/quickhire_api/public/mensajes/save",
+            method: "POST",
+            headers: {
+                "Authorization": "Bearer " + sessionStorage.token,
+                "X-CSRF-TOKEN": getCookie("csrf_cookie_name")
+            },
+            data: fd,
+            processData: false,  // importante para FormData
+            contentType: false   // importante para FormData
+        })
+        .done(() => {
+            $("#messageInput").val("");
+            $("#fileInput").val("");
+        })
+        .fail(err => console.error("Error al guardar el mensaje:", err));
     });
 });

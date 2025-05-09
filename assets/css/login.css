@@ -102,6 +102,26 @@ input:focus {
     cursor: pointer;
 }
 
+#linkedin{
+    border: none;
+    display: block;
+    width: 175px; height: 33px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    background-image: url('../img/linkedin_img/Sign-In-Large---Default.png');
+    line-height: 0;
+}
+
+#linkedin:hover{
+    cursor: pointer;
+    background-image: url('../img/linkedin_img/Sign-In-Large---Hover.png');
+}
+
+#linkedin:active{
+    background-image: url('../img/linkedin_img/Sign-In-Large---Active.png');
+}
+
 @media (max-width: 768px) {
 
     #tipo-usuario{
@@ -121,11 +141,16 @@ input:focus {
         width: 90%;
     }
 
-    .two-cols #login button{
+    .two-cols #login button:not(#linkedin){
         display: block;
         width: 95%;
         padding: 3vw;
         margin: 1.5vw auto;
+    }
+
+    #linkedin{
+        margin: 0 auto;
+
     }
 
 }

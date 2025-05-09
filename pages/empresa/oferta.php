@@ -72,7 +72,6 @@
                                 <tr>
                                     <th>Ver</th>
                                     <th>Nombre</th>
-                                    <th>Apellidos</th>
                                     <th>CV</th>
                                     <th>Ciudad</th>
                                     <th>País</th>

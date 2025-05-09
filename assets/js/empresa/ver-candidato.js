@@ -256,7 +256,6 @@ $(document).ready(function(){
             
             $("#img_perfil")[0].src = usuario.url_imagen;
             $("#nombre").text(cand.nombre == "" ? "Sin datos" : cand.nombre);
-            $("#apellidos").text(cand.apellidos == "" ? "Sin datos" : cand.apellidos);
             $("#mail").text(usuario.mail == "" ? "Sin datos" : usuario.mail);
             $("#telefono").text(usuario.telefono == "" ? "Sin datos" : usuario.telefono);
             $("#ciudad").text((cand.ciudad == null || cand.pais == null) ? "Sin datos" : cand.ciudad+", "+cand.pais);

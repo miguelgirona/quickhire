@@ -128,6 +128,61 @@
     transform: translateY(-2px);
 }
 
+/* Contenedor */
+.file-upload {
+    position: relative;
+    display: inline-block;
+    font-family: sans-serif;
+  }
+  
+  /* Input real oculto */
+  .file-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  
+  /* Label como botón */
+  .file-label {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, #595bd4, #e9e1fc);
+    color: #181f1c;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  
+  .file-label:hover {
+    background: linear-gradient(135deg, #504fc2, #d4c5f0);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+  }
+  
+  .file-label:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 4px rgba(0,0,0,0.1);
+  }
+  
+  /* Icono */
+  .icon-upload {
+    margin-right: 0.5rem;
+    fill: currentColor;
+  }
+  
+  /* Texto */
+  .file-label-text {
+    font-size: 0.9rem;
+  }
+  
+
 /* Responsivo */
 @media (max-width: 768px) {
     #content > div {
@@ -162,4 +217,18 @@
     #sendMessage {
         font-size: 0.9rem;
     }
+
+    .file-label {
+        width: 100%;
+        justify-content: center;
+        padding: 0.5rem;
+      }
+    
+      .file-label-text {
+        display: none; /* Oculta el texto en espacio muy reducido */
+      }
+    
+      .icon-upload {
+        margin-right: 0; /* Centra solo el icono */
+      }
 }

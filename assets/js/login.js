@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+    const params = new URLSearchParams(window.location.search);
+
     function getCookie(name) {
         var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));        
         
@@ -27,6 +29,144 @@ $(document).ready(function(){
             $(".two-cols h1 span").text(" en tu búsqueda de empleo.")
         }
     }
+
+    if(params.get("token")){
+        var linkedinUser = jwt_decode(params.get("token"));
+        console.log(linkedinUser);
+        $.get('https://miguelgirona.com.es/quickhire_api/public/usuarios/token', function() {
+            // Esperamos un poco para asegurarnos que la cookie se setea correctamente
+            setTimeout(() => {
+                csrfToken = getCookie('csrf_cookie_name');
+    
+                if (!csrfToken) {
+                    $("#error").remove();
+                    $("#login").after("<p id='error'>No se pudo obtener el token CSRF</p>");
+                    return;
+                }
+    
+                // Paso 2: Petición POST con token CSRF correcto
+                $.ajax({
+                    url: 'https://miguelgirona.com.es/quickhire_api/public/usuarios/login',
+                    method: "POST",
+                    contentType: 'application/json',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    data: JSON.stringify({
+                        mail: linkedinUser.data.email,
+                        contraseña: null,
+                        csrf_test_name: csrfToken
+                    }),
+                    success: function(response) {
+                        sessionStorage.token = response.token;
+                        sessionStorage.user = JSON.stringify(jwt_decode(response.token));
+                        const user = JSON.parse(sessionStorage.user);
+    
+                        $("#login").after("<p>¡Bienvenido/a "+ user.nombre +"!</p>");
+                        $("form")[0].reset();
+    
+                        if(user.tipo_usuario == "Candidato") window.location.href = "https://miguelgirona.com.es/quickhire/profile";
+                        if(user.tipo_usuario == "Empresa") window.location.href = "https://miguelgirona.com.es/quickhire/empresa";
+                        if(user.tipo_usuario == "Administrador") window.location.replace("https://miguelgirona.com.es/quickhire/admin");
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(error);
+                        let errorCode = JSON.parse(xhr.responseText).error;
+                        console.log(errorCode);
+
+                        if(errorCode == 401){
+                            csrfToken = getCookie('csrf_cookie_name');
+
+                            $.ajax({
+                                url: 'https://miguelgirona.com.es/quickhire_api/public/usuarios',
+                                method: 'POST',
+                                credentials: 'include',
+                                data: {
+                                    nombre: linkedinUser.data.name,
+                                    mail: linkedinUser.data.email,
+                                    url_imagen:linkedinUser.data.picture,
+                                    contraseña: null,
+                                    tipo_usuario: "Candidato",
+                                    csrf_test_name: csrfToken // Agregar el token CSRF
+                                },
+                                headers: {
+                                    'X-CSRF-TOKEN': csrfToken // También enviarlo en el header
+                                },
+                                success: function(response) {
+                                    csrfToken = getCookie('csrf_cookie_name');
+                                    $.ajax({
+                                        url: 'https://miguelgirona.com.es/quickhire_api/public/candidatos',
+                                        method: 'POST',
+                                        credentials: 'include',
+                                        data: {
+                                            id_usuario: response.id,
+                                            nombre: response.nombre,
+                                            csrf_test_name: csrfToken
+                                        },
+                                        headers: {
+                                            'X-CSRF-TOKEN': csrfToken
+                                        },
+                                        success: function() {
+                                            csrfToken = getCookie('csrf_cookie_name');
+                                            $.ajax({
+                                                url: 'https://miguelgirona.com.es/quickhire_api/public/usuarios/login',
+                                                method: "POST",
+                                                contentType: 'application/json',
+                                                headers: {
+                                                    'X-CSRF-TOKEN': csrfToken
+                                                },
+                                                data: JSON.stringify({
+                                                    mail: linkedinUser.data.email,
+                                                    contraseña: null,
+                                                    csrf_test_name: csrfToken
+                                                }),
+                                                success: function(response) {
+                                                    sessionStorage.token = response.token;
+                                                    sessionStorage.user = JSON.stringify(jwt_decode(response.token));
+                                                    const user = JSON.parse(sessionStorage.user);
+                                            
+                                                    $("#login").after("<p>¡Bienvenido/a "+ user.nombre +"!</p>");
+                                                    $("form")[0].reset();
+                                            
+                                                    if(user.tipo_usuario == "Candidato") window.location.href = "https://miguelgirona.com.es/quickhire/profile";
+                                                    if(user.tipo_usuario == "Empresa") window.location.href = "https://miguelgirona.com.es/quickhire/empresa";
+                                                    if(user.tipo_usuario == "Administrador") window.location.replace("https://miguelgirona.com.es/quickhire/admin");
+                                                },
+                                                error: function(xhr, status, error) {
+                                                    console.log(error);
+                                                    console.log(xhr.responseText);
+                                                }
+                                            });
+                                            
+                    
+                                        },
+                                        error: function() {
+                                            console.log(error);
+                                            console.log(xhr.responseText);
+                                        }
+                                    });
+                                    
+                                },
+                                error: function() {
+                                    alert("usuario existente")
+                                }
+                            });
+                        }
+
+                        $("#error").remove();
+                        $("#login").after("<p id='error'>Error al iniciar sesión</p>");
+                    }
+                });
+            }, 200); // Pequeño delay para que el navegador guarde la cookie
+        });
+        
+    }
+
+    $("#linkedin").click(function(event){
+        event.preventDefault();
+        window.location = "https://miguelgirona.com.es/quickhire_api/public/linkedin/login";
+
+    });
 
 
     $("#registrarse").click(function(event){
@@ -74,14 +214,14 @@ $(document).ready(function(){
                     url: 'https://miguelgirona.com.es/quickhire_api/public/usuarios/login',
                     method: "POST",
                     contentType: 'application/json',
-                    data: JSON.stringify({
-                        nombre: $("#nombre").val(),
-                        contraseña: $("#password").val(),
-                        csrf_test_name: csrfToken
-                    }),
                     headers: {
                         'X-CSRF-TOKEN': csrfToken
                     },
+                    data: JSON.stringify({
+                        mail: $("#mail").val(),
+                        contraseña: $("#password").val(),
+                        csrf_test_name: csrfToken
+                    }),
                     success: function(response) {
                         sessionStorage.token = response.token;
                         sessionStorage.user = JSON.stringify(jwt_decode(response.token));

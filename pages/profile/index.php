@@ -27,17 +27,14 @@
                         <button class="editarLapiz" id="editar-datos-personales"><img src="/quickhire/assets/img/iconos/editar.png" alt="botón editar"></button>
                     </div>
                     <p><img width=100px height=100px style="border-radius:10px; object-fit:cover;" id="img_perfil" src=""></p>
-                    <p style="font-weight:bold;">Nombre:</p>
+                    <h4>Nombre:</h4>
                     <p id="nombre"></p>
-                    <p style="font-weight:bold;">Apellidos:</p>
-                    <p id="apellidos"></p>
-                    <p style="font-weight:bold;">Correo electrónico:</p>
+                    <h4>Correo electrónico:</h4>
                     <p id="mail"></p>
-                    <p style="font-weight:bold;">Teléfono:</p>
+                    <h4>Teléfono:</h4>
                     <p id="telefono"></p>
-                    <p style="font-weight:bold;">Ciudad:</p>
+                    <h4>Ciudad:</h4>
                     <p id="ciudad"></p>
-                    <button class="editar" id="linkedin">Rellenar datos con Linkedin</button>
                     <div class="form-dialog" id="form-dialog-datos-personales" style="display:none;">
                         <form id="form-datos-personales">
                             <label for="imagen">Imagen:</label>
@@ -45,10 +42,7 @@
                             
                             <label for="editar_nombre">Nombre:</label>
                             <input type="text" id="editar_nombre" name="editar_nombre" required><br><br>
-                            
-                            <label for="editar_apellidos">Apellidos:</label>
-                            <input type="text" id="editar_apellidos" name="editar_apellidos" required><br><br>
-                            
+                                                        
                             <label for="editar_mail">Correo electrónico:</label>
                             <input type="text" name="editar_mail" id="editar_mail"><br><br>
                             

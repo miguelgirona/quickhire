@@ -4,10 +4,6 @@ $(document).ready(function(){
         $(this).next().toggle();
         
     });
-    
-    $("#linkedin").click(function(){
-        
-    });
 
     function getCookie(name) {
         var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));        
@@ -433,7 +429,6 @@ $(document).ready(function(){
             
             $("#img_perfil")[0].src = usuario.url_imagen;
             $("#nombre").text(cand.nombre == "" ? "¡Completa este campo!" : cand.nombre);
-            $("#apellidos").text(cand.apellidos == "" ? "¡Completa este campo!" : cand.apellidos);
             $("#mail").text(usuario.mail == "" ? "¡Completa este campo!" : usuario.mail);
             $("#telefono").text(usuario.telefono == "" ? "¡Completa este campo!" : usuario.telefono);
             $("#ciudad").text((cand.ciudad == null || cand.pais == null) ? "¡Completa este campo!" : cand.ciudad+", "+cand.pais);
@@ -442,7 +437,6 @@ $(document).ready(function(){
             $("#editar-datos-personales").click(function(){
                 csrfToken = getCookie('csrf_cookie_name');
                 $("#editar_nombre").val(cand.nombre);
-                $("#editar_apellidos").val(cand.apellidos);
                 $("#editar_mail").val(usuario.mail);
                 $("#editar_telefono").val(usuario.telefono);
                 $("#editar_ciudad").val(cand.ciudad);
@@ -475,7 +469,6 @@ $(document).ready(function(){
                                         contentType: 'application/json',
                                         data: JSON.stringify({
                                             nombre: $("#editar_nombre").val(),
-                                            apellidos: $("#editar_apellidos").val(),
                                             ciudad: $("#editar_ciudad").val(),
                                             pais: $("#editar_pais").val()
                                         }),

@@ -113,7 +113,6 @@ $(document).ready(function(){
                                     }
                                 },
                                 { data: 'nombre' },
-                                { data: 'apellidos' },
                                 { 
                                     data: 'url_cv',
                                     render: function(data, type, row) {

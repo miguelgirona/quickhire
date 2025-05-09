@@ -4,6 +4,10 @@
     gap: 20px;
 }
 
+p{
+    color: #555;
+}
+
 .size-4 {
     width: 16px;
 }
@@ -39,30 +43,28 @@ button:hover{
     margin-bottom: 10px;
 }
 
-#otros-datos > div > div > div > div{
-    background-color: white;
+#otros-datos > div > div > div > div {
+    background-color: #ffffff;
     padding: 20px;
     border-radius: 10px;
     margin: 10px;
-
-    transition: all .1s linear;
-}
-
-#otros-datos > div > div > div > div:hover{
-    background-color: rgb(222, 220, 220);
-
-}
-
-#otros-datos > div > div > div > div:nth-child(odd){
-    background-color: rgb(222, 220, 220);
-}
-
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all .3s ease;
+  }
+  
+  #otros-datos > div > div > div > div:hover {
+    background-color: #f2f2f2;
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  }
+  
 
 #datos-personales > div{
-    background-color: rgba(89, 91, 212,0.6);
+    background-color: #fff;
     padding: 20px;
     border-radius: 10px;
     margin-bottom: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 #form-dialog {

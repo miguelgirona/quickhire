@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="assets/css/login.css">
     <script src="assets/js/jquery.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+
     <script src="assets/js/main.js"></script>
     <script src="assets/js/login.js"></script>
 </head>
@@ -28,12 +30,13 @@
                 <section id="login">
                     <p style="font-weight:bold; border-bottom:1px solid #181F1C;">Introduce tus datos</p>
                     <form>
-                        <label for="nombre">Nombre de usuario</label>
-                        <input id="nombre" type="text">
+                        <label for="mail">Correo electrónico</label>
+                        <input id="mail" type="text">
                         <label for="password">Introduce tu contraseña</label>
                         <input id="password" type="password">
                         <button id="iniciar-sesion">Iniciar sesión</button>
                         <button id="registrarse">Regístrate</button>
+                        <button id="linkedin"></button>
                     </form>
                 </section>
             </div>
