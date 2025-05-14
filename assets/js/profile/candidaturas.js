@@ -85,7 +85,7 @@ $(document).ready(function(){
                                         "<p><a style='text-decoration: underline;' href='#'>"+ empresa[0].nombre_empresa +"</a></p>"+
                                         "<p>"+(oferta.descripcion.length > maxChars ? oferta.descripcion.substring(0, maxChars) + "..." : oferta.descripcion)+"</p>"+
                                     "</div>"+
-                                    "<button class='borrar-inscripcion' data-id='"+candidatura.id+"'><img src='/quickhire/assets/img/iconos/eliminar.png' alt='botón eliminar'></button>"+
+                                    (candidatura.estado != "Aceptado" ? "<button class='borrar-inscripcion' data-id='"+candidatura.id+"'><img src='/quickhire/assets/img/iconos/eliminar.png' alt='botón eliminar'></button>" : "")+
                                 "</div>"+
                             "</a>"
                         );

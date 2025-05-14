@@ -102,25 +102,29 @@ input:focus {
     cursor: pointer;
 }
 
-#linkedin{
+#linkedin {
     border: none;
     display: block;
-    width: 175px; height: 33px;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-    background-image: url('../img/linkedin_img/Sign-In-Large---Default.png');
+    width: 175px;
+    height: 40px;
+    background: url('../img/linkedin_img/Sign-In-Large---Default.png') center center / contain no-repeat;
+    padding: 0;
     line-height: 0;
+    transition: background-image 0.3s ease, transform 0.1s ease;
+    outline: none;
 }
 
-#linkedin:hover{
+#linkedin:hover {
     cursor: pointer;
     background-image: url('../img/linkedin_img/Sign-In-Large---Hover.png');
+    transform: translateY(-1px);
 }
 
-#linkedin:active{
+#linkedin:active {
     background-image: url('../img/linkedin_img/Sign-In-Large---Active.png');
+    transform: scale(0.98);
 }
+
 
 @media (max-width: 768px) {
 

@@ -1,5 +1,8 @@
 $(document).ready(function(){
 
+    const params = new URLSearchParams(window.location.search);
+    const idUsuario = params.get('id');
+
     $(".seccion").click(function(){
         $(this).next().toggle();
         
@@ -62,7 +65,7 @@ $(document).ready(function(){
         
     })
 
-    getCandidato(user.id,sessionStorage.token).then(candidato =>{
+    getCandidato(idUsuario,sessionStorage.token).then(candidato =>{
             
         let cand = candidato[0];
         
@@ -71,7 +74,7 @@ $(document).ready(function(){
             csrfToken = getCookie('csrf_cookie_name');
             Swal.fire({
                 title: '¿Estás seguro?',
-                text: "Vas a eliminar tu cuenta, esta acción no se puede revertir.",
+                text: "Vas a eliminar esta cuenta, esta acción no se puede revertir.",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#595bd4',
@@ -82,28 +85,23 @@ $(document).ready(function(){
                 if (result.isConfirmed) {
                     csrfToken = getCookie('csrf_cookie_name');
                     $.ajax({
-                        url: 'https://miguelgirona.com.es/quickhire_api/public/candidatos/' + user.id,
+                        url: 'https://miguelgirona.com.es/quickhire_api/public/usuarios/' + idUsuario,
                         type: 'DELETE',
                         headers: {
                             "Authorization": "Bearer " + sessionStorage.token,
                             'X-CSRF-TOKEN': csrfToken,
                         },
                         success: function (response) {
-                            csrfToken = getCookie('csrf_cookie_name');
-                            $.ajax({
-                                url: 'https://miguelgirona.com.es/quickhire_api/public/usuarios/' + user.id,
-                                type: 'DELETE',
-                                headers: {
-                                    "Authorization": "Bearer " + sessionStorage.token,
-                                    'X-CSRF-TOKEN': csrfToken,
-                                },
-                                success: function (response) {
-                                    window.location.href = "/quickhire/login.php?logout";
-                                },
-                                error: function (xhr, status, error) {
-                                    console.log(xhr.responseText);
-                                }
+                            Swal.fire({
+                                icon: 'success',
+                                title: '¡Éxito!',
+                                text: 'La operación se realizó correctamente.',
+                                showConfirmButton: true,
+                                confirmButtonText: 'Aceptar',
+                                timer: 3000,
+                                timerProgressBar: true
                             });
+                            window.location.href = "https://miguelgirona.com.es/quickhire/admin-panel";
                         },
                         error: function (xhr, status, error) {
                             console.log(xhr.responseText);
@@ -155,7 +153,7 @@ $(document).ready(function(){
                 formData.append('url_cv', file);
             
                 $.ajax({
-                    url: 'https://miguelgirona.com.es/quickhire_api/public/candidatos/guardarCV/' + user.id,
+                    url: 'https://miguelgirona.com.es/quickhire_api/public/candidatos/guardarCV/' + idUsuario,
                     type: 'POST',
                     data: formData,
                     contentType: false,
@@ -215,7 +213,7 @@ $(document).ready(function(){
                             
                             // Enviar los datos usando AJAX
                             $.ajax({
-                                url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + user.id,
+                                url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + idUsuario,
                                 method: "PUT",
                                 credentials: 'include',
                                 contentType: 'application/json',
@@ -272,7 +270,7 @@ $(document).ready(function(){
                             
                             // Enviar los datos usando AJAX
                             $.ajax({
-                                url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + user.id,
+                                url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + idUsuario,
                                 method: "PUT",
                                 credentials: 'include',
                                 contentType: 'application/json',
@@ -333,7 +331,7 @@ $(document).ready(function(){
                             
                             // Enviar los datos usando AJAX
                             $.ajax({
-                                url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + user.id,
+                                url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + idUsuario,
                                 method: "PUT",
                                 credentials: 'include',
                                 contentType: 'application/json',
@@ -394,7 +392,7 @@ $(document).ready(function(){
                             
                             // Enviar los datos usando AJAX
                             $.ajax({
-                                url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + user.id,
+                                url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + idUsuario,
                                 method: "PUT",
                                 credentials: 'include',
                                 contentType: 'application/json',
@@ -425,13 +423,13 @@ $(document).ready(function(){
         });
 
         //datos personales
-        getUsuario(user.id,sessionStorage.token).then(usuario =>{       
+        getUsuario(idUsuario,sessionStorage.token).then(usuario =>{       
             
             $("#img_perfil")[0].src = usuario.url_imagen;
-            $("#nombre").text(cand.nombre == "" ? "¡Completa este campo!" : cand.nombre);
-            $("#mail").text(usuario.mail == "" ? "¡Completa este campo!" : usuario.mail);
-            $("#telefono").text(usuario.telefono == "" ? "¡Completa este campo!" : usuario.telefono);
-            $("#ciudad").text((cand.ciudad == null || cand.pais == null) ? "¡Completa este campo!" : cand.ciudad+", "+cand.pais);
+            $("#nombre").text(cand.nombre == "" ? "Sin datos" : cand.nombre);
+            $("#mail").text(usuario.mail == "" ? "Sin datos" : usuario.mail);
+            $("#telefono").text(usuario.telefono == "" ? "Sin datos" : usuario.telefono);
+            $("#ciudad").text((cand.ciudad == null || cand.pais == null) ? "Sin datos" : cand.ciudad+", "+cand.pais);
 
             //editar datos personales
             $("#editar-datos-personales").click(function(){
@@ -448,7 +446,7 @@ $(document).ready(function(){
                     buttons: {
                         "Guardar": function() {
                             $.ajax({
-                                url: "https://miguelgirona.com.es/quickhire_api/public/usuarios/" + user.id,
+                                url: "https://miguelgirona.com.es/quickhire_api/public/usuarios/" + idUsuario,
                                 method: "PUT",
                                 contentType: 'application/json',
                                 data: JSON.stringify({
@@ -464,7 +462,7 @@ $(document).ready(function(){
                                 success: function(response) {
                                     csrfToken = getCookie('csrf_cookie_name');
                                     $.ajax({
-                                        url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + user.id,
+                                        url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + idUsuario,
                                         method: "PUT",
                                         contentType: 'application/json',
                                         data: JSON.stringify({
@@ -484,7 +482,7 @@ $(document).ready(function(){
 
                                                 // Hacemos la solicitud AJAX
                                                 $.ajax({
-                                                    url: 'https://miguelgirona.com.es/quickhire_api/public/usuarios/guardarfoto/'+user.id,  // URL de tu servidor para manejar la imagen
+                                                    url: 'https://miguelgirona.com.es/quickhire_api/public/usuarios/guardarfoto/'+idUsuario,  // URL de tu servidor para manejar la imagen
                                                     type: 'POST',
                                                     data: formData,  // Enviamos la imagen
                                                     contentType: false,  // No necesitamos especificar el tipo de contenido
@@ -515,36 +513,9 @@ $(document).ready(function(){
                                     });
                                 },
                                 error: function(xhr, status, error) {
-                                    csrfToken = getCookie('csrf_cookie_name');
-                                    const response = xhr.responseText;
-
-                                    try {
-                                        const json = JSON.parse(response);
-                                        if (json.message && json.message.includes("Duplicate entry") && json.message.includes("for key 'mail'")) {
-                                            Swal.fire({
-                                                icon: 'error',
-                                                title: 'Correo duplicado',
-                                                text: 'Ese correo ya está en uso por otro usuario.',
-                                            });
-                                        } else {
-                                            Swal.fire({
-                                                icon: 'error',
-                                                title: 'Error',
-                                                text: 'Error al editar el usuario',
-                                                footer: `<pre>${json.message}</pre>`
-                                            });
-                                        }
-                                    } catch (e) {
-                                        // Si no se puede parsear como JSON
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Error inesperado',
-                                            text: 'No se pudo procesar la respuesta del servidor.',
-                                            footer: `<pre>${xhr.responseText}</pre>`
-                                        });
-                                    }
-
-                                    console.error(xhr.responseText);
+                                    alert("Error al editar USUARIO: " + error);
+                                    console.log(xhr.responseText); // Verifica la respuesta del servidor para detalles
+    
                                 }
                             });
                             
@@ -597,7 +568,7 @@ $(document).ready(function(){
                         console.log(nuevasExperiencias);
                         
                         $.ajax({
-                            url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + user.id,
+                            url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + idUsuario,
                             method: "PUT",
                             contentType: 'application/json',
                             data: JSON.stringify({
@@ -654,7 +625,7 @@ $(document).ready(function(){
                                 alert("No puedes dejar esos campos vacios");
                             } else {
                                 $.ajax({
-                                    url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + user.id,
+                                    url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + idUsuario,
                                     method: "PUT",
                                     contentType: 'application/json',
                                     data: JSON.stringify({
@@ -721,7 +692,7 @@ $(document).ready(function(){
                         console.log(nuevosEstudios);
                         
                         $.ajax({
-                            url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + user.id,
+                            url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + idUsuario,
                             method: "PUT",
                             contentType: 'application/json',
                             data: JSON.stringify({
@@ -775,7 +746,7 @@ $(document).ready(function(){
                                 alert("No puedes dejar esos campos vacios");
                             } else {
                                 $.ajax({
-                                    url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + user.id,
+                                    url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + idUsuario,
                                     method: "PUT",
                                     contentType: 'application/json',
                                     data: JSON.stringify({
@@ -837,7 +808,7 @@ $(document).ready(function(){
                         console.log(nuevasHabilidades);
                         
                         $.ajax({
-                            url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + user.id,
+                            url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + idUsuario,
                             method: "PUT",
                             contentType: 'application/json',
                             data: JSON.stringify({
@@ -881,7 +852,7 @@ $(document).ready(function(){
                                 alert("No puedes dejar esos campos vacios");
                             } else {
                                 $.ajax({
-                                    url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + user.id,
+                                    url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + idUsuario,
                                     method: "PUT",
                                     contentType: 'application/json',
                                     data: JSON.stringify({
@@ -943,7 +914,7 @@ $(document).ready(function(){
                         console.log(nuevosIdiomas);
                         
                         $.ajax({
-                            url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + user.id,
+                            url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + idUsuario,
                             method: "PUT",
                             contentType: 'application/json',
                             data: JSON.stringify({
@@ -989,7 +960,7 @@ $(document).ready(function(){
                                 alert("No puedes dejar esos campos vacios");
                             } else {
                                 $.ajax({
-                                    url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + user.id,
+                                    url: "https://miguelgirona.com.es/quickhire_api/public/candidatos/" + idUsuario,
                                     method: "PUT",
                                     contentType: 'application/json',
                                     data: JSON.stringify({

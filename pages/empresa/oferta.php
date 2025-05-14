@@ -68,7 +68,7 @@
                     <h2>Candidaturas</h2>
                     <div id="candidatos">
                         <table id="tabla" class="display nowrap" style="width:100%">
-                        <thead>
+                            <thead>
                                 <tr>
                                     <th>Ver</th>
                                     <th>Nombre</th>

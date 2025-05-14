@@ -12,6 +12,19 @@ $(document).ready(function(){
     }
     var csrfToken = getCookie('csrf_cookie_name');
 
+    function getEmpresa(id, token){
+        csrfToken = getCookie('csrf_cookie_name');
+
+        return $.ajax({
+            url: 'https://miguelgirona.com.es/quickhire_api/public/empresas/showByUserId/'+id,
+            type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'X-CSRF-Token': csrfToken
+            }
+        });
+    }
+
     if(window.location.href.includes("logout")){
         sessionStorage.clear();
         window.location.replace("https://miguelgirona.com.es/quickhire/login.php");
@@ -23,9 +36,11 @@ $(document).ready(function(){
 
     if(sessionStorage.getItem("tipoUsuario")){
         if(sessionStorage.getItem("tipoUsuario") == "empresa") {
+            $("#linkedin").hide();
             $("#candidato,#empresa").toggleClass("selected");
             $(".two-cols h1 span").text(" buscando un candidato ideal.")
         } else {
+            $("#linkedin").show();
             $(".two-cols h1 span").text(" en tu búsqueda de empleo.")
         }
     }
@@ -66,8 +81,6 @@ $(document).ready(function(){
                         $("form")[0].reset();
     
                         if(user.tipo_usuario == "Candidato") window.location.href = "https://miguelgirona.com.es/quickhire/profile";
-                        if(user.tipo_usuario == "Empresa") window.location.href = "https://miguelgirona.com.es/quickhire/empresa";
-                        if(user.tipo_usuario == "Administrador") window.location.replace("https://miguelgirona.com.es/quickhire/admin");
                     },
                     error: function(xhr, status, error) {
                         console.log(error);
@@ -181,6 +194,7 @@ $(document).ready(function(){
             $("#empresa").toggleClass("selected");
             sessionStorage.tipoUsuario = "candidato";
             $(".two-cols h1 span").text(" en tu búsqueda de empleo.")
+            $("#linkedin").show();
         }
     });
 
@@ -191,6 +205,7 @@ $(document).ready(function(){
             $("#candidato").toggleClass("selected");
             sessionStorage.tipoUsuario = "empresa";
             $(".two-cols h1 span").text(" buscando un candidato ideal.")
+            $("#linkedin").hide();
         }
     });
 
@@ -223,16 +238,35 @@ $(document).ready(function(){
                         csrf_test_name: csrfToken
                     }),
                     success: function(response) {
-                        sessionStorage.token = response.token;
-                        sessionStorage.user = JSON.stringify(jwt_decode(response.token));
-                        const user = JSON.parse(sessionStorage.user);
-    
-                        $("#login").after("<p>¡Bienvenido/a "+ user.nombre +"!</p>");
-                        $("form")[0].reset();
-    
-                        if(user.tipo_usuario == "Candidato") window.location.href = "https://miguelgirona.com.es/quickhire/profile";
-                        if(user.tipo_usuario == "Empresa") window.location.href = "https://miguelgirona.com.es/quickhire/empresa";
-                        if(user.tipo_usuario == "Administrador") window.location.replace("https://miguelgirona.com.es/quickhire/admin");
+                        if(JSON.parse(JSON.stringify(jwt_decode(response.token)).tipo_usuario != "Administrador")){
+                            sessionStorage.token = response.token;
+                            sessionStorage.user = JSON.stringify(jwt_decode(response.token));
+                            const user = JSON.parse(sessionStorage.user);
+                            
+                            if(user.tipo_usuario == "Administrador") window.location.href = "https://miguelgirona.com.es/quickhire/login?logout";
+                            $("form")[0].reset();
+        
+                            if(user.tipo_usuario == "Candidato") window.location.href = "https://miguelgirona.com.es/quickhire/profile";
+                            if(user.tipo_usuario == 'Empresa'){
+                                getEmpresa(user.id, sessionStorage.token).then(e => {
+                                    let empresa = e[0];
+
+                                    if(empresa.validada == 0){
+                                        $("#error").remove();
+                                        $("#login").after("<p id='error'>Todavía no se ha validad la empresa, intentalo más tarde.</p>");
+                                        setTimeout(()=>{
+                                            window.location.href = "https://miguelgirona.com.es/quickhire/login?logout";
+                                        },2500);
+                                    } else {
+                                        window.location.href = "https://miguelgirona.com.es/quickhire/empresa";
+                                    }
+
+                                });
+                            }
+                        } else {
+                            $("#error").remove();
+                            $("#login").after("<p id='error'>Error al iniciar sesión</p>");    
+                        }
                     },
                     error: function(xhr, status, error) {
                         console.log(error);
@@ -241,7 +275,7 @@ $(document).ready(function(){
                         $("#login").after("<p id='error'>Error al iniciar sesión</p>");
                     }
                 });
-            }, 200); // Pequeño delay para que el navegador guarde la cookie
+            }, 200);
         });
     });
     

@@ -36,7 +36,7 @@
                         <input id="password" type="password">
                         <button id="iniciar-sesion">Iniciar sesión</button>
                         <button id="registrarse">Regístrate</button>
-                        <button id="linkedin"></button>
+                        <button id="linkedin" aria-label="Iniciar sesión con LinkedIn"></button>
                     </form>
                 </section>
             </div>

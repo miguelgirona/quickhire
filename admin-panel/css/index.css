@@ -1,0 +1,185 @@
+/* General */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+h1, h2 {
+    color: #4a90e2;
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+/* Contenedor principal */
+.dashboard-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Tarjetas de estadísticas */
+.stats-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #555;
+}
+
+.card p {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #4a90e2;
+    margin: 10px 0 0;
+}
+
+/* Tabla de datos */
+.data-table {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.data-table h2 {
+    margin-bottom: 20px;
+    color: #4a90e2;
+}
+
+
+/* Botones */
+button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+button.edit {
+    background-color: #4caf50;
+    color: white;
+    transition: background-color 0.2s ease;
+}
+
+button.edit:hover {
+    background-color: #45a049;
+}
+
+button.delete {
+    background-color: #f44336;
+    color: white;
+    transition: background-color 0.2s ease;
+}
+
+button.delete:hover {
+    background-color: #e53935;
+}
+
+/* Menú de navegación */
+nav {
+    background-color: #4a90e2;
+    padding: 10px 20px;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 15px;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Contenedor de iconos de acción */
+.actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Iconos comunes */
+.action-icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  transition: transform 0.15s ease, color 0.15s ease;
+  color: #555;
+}
+
+/* Hover general */
+.action-icon:hover {
+  transform: scale(1.15);
+  color: #222;
+}
+
+/* Icono de ver */
+.action-icon.view:hover {
+  color: #3498db;  /* azul suave */
+}
+
+/* Icono de editar */
+.action-icon.edit:hover {
+  color: #2ecc71;  /* verde */
+}
+
+/* Icono de eliminar */
+.action-icon.delete:hover {
+  color: #e74c3c;  /* rojo */
+}
+
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .stats-cards {
+        grid-template-columns: 1fr;
+    }
+
+    table th, table td {
+        font-size: 0.9rem;
+    }
+
+    button {
+        font-size: 0.8rem;
+    }
+}

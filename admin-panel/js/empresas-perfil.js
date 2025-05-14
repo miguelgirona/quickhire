@@ -1,4 +1,8 @@
 $(document).ready(function(){
+
+    const params = new URLSearchParams(window.location.search);
+    const idUsuario = params.get('id');
+
     function getCookie(name) {
         var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));        
         
@@ -61,12 +65,12 @@ $(document).ready(function(){
         
     })
 
-    getEmpresa(user.id, sessionStorage.token).then(emp => {
+    getEmpresa(idUsuario, sessionStorage.token).then(emp => {
         console.log(user);
         let empresa = emp[0];
         console.log(empresa);
         
-        getUsuario(user.id,sessionStorage.token).then(usuario => {
+        getUsuario(idUsuario,sessionStorage.token).then(usuario => {
             //datos usuario
             $("#img_perfil").attr('src', usuario.url_imagen);
             $("#nombre").text(usuario.nombre == "" ? "¡Completa este campo!" : usuario.nombre);
@@ -86,7 +90,7 @@ $(document).ready(function(){
                     buttons: {
                         "Guardar": function() {
                             $.ajax({
-                                url: "https://miguelgirona.com.es/quickhire_api/public/usuarios/" + user.id,
+                                url: "https://miguelgirona.com.es/quickhire_api/public/usuarios/" + idUsuario,
                                 method: "PUT",
                                 contentType: 'application/json',
                                 data: JSON.stringify({
@@ -108,7 +112,7 @@ $(document).ready(function(){
 
                                         // Hacemos la solicitud AJAX
                                         $.ajax({
-                                            url: 'https://miguelgirona.com.es/quickhire_api/public/usuarios/guardarfoto/'+user.id,  // URL de tu servidor para manejar la imagen
+                                            url: 'https://miguelgirona.com.es/quickhire_api/public/usuarios/guardarfoto/'+idUsuario,  // URL de tu servidor para manejar la imagen
                                             type: 'POST',
                                             data: formData,  // Enviamos la imagen
                                             contentType: false,  // No necesitamos especificar el tipo de contenido
@@ -175,12 +179,12 @@ $(document).ready(function(){
 
 
         //datos empresa
-        $("#nombre_empresa").text(empresa.nombre_empresa == "" ? "¡Completa este campo!" : empresa.nombre_empresa);
-        getSector(empresa.id_sector).then(sector => $("#sector").text(sector[0].sector == "" ? "¡Completa este campo!" : sector[0].sector));
+        $("#nombre_empresa").text(empresa.nombre_empresa == "" ? "Sin Datos" : empresa.nombre_empresa);
+        getSector(empresa.id_sector).then(sector => $("#sector").text(sector[0].sector == "" ? "Sin Datos" : sector[0].sector));
         $("#identificacion").text(empresa.identificacion);
-        $("#ciudad").text((empresa.ciudad == null || empresa.pais == null) ? "¡Completa este campo!" : empresa.ciudad+", "+empresa.pais);
+        $("#ciudad").text((empresa.ciudad == null || empresa.pais == null) ? "Sin Datos" : empresa.ciudad+", "+empresa.pais);
         $("#sitio_web").attr('href',empresa.sitio_web == null ? "" : empresa.sitio_web);
-        $("#sitio_web").text(empresa.sitio_web == null ? "¡Completa este campo!" : empresa.sitio_web);
+        $("#sitio_web").text(empresa.sitio_web == null ? "Sin Datos" : empresa.sitio_web);
 
         //EDITAR DATOS EMPRESA
         $("#editar-datos-empresa").click(function(){
@@ -197,7 +201,7 @@ $(document).ready(function(){
                 buttons: {
                     "Guardar": function() {
                         $.ajax({
-                            url: "https://miguelgirona.com.es/quickhire_api/public/empresas/" + user.id,
+                            url: "https://miguelgirona.com.es/quickhire_api/public/empresas/" + idUsuario,
                             method: "PUT",
                             contentType: 'application/json',
                             data: JSON.stringify({
@@ -244,7 +248,7 @@ $(document).ready(function(){
                     "Guardar": function(){
                         
                         $.ajax({
-                            url: "https://miguelgirona.com.es/quickhire_api/public/empresas/" + user.id,
+                            url: "https://miguelgirona.com.es/quickhire_api/public/empresas/" + idUsuario,
                             method: "PUT",
                             contentType: 'application/json',
                             data: JSON.stringify({
@@ -291,7 +295,7 @@ $(document).ready(function(){
                 if (result.isConfirmed) {
                     csrfToken = getCookie('csrf_cookie_name');
                     $.ajax({
-                        url: 'https://miguelgirona.com.es/quickhire_api/public/empresas/' + user.id,
+                        url: 'https://miguelgirona.com.es/quickhire_api/public/empresas/' + idUsuario,
                         type: 'DELETE',
                         headers: {
                             "Authorization": "Bearer " + sessionStorage.token,
@@ -300,14 +304,14 @@ $(document).ready(function(){
                         success: function (response) {
                             csrfToken = getCookie('csrf_cookie_name');
                             $.ajax({
-                                url: 'https://miguelgirona.com.es/quickhire_api/public/usuarios/' + user.id,
+                                url: 'https://miguelgirona.com.es/quickhire_api/public/usuarios/' + idUsuario,
                                 type: 'DELETE',
                                 headers: {
                                     "Authorization": "Bearer " + sessionStorage.token,
                                     'X-CSRF-TOKEN': csrfToken,
                                 },
                                 success: function (response) {
-                                    window.location.href = "/quickhire/login.php?logout";
+                                    window.location.href = "/quickhire/admin-panel/pages/empresas";
                                 },
                                 error: function (xhr, status, error) {
                                     console.log(xhr.responseText);

@@ -1,0 +1,28 @@
+.graficos {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    place-items: center;
+}
+
+.grafico{
+    width: 400px;
+    height: 400px;
+}
+
+@media (max-width: 768px) {
+    .graficos {
+        display: block;
+    }
+
+    .grafico{
+        width: 200px;
+        height: 200px;
+    }
+}

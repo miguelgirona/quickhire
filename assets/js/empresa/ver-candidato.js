@@ -123,7 +123,26 @@ $(document).ready(function(){
                                 'X-CSRF-TOKEN': csrfToken,
                             },
                             success: function(response) {
-                                // Una vez marcado como leído, ahora sí abrir el CV
+                                $.ajax({
+                                    url: 'https://miguelgirona.com.es/quickhire_api/public/correo/enviar',
+                                    type: 'POST',
+                                    data: {
+                                        destinatario: destinatario,
+                                        nombre: row.nombre,
+                                        mensaje: 'Hola '+ row.nombre +',\n\n'+ empresa[0].nombre_empresa +' ha leído tu CV. Te informaremos sobre el estado de tu candidatura.\n\nSaludos,\nEl equipo de QuickHire',
+                                    },
+                                    headers: {
+                                        'X-CSRF-TOKEN': getCookie('csrf_cookie_name'),
+                                    },
+                                    success: function(response) {
+                                        if (response.error) {
+                                            alert('Error: ' + response.error);
+                                        }
+                                    },
+                                    error: function(xhr) {
+                                        console.log('Error inesperado: ' + xhr.responseText);
+                                    }
+                                });
                                 window.open(cand.url_cv, '_blank');
                             },
                             error: function(xhr, status, error) {
@@ -138,64 +157,135 @@ $(document).ready(function(){
                 $("#aceptar-candidatura, #rechazar-candidatura").hide();
                 $("#datos-personales > div:last-child").html("Candidato aceptado, puedes iniciar un chat con él en la pestaña 'Chats'.");
             }
+        getUsuario(cand.id_usuario,sessionStorage.token).then(usuario =>{   
+            //datos personales
+            $("#img_perfil")[0].src = usuario.url_imagen;
+            $("#nombre").text(cand.nombre == "" ? "Sin datos" : cand.nombre);
+            $("#mail").text(usuario.mail == "" ? "Sin datos" : usuario.mail);
+            $("#telefono").text(usuario.telefono == "" ? "Sin datos" : usuario.telefono);
+            $("#ciudad").text((cand.ciudad == null || cand.pais == null) ? "Sin datos" : cand.ciudad+", "+cand.pais);
             
             getEmpresa(user.id,sessionStorage.token).then(empresa => {
                 
                 //aceptar candidatura
                 $("#aceptar-candidatura").click(function(e){
                     Swal.fire({
+                            title: '¿Estás seguro?',
+                            text: "Vas a aceptar esta candidatura, se notificará al candidato y podrás iniciar un chat.",
+                            icon: 'info',
+                            showCancelButton: true,
+                            confirmButtonColor: '#595bd4',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Sí, aceptar',
+                            cancelButtonText: 'Cancelar'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                let csrfToken = getCookie('csrf_cookie_name');
+                                $.ajax({
+                                    url: "https://miguelgirona.com.es/quickhire_api/public/candidaturas/" + candidaturaID,
+                                    method: "PUT",
+                                    contentType: 'application/json',
+                                    data: JSON.stringify({ estado: "Aceptado" }),
+                                    headers: {
+                                        "Authorization": "Bearer " + sessionStorage.token,
+                                        'X-CSRF-TOKEN': csrfToken,
+                                    },
+                                    success: function(response) {
+                                        csrfToken = getCookie('csrf_cookie_name');
+                                        console.log(candidatura);
+                                        
+                                        $.ajax({
+                                            url: "https://miguelgirona.com.es/quickhire_api/public/chats",
+                                            method: "POST",
+                                            credentials: "include",
+                                            data: {
+                                                id_candidato: candidatoID,
+                                                id_empresa: empresa[0].id,
+                                            },
+                                            headers: {
+                                                "Authorization": "Bearer " + sessionStorage.token,
+                                                'X-CSRF-TOKEN': csrfToken,
+                                            },
+                                            success: function(response) {
+                                                Swal.fire({
+                                                    icon: 'success',
+                                                    title: '¡Éxito!',
+                                                    text: 'La operación se realizó correctamente.',
+                                                    showConfirmButton: true,
+                                                    confirmButtonText: 'Aceptar',
+                                                    timer: 3000,
+                                                    timerProgressBar: true
+                                                });
+                                                location.reload();
+                                            },
+                                            error: function(xhr, status, error) {
+                                                console.log(xhr.responseText);
+                                            }
+                                        });
+                                        
+                                        $.ajax({
+                                            url: 'https://miguelgirona.com.es/quickhire_api/public/correo/enviar',
+                                            type: 'POST',
+                                            data: {
+                                                destinatario: usuario.mail,
+                                                nombre: cand.nombre,
+                                                mensaje: 'Hola '+ cand.nombre +',\n\n'+ empresa[0].nombre_empresa +' ha aceptado tu candidatura, mira en tu pestaña Chats para hablar con '+ empresa[0].nombre_empresa +'. ¡Gracias por confiar en nosotros!.\n\nSaludos,\nEl equipo de QuickHire',
+                                            },
+                                            headers: {
+                                                'X-CSRF-TOKEN': getCookie('csrf_cookie_name'),
+                                            },
+                                            success: function(response) {
+                                                if (response.error) {
+                                                    alert('Error: ' + response.error);
+                                                }
+                                            },
+                                            error: function(xhr) {
+                                                console.log('Error inesperado: ' + xhr.responseText);
+                                            }
+                                        });
+                                    },
+                                    error: function(xhr, status, error) {
+                                        console.log(xhr.responseText);
+                                    }
+                                });
+                                
+                            }
+                        });
+                    });
+                });
+                
+                //rechazar candidatura
+                $("#rechazar-candidatura").click(function(e){
+                    Swal.fire({
                         title: '¿Estás seguro?',
-                        text: "Vas a aceptar esta candidatura, se notificará al candidato y podrás iniciar un chat.",
-                        icon: 'info',
+                        text: "Vas a eliminar esta candidatura, se notificará al candidato.",
+                        icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#595bd4',
                         cancelButtonColor: '#d33',
-                        confirmButtonText: 'Sí, aceptar',
+                        confirmButtonText: 'Sí, rechazar',
                         cancelButtonText: 'Cancelar'
                     }).then((result) => {
                         if (result.isConfirmed) {
                             let csrfToken = getCookie('csrf_cookie_name');
                             $.ajax({
-                                url: "https://miguelgirona.com.es/quickhire_api/public/candidaturas/" + candidaturaID,
-                                method: "PUT",
-                                contentType: 'application/json',
-                                data: JSON.stringify({ estado: "Aceptado" }),
+                                url: "https://miguelgirona.com.es/quickhire_api/public/candidaturas/" + candidaturaID + "?idCandidato=" + candidatoID,
+                                method: "DELETE",                        
                                 headers: {
                                     "Authorization": "Bearer " + sessionStorage.token,
                                     'X-CSRF-TOKEN': csrfToken,
                                 },
                                 success: function(response) {
-                                    csrfToken = getCookie('csrf_cookie_name');
-                                    console.log(candidatura);
-                                    
-                                    $.ajax({
-                                        url: "https://miguelgirona.com.es/quickhire_api/public/chats",
-                                        method: "POST",
-                                        credentials: "include",
-                                        data: {
-                                            id_candidato: candidatoID,
-                                            id_empresa: empresa[0].id,
-                                        },
-                                        headers: {
-                                            "Authorization": "Bearer " + sessionStorage.token,
-                                            'X-CSRF-TOKEN': csrfToken,
-                                        },
-                                        success: function(response) {
-                                            Swal.fire({
-                                                icon: 'success',
-                                                title: '¡Éxito!',
-                                                text: 'La operación se realizó correctamente.',
-                                                showConfirmButton: true,
-                                                confirmButtonText: 'Aceptar',
-                                                timer: 3000,
-                                                timerProgressBar: true
-                                            });
-                                            location.reload();
-                                        },
-                                        error: function(xhr, status, error) {
-                                            console.log(xhr.responseText);
-                                        }
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: '¡Éxito!',
+                                        text: 'La operación se realizó correctamente.',
+                                        showConfirmButton: true,
+                                        confirmButtonText: 'Aceptar',
+                                        timer: 3000,
+                                        timerProgressBar: true
                                     });
+                                    window.location.href = "https://miguelgirona.com.es/quickhire/empresa/oferta?id="+ofertaID;
                                 },
                                 error: function(xhr, status, error) {
                                     console.log(xhr.responseText);
@@ -206,61 +296,8 @@ $(document).ready(function(){
                     });
                 });
             });
-    
-            //rechazar candidatura
-            $("#rechazar-candidatura").click(function(e){
-                Swal.fire({
-                    title: '¿Estás seguro?',
-                    text: "Vas a eliminar esta candidatura, se notificará al candidato.",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#595bd4',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Sí, rechazar',
-                    cancelButtonText: 'Cancelar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        let csrfToken = getCookie('csrf_cookie_name');
-                        $.ajax({
-                            url: "https://miguelgirona.com.es/quickhire_api/public/candidaturas/" + candidaturaID + "?idCandidato=" + candidatoID,
-                            method: "DELETE",                        
-                            headers: {
-                                "Authorization": "Bearer " + sessionStorage.token,
-                                'X-CSRF-TOKEN': csrfToken,
-                            },
-                            success: function(response) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: '¡Éxito!',
-                                    text: 'La operación se realizó correctamente.',
-                                    showConfirmButton: true,
-                                    confirmButtonText: 'Aceptar',
-                                    timer: 3000,
-                                    timerProgressBar: true
-                                });
-                                window.location.href = "https://miguelgirona.com.es/quickhire/empresa/oferta?id="+ofertaID;
-                            },
-                            error: function(xhr, status, error) {
-                                console.log(xhr.responseText);
-                            }
-                        });
-                        
-                    }
-                });
-            });
+
         });
-        
-
-        //datos personales
-        getUsuario(cand.id_usuario,sessionStorage.token).then(usuario =>{       
-            
-            $("#img_perfil")[0].src = usuario.url_imagen;
-            $("#nombre").text(cand.nombre == "" ? "Sin datos" : cand.nombre);
-            $("#mail").text(usuario.mail == "" ? "Sin datos" : usuario.mail);
-            $("#telefono").text(usuario.telefono == "" ? "Sin datos" : usuario.telefono);
-            $("#ciudad").text((cand.ciudad == null || cand.pais == null) ? "Sin datos" : cand.ciudad+", "+cand.pais);
-
-        })
 
         //experiencia
         for(let e of JSON.parse(cand.experiencia)){
