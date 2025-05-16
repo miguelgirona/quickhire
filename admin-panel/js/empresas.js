@@ -16,12 +16,12 @@ $(document).ready(function() {
 
     function getEmpresasPorSector(token){
         csrfToken = getCookie('csrf_cookie_name');
-            return $.ajax({
-                url: 'https://miguelgirona.com.es/quickhire_api/public/empresas/empresasPorSector',
-                type: 'GET',
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                    'X-CSRF-Token': csrfToken
+        return $.ajax({
+            url: 'https://miguelgirona.com.es/quickhire_api/public/empresas/empresasPorSector',
+            type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'X-CSRF-Token': csrfToken
             }
         });
     }
@@ -40,42 +40,52 @@ $(document).ready(function() {
 
     getEmpresasPorSector(sessionStorage.token).then(empresas => {
         console.log(empresas);
-        const ctx = $("#empresas-por-sector")
+        const ctx = $("#empresas-por-sector");
 
         const sectores = empresas.map(empresa => empresa.sector);
         const cantidades = empresas.map(empresa => empresa.cantidad);
-        const colores = sectores.map(() => '#' + Math.floor(Math.random()*16777215).toString(16));
-
+        const colores = sectores.map(() => '#' + Math.floor(Math.random() * 16777215).toString(16));
 
         new Chart(ctx, {
-            type: 'doughnut',
+            type: 'bar',
             data: {
                 labels: sectores,
                 datasets: [{
+                    label: 'Cantidad de empresas',
                     data: cantidades,
-                    backgroundColor: colores
+                    backgroundColor: colores,
+                    borderRadius: 10,
                 }]
             },
             options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                },
                 plugins: {
                     legend: {
-                        position: 'bottom'
+                        display: false
                     },
                     title: {
                         display: true,
-                        text: 'Empresas por Sector'
+                        text: 'Sectores con más empresas'
                     }
                 }
             }
         });
-        
     });
+
 
     getEmpresasPorPlan(sessionStorage.token).then(empresas => {
         console.log(empresas);
         const ctx = $("#empresas-por-plan")
 
-        const planes = empresas.map(empresa => empresa.plan);
+        const planes = empresas.map(empresa => empresa.plan == "Basico" ? "Básico" : empresa.plan);
         const cantidades = empresas.map(empresa => empresa.cantidad);
         const colores = planes.map(() => '#' + Math.floor(Math.random()*16777215).toString(16));
 
@@ -181,8 +191,18 @@ $(document).ready(function() {
                         });
                     }
                 },
-                { data: 'ciudad' },
-                { data: 'pais' },
+                {
+                    data: 'ciudad',
+                    render: function(data) {
+                        return data || "Sin datos"
+                    }
+                },
+                {
+                    data: 'pais',
+                    render: function(data) {
+                        return data || "Sin datos"
+                    }
+                },
                 { data: 'plan' },
                 {
                     data: 'fecha_activacion',
@@ -205,13 +225,13 @@ $(document).ready(function() {
                         if (type === 'sort' || type === 'type') {
                             return new Date(data).getTime();
                         }
-                        return new Date(data).toLocaleDateString('es-ES', {
+                        return data != null ? new Date(data).toLocaleDateString('es-ES', {
                             year: 'numeric',
                             month: '2-digit',
                             day: '2-digit',
                             hour: '2-digit',
                             minute: '2-digit'
-                        });
+                        }) : "Sin actualizaciones";
                     }
                 },
                 { 

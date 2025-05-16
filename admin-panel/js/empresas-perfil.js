@@ -180,7 +180,7 @@ $(document).ready(function(){
 
         //datos empresa
         $("#nombre_empresa").text(empresa.nombre_empresa == "" ? "Sin Datos" : empresa.nombre_empresa);
-        getSector(empresa.id_sector).then(sector => $("#sector").text(sector[0].sector == "" ? "Sin Datos" : sector[0].sector));
+        getSector(empresa.id_sector).then(sector => $("#sector").text(sector[0].sector == null ? "Sin Datos" : sector[0].sector));
         $("#identificacion").text(empresa.identificacion);
         $("#ciudad").text((empresa.ciudad == null || empresa.pais == null) ? "Sin Datos" : empresa.ciudad+", "+empresa.pais);
         $("#sitio_web").attr('href',empresa.sitio_web == null ? "" : empresa.sitio_web);
@@ -277,7 +277,7 @@ $(document).ready(function(){
         });
 
         // plan
-        $("#plan").text(empresa.plan);
+        $("#plan").text(empresa.plan == "Basico" ? "Básico" : empresa.plan);
 
         //eliminar cuenta
         $("#eliminar_cuenta").click(function(){

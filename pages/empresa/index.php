@@ -102,14 +102,16 @@
                         </form>
                     </div>
                 </div>
-                <div>
-                    <h2>Notificaciones</h2>
+                <div class="plan-container">
+                <div class="plan-texto">
+                    <h3>Plan:</h3>
+                    <p id="plan"></p>
                 </div>
-                <div>
-                    <h3 style="display:inline;">Plan:</h3>
-                    <p style="display:inline;" id="plan"></p>
-                    <button id="mejorar-plan">Mejorar plan</button>
+                <button class="accion-plan" id="mejorar-plan">Mejorar plan</button>
+                <button class="accion-plan" id="cambiar-plan">Cambiar plan</button>
+                <button class="accion-plan" id="activar-plan">Activar plan</button>
                 </div>
+
             </div>
         </div>
         <?php include_once("../../includes/footer.php")?>

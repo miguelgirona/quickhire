@@ -65,6 +65,18 @@ $(document).ready(function(){
         console.log(user);
         let empresa = emp[0];
         console.log(empresa);
+
+        if(empresa.activa == 1) {
+            $("#activar-plan").remove();
+        }
+
+        if(empresa.activa == 0){
+            $("#mejorar-plan").remove();
+        }
+        if(empresa.plan == "Premium" && empresa.activa == 1) {
+            $("#mejorar-plan").remove();
+            $("#cambiar-plan").remove();
+        }
         
         getUsuario(user.id,sessionStorage.token).then(usuario => {
             //datos usuario
@@ -176,7 +188,7 @@ $(document).ready(function(){
 
         //datos empresa
         $("#nombre_empresa").text(empresa.nombre_empresa == "" ? "¡Completa este campo!" : empresa.nombre_empresa);
-        getSector(empresa.id_sector).then(sector => $("#sector").text(sector[0].sector == "" ? "¡Completa este campo!" : sector[0].sector));
+        getSector(empresa.id_sector).then(sector => $("#sector").text(sector[0].sector == null ? "¡Completa este campo!" : sector[0].sector));
         $("#identificacion").text(empresa.identificacion);
         $("#ciudad").text((empresa.ciudad == null || empresa.pais == null) ? "¡Completa este campo!" : empresa.ciudad+", "+empresa.pais);
         $("#sitio_web").attr('href',empresa.sitio_web == null ? "" : empresa.sitio_web);

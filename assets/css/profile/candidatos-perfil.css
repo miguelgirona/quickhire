@@ -1,149 +1,212 @@
-#content{
+/* --- Layout principal --- */
+#content {
     display: grid;
-    grid-template-columns: 33% 67%;
-    gap: 20px;
+    grid-template-columns: 1fr 2fr;
+    gap: 28px;
+    padding: 28px 0;
 }
 
-p{
-    color: #555;
+#datos-personales > div {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(89,91,212,0.07), 0 1.5px 4px rgba(0,0,0,0.03);
+    padding: 24px;
+    margin-bottom: 18px;
+    position: relative;
 }
 
-.size-4 {
-    width: 16px;
+#datos-personales > div:last-child {
+    margin-bottom: 0;
 }
 
-#otros-datos{
+#otros-datos {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: 24px;
     grid-auto-flow: row dense;
 }
 
-.añadir{
-    display: block;
-    color: #181F1C;
-    border: 1px solid #181F1C;
-    padding: 5px;
-    margin: 3px auto;
-    border-radius: 5px;
-    background-color: white;
-
-    transition: all .1s linear;
-    
+#otros-datos > div {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 }
 
-button:hover{
-    cursor: pointer;
-}
-
-#otros-datos > div > div{
-    background-color: #e9e1fc;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 10px;
+#otros-datos > div > div {
+    background: #e9e1fc;
+    padding: 22px;
+    border-radius: 12px;
+    margin-bottom: 0;
 }
 
 #otros-datos > div > div > div > div {
-    background-color: #ffffff;
+    background: #fff;
     padding: 20px;
     border-radius: 10px;
-    margin: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: all .3s ease;
-  }
-  
-  #otros-datos > div > div > div > div:hover {
-    background-color: #f2f2f2;
-    transform: translateY(-4px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-  }
-  
+    margin: 10px 0;
+    box-shadow: 0 2px 8px rgba(89,91,212,0.08);
+    transition: all .3s cubic-bezier(.4,0,.2,1);
+}
+#otros-datos > div > div > div > div:hover {
+    background: #f4f4f8;
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: 0 6px 16px rgba(89,91,212,0.13);
+}
 
-#datos-personales > div{
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
+/* --- Títulos y textos --- */
+h2, h3, h4 {
+    margin: 0 0 10px 0;
+    font-weight: 600;
+    color: #595bd4;
+}
+
+h2 {
+    font-size: 1.25rem;
+}
+
+h3 {
+    font-size: 1.1rem;
+    color: #333;
+}
+
+h4 {
+    font-size: 1rem;
+    color: #595bd4;
+    margin-top: 10px;
+}
+
+p, label, select, input, textarea, button {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    font-size: 1rem;
+}
+
+a {
+    color: #595bd4;
+    text-decoration: underline;
+    word-break: break-all;
+}
+
+a:hover {
+    color: #4648c0;
+}
+
+/* --- Imagen de perfil --- */
+#img_perfil {
+    width: 100px;
+    height: 100px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 2px solid #e9e1fc;
     margin-bottom: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-#form-dialog {
-    padding: 20px;
+/* --- Botones --- */
+button {
+    font-family: inherit;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: none;
+    padding: 10px 22px;
+    margin: 6px 0;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 4px rgba(89,91,212,0.07);
+    cursor: pointer;
 }
 
-.eliminar{
-    color: #181F1C;
-    border: 1px solid red;
-    padding: 5px;
-    margin: 3px;
-    border-radius: 5px;
-    background-color: rgb(213, 125, 125);
+button.añadir, button.editar {
+    background: #fff;
+    color: #595bd4;
+    border: 1px solid #595bd4;
+    font-weight: 500;
+    margin: 8px 0 0 0;
+    box-shadow: none;
+    padding: 8px 18px;
 }
 
-.editar-top-right{
-    position: absolute;
-    top: 10px; right: 10px;
-}
-.eliminar-top-right{
-    position: absolute;
-    top: 10px; right: 40px;
-    
+button.añadir:hover, button.editar:hover {
+    background: #595bd4;
+    color: #fff;
 }
 
-.eliminar-top-right img{
-    width: 16px;
-    border-radius: 10px;
-    padding: 5px;
+button.eliminar {
+    background: #fbeaea;
+    color: #d33;
+    border: 1px solid #d33;
+    font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 0;
+    box-shadow: none;
 }
 
-.editarLapiz,.editar-top-right,.eliminar-top-right{
+button.eliminar:hover {
+    background: #d33;
+    color: #fff;
+}
+
+button.editarLapiz,
+button.editar-top-right,
+button.eliminar-top-right {
     background: none;
     border: none;
     margin-left: 5px;
-    
+    padding: 0;
+    box-shadow: none;
 }
 
-.editarLapiz img,.editar-top-right img {
-    width: 16px;
-    border-radius: 10px;
-    padding: 5px;
+button.editarLapiz img,
+button.editar-top-right img,
+button.eliminar-top-right img {
+    width: 18px;
+    height: 18px;
+    border-radius: 8px;
+    padding: 3px;
+    transition: background 0.2s;
 }
 
-.editar{
-    color: #181F1C;
-    border: 1px solid #181F1C;
-    padding: 5px;
-    margin: 3px;
-    border-radius: 5px;
-    background-color: white;
-
-    transition: all .1s linear;
+button.editarLapiz:hover img,
+button.editar-top-right:hover img {
+    background: #e9e1fc;
 }
 
-.añadir:hover,.editar:hover{
-    background-color: rgba(89, 91, 212,0.6);
+button.eliminar-top-right img {
+    background: #fbeaea;
 }
 
+button.eliminar-top-right:hover img {
+    background: #d33;
+}
+
+/* --- Posicionamiento botones superiores --- */
+.editar-top-right {
+    position: absolute;
+    top: 10px; right: 10px;
+}
+.eliminar-top-right {
+    position: absolute;
+    top: 10px; right: 40px;
+}
+
+/* --- Formularios y campos --- */
 .form-dialog {
     display: none;
-    background-color: #fff;
+    background: #fff;
     padding: 2rem;
     border-radius: 12px;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
-    width: 80%;
+    box-shadow: 0 0 30px rgba(89,91,212,0.10);
+    width: 90%;
     max-width: 500px;
-    margin: 10px auto;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 18px auto;
     color: #333;
     position: relative;
 }
 
 .form-dialog label {
     display: block;
-    margin-bottom: 6px;
-    font-weight: 600;
-    font-size: 14px;
-    color: #555;
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 1rem;
+    color: #595bd4;
 }
 
 .form-dialog input[type="text"],
@@ -151,15 +214,16 @@ button:hover{
 .form-dialog input[type="date"],
 .form-dialog select,
 .form-dialog textarea {
-    width: 80%;
+    width: 100%;
     padding: 10px 12px;
-    margin-bottom: 6px;
+    margin-bottom: 14px;
     border: 1px solid #ccc;
     border-radius: 8px;
-    font-size: 14px;
-    transition: border 0.3s, box-shadow 0.3s;
+    font-size: 1rem;
+    transition: border 0.2s, box-shadow 0.2s;
     font-family: inherit;
     resize: vertical;
+    background: #f8f9fb;
 }
 
 .form-dialog input[type="text"]:focus,
@@ -167,115 +231,97 @@ button:hover{
 .form-dialog input[type="date"]:focus,
 .form-dialog select:focus,
 .form-dialog textarea:focus {
-    border-color: #4a90e2;
-    box-shadow: 0 0 0 2px rgba(89, 91, 212, 0.2);
+    border-color: #595bd4;
+    box-shadow: 0 0 0 2px rgba(89,91,212,0.13);
     outline: none;
 }
 
 .form-dialog textarea {
-    min-height: 100px;
-    max-height: 300px;
+    min-height: 90px;
+    max-height: 250px;
 }
 
 .form-dialog select {
     background-color: #fff;
-    -webkit-appearance: none; /* Estilo consistente en navegadores */
+    -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     cursor: pointer;
-    padding-right: 20px; /* Espacio para el ícono del selector */
+    padding-right: 20px;
 }
 
-.seccion:hover{
+/* --- Utilidades --- */
+.seccion:hover {
     cursor: pointer;
+    text-decoration: underline;
 }
 
-@media (max-width: 768px) {
-    
-    .editarLapiz img,.editar-top-right img,.eliminar-top-right img{
-        width: 12px; height: 12px;
-    }
+input[type="file"] {
+    background: #fff;
+    border: none;
+    padding: 0;
+}
 
-    h2{
-        font-size: 16px;
-    }
-    h3{
-        font-size: 14px;
-    }
-    p,button{
-        font-size: 12px;
-    }
+::-webkit-input-placeholder { color: #bbb; }
+::-moz-placeholder { color: #bbb; }
+:-ms-input-placeholder { color: #bbb; }
+::placeholder { color: #bbb; }
 
-    img{
-        width: 50px; height: 50px;
-    }
-
-    #content button{
-        padding: 5px;
-    }
-
+/* --- Responsive --- */
+@media (max-width: 900px) {
     #content {
-        display: block; /* Cambiamos grid a block para mayor control */
-        width: 100%;
-        padding: 10px;
-        box-sizing: border-box;
+        grid-template-columns: 1fr;
+        gap: 0;
+        padding: 10px 0;
     }
-    
-    #datos-personales, #otros-datos {
-        width: 100%;
-        margin: 0;
+    #datos-personales > div,
+    #otros-datos > div > div {
+        margin-bottom: 18px;
+    }
+    .form-dialog {
+        width: 98%;
+        max-width: 98%;
+        padding: 1.2rem;
+    }
+    #otros-datos {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+}
+
+@media (max-width: 600px) {
+    #content {
         padding: 0;
     }
-    
-    #otros-datos {
-        display: block; /* Eliminamos el grid */
+    h2 {
+        font-size: 1.1rem;
     }
-    
+    h3 {
+        font-size: 1rem;
+    }
+    h4 {
+        font-size: 0.95rem;
+    }
+    p, label, select, input, textarea, button {
+        font-size: 0.95rem;
+    }
+    #img_perfil {
+        width: 60px;
+        height: 60px;
+    }
     #otros-datos > div > div {
-        width:100%; /* Restamos el padding */
-        margin: 10px 0;
-        padding: 15px;
-        box-sizing: border-box;
-        
+        padding: 12px;
     }
-    
-    #otros-datos > div > div > div > div {
-        width: 100%;
-        margin: 5px 0;
-        padding: 10px;
-        box-sizing: border-box;
-        
-    }
-    
     .form-dialog {
-        width: 100%;
-        max-width: 100%;
-        padding: 15px;
-        box-sizing: border-box;
+        padding: 0.7rem;
     }
-    
-    /* Aseguramos que todos los inputs sean responsive */
-    .form-dialog input[type="text"],
-    .form-dialog input[type="file"],
-    .form-dialog input[type="date"],
-    .form-dialog select,
-    .form-dialog textarea {
-        width: 100% !important;
-        max-width: 100%;
-        box-sizing: border-box;
+    button {
+        padding: 8px 10px;
     }
-    
-    /* Eliminamos cualquier transformación que pueda causar desbordamiento */
-    #otros-datos > div > div > div > div:hover {
-        transform: none;
+    .editarLapiz img,
+    .editar-top-right img,
+    .eliminar-top-right img {
+        width: 14px;
+        height: 14px;
     }
-    
-    /* Ajustamos los botones */
-    .añadir, .editar, .eliminar {
-        width: 100%;
-        box-sizing: border-box;
-        text-align: center;
-    }
-    
 }
-

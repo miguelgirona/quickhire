@@ -291,6 +291,27 @@ $(document).ready(function(){
                                     console.log(xhr.responseText);
                                 }
                             });
+
+                            $.ajax({
+                                url: 'https://miguelgirona.com.es/quickhire_api/public/correo/enviar',
+                                type: 'POST',
+                                data: {
+                                    destinatario: usuario.mail,
+                                    nombre: cand.nombre,
+                                    mensaje: 'Hola '+ cand.nombre +',\n\nLamentamos comunicarte que '+ empresa[0].nombre_empresa +' ha rechazado tu candidatura, continua en tu búsqueda de empleo en QuickHire.\n\nSaludos,\nEl equipo de QuickHire',
+                                },
+                                headers: {
+                                    'X-CSRF-TOKEN': getCookie('csrf_cookie_name'),
+                                },
+                                success: function(response) {
+                                    if (response.error) {
+                                        alert('Error: ' + response.error);
+                                    }
+                                },
+                                error: function(xhr) {
+                                    console.log('Error inesperado: ' + xhr.responseText);
+                                }
+                            });
                             
                         }
                     });

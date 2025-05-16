@@ -1,90 +1,150 @@
-#content{
+/* --- Layout principal --- */
+#content {
     display: grid;
-    grid-template-columns: 33% 67%;
-    gap: 20px;
+    grid-template-columns: 1fr 2fr;
+    gap: 24px;
+    padding: 24px 0;
 }
 
-.añadir{
-    display: block;
-    color: #181F1C;
-    border: 1px solid #181F1C;
-    padding: 5px;
-    margin: 3px auto;
-    border-radius: 5px;
-    background-color: white;
-
-    transition: all .1s linear;
-    
+#datos-usuario > div,
+#otros-datos > div {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(89,91,212,0.07), 0 1.5px 4px rgba(0,0,0,0.03);
+    padding: 24px;
+    margin-bottom: 18px;
 }
 
-button:hover{
+#datos-usuario > div:last-child {
+    margin-bottom: 0;
+}
+
+/* --- Títulos y textos --- */
+h2, h3 {
+    margin: 0 0 10px 0;
+    font-weight: 600;
+    color: #595bd4;
+}
+
+h2 {
+    font-size: 1.3rem;
+}
+
+h3 {
+    font-size: 1.1rem;
+    color: #333;
+}
+
+p, label, select, input, textarea {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    font-size: 1rem;
+}
+
+a {
+    color: #595bd4;
+    text-decoration: underline;
+    word-break: break-all;
+}
+
+a:hover {
+    color: #4648c0;
+}
+
+/* --- Botones --- */
+button {
+    font-family: inherit;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: none;
+    padding: 10px 22px;
+    margin: 6px 0;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 4px rgba(89,91,212,0.07);
     cursor: pointer;
 }
 
-#otros-datos > div{
-    background-color: #e9e1fc;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 20px;
+button.editar {
+    background: none;
+    border: none;
+    padding: 0 0 0 6px;
+    margin-left: 6px;
+    vertical-align: middle;
+    box-shadow: none;
 }
 
-#datos-usuario > div{
-    background-color: rgba(89, 91, 212,0.6);
-    padding: 20px;
-    border-radius: 10px;
+button.editar img {
+    width: 18px;
+    height: 18px;
+    border-radius: 8px;
+    padding: 3px;
+    transition: background 0.2s;
+}
+
+button.editar:hover img {
+    background: #e9e1fc;
+}
+
+button.eliminar {
+    background: #fbeaea;
+    color: #d33;
+    border: 1px solid #d33;
+    font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 0;
+    box-shadow: none;
+}
+
+button.eliminar:hover {
+    background: #d33;
+    color: #fff;
+}
+
+.accion-plan {
+    background: #595bd4;
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 20px;
+    margin-left: 12px;
+    transition: background 0.2s;
+}
+
+.accion-plan:hover {
+    background: #4648c0;
+}
+
+/* --- Imagen de perfil --- */
+#img_perfil {
+    width: 100px;
+    height: 100px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 2px solid #e9e1fc;
     margin-bottom: 10px;
 }
 
-#form-dialog {
-    padding: 20px;
-}
-
-.eliminar{
-    color: #181F1C;
-    border: 1px solid red;
-    padding: 5px;
-    margin: 3px;
-    border-radius: 5px;
-    background-color: rgb(213, 125, 125);
-}
-
-.editar{
-    background: none;
-    border: none;
-    margin-left: 5px;
-    
-}
-
-.editar img {
-    width: 16px;
-    border-radius: 10px;
-    padding: 5px;
-}
-
-.añadir:hover{
-    background-color: rgba(89, 91, 212,0.6);
-}
-
+/* --- Formularios y campos --- */
 .form-dialog {
     display: none;
-    background-color: #fff;
+    background: #fff;
     padding: 2rem;
     border-radius: 12px;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
-    width: 80%;
+    box-shadow: 0 0 30px rgba(89,91,212,0.10);
+    width: 90%;
     max-width: 500px;
-    margin: 10px auto;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 18px auto;
     color: #333;
     position: relative;
 }
 
 .form-dialog label {
     display: block;
-    margin-bottom: 6px;
-    font-weight: 600;
-    font-size: 14px;
-    color: #555;
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 1rem;
+    color: #595bd4;
 }
 
 .form-dialog input[type="text"],
@@ -92,15 +152,16 @@ button:hover{
 .form-dialog input[type="date"],
 .form-dialog select,
 .form-dialog textarea {
-    width: 80%;
+    width: 100%;
     padding: 10px 12px;
-    margin-bottom: 6px;
+    margin-bottom: 14px;
     border: 1px solid #ccc;
     border-radius: 8px;
-    font-size: 14px;
-    transition: border 0.3s, box-shadow 0.3s;
+    font-size: 1rem;
+    transition: border 0.2s, box-shadow 0.2s;
     font-family: inherit;
     resize: vertical;
+    background: #f8f9fb;
 }
 
 .form-dialog input[type="text"]:focus,
@@ -109,112 +170,108 @@ button:hover{
 .form-dialog select:focus,
 .form-dialog textarea:focus {
     border-color: #595bd4;
-    box-shadow: 0 0 0 2px rgba(89, 91, 212, 0.2);
+    box-shadow: 0 0 0 2px rgba(89,91,212,0.13);
     outline: none;
 }
 
 .form-dialog textarea {
-    min-height: 100px;
-    max-height: 300px;
+    min-height: 90px;
+    max-height: 250px;
 }
 
-.form-dialog select {
-    background-color: #fff;
-    -webkit-appearance: none; /* Estilo consistente en navegadores */
-    -moz-appearance: none;
-    appearance: none;
-    cursor: pointer;
-    padding-right: 20px; /* Espacio para el ícono del selector */
+/* --- Plan --- */
+.plan-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 1.5rem;
+    border-radius: 12px;
+    background: #f4f4f8;
+    box-shadow: 0 2px 8px rgba(89,91,212,0.07);
+    margin-top: 18px;
 }
 
-.seccion:hover{
-    cursor: pointer;
+.plan-texto {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
 }
 
-@media (max-width: 768px) {
-    
-    .editar img {
-        width: 12px; height: 12px;
-    }
+.plan-texto h3 {
+    margin: 0;
+    color: #595bd4;
+    font-size: 1.1rem;
+}
 
-    h2{
-        font-size: 16px;
-    }
-    h3{
-        font-size: 14px;
-    }
-    p,button{
-        font-size: 12px;
-    }
+#plan {
+    margin: 0;
+    color: #555;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
 
-    img{
-        width: 50px; height: 50px;
-    }
-
-    #content button{
-        padding: 5px;
-    }
-
+/* --- Responsive --- */
+@media (max-width: 900px) {
     #content {
-        display: block; /* Cambiamos grid a block para mayor control */
-        width: 100%;
-        padding: 10px;
-        box-sizing: border-box;
+        grid-template-columns: 1fr;
+        gap: 0;
+        padding: 10px 0;
     }
-    
-    #datos-usuario, #otros-datos {
-        width: 100%;
-        margin: 0;
+    #datos-usuario > div,
+    #otros-datos > div {
+        margin-bottom: 18px;
+    }
+    .form-dialog {
+        width: 98%;
+        max-width: 98%;
+        padding: 1.2rem;
+    }
+}
+
+@media (max-width: 600px) {
+    #content {
         padding: 0;
     }
-    
-    #otros-datos {
-        display: block; /* Eliminamos el grid */
+    h2 {
+        font-size: 1.1rem;
     }
-    
-    #otros-datos > div {
-        width:100%; /* Restamos el padding */
-        margin: 10px 0;
-        padding: 15px;
-        box-sizing: border-box;
+    h3 {
+        font-size: 1rem;
     }
-    
-    #otros-datos > div > div > div {
+    p, label, select, input, textarea, button {
+        font-size: 0.95rem;
+    }
+    #img_perfil {
+        width: 60px;
+        height: 60px;
+    }
+    .plan-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 1rem;
+    }
+    #mejorar-plan {
         width: 100%;
-        margin: 5px 0;
-        padding: 10px;
-        box-sizing: border-box;
+        margin-left: 0;
     }
-    
     .form-dialog {
-        width: 100%;
-        max-width: 100%;
-        padding: 15px;
-        box-sizing: border-box;
+        padding: 0.7rem;
     }
-    
-    /* Aseguramos que todos los inputs sean responsive */
-    .form-dialog input[type="text"],
-    .form-dialog input[type="file"],
-    .form-dialog input[type="date"],
-    .form-dialog select,
-    .form-dialog textarea {
-        width: 100% !important;
-        max-width: 100%;
-        box-sizing: border-box;
-    }
-    
-    /* Eliminamos cualquier transformación que pueda causar desbordamiento */
-    #otros-datos > div > div > div:hover {
-        transform: none;
-    }
-    
-    /* Ajustamos los botones */
-    .añadir, .eliminar {
-        width: 100%;
-        box-sizing: border-box;
-        text-align: center;
-    }
-    
 }
 
+/* --- Utilidades --- */
+.seccion:hover {
+    cursor: pointer;
+}
+
+input[type="file"] {
+    background: #fff;
+    border: none;
+    padding: 0;
+}
+
+::-webkit-input-placeholder { color: #bbb; }
+::-moz-placeholder { color: #bbb; }
+:-ms-input-placeholder { color: #bbb; }
+::placeholder { color: #bbb; }

@@ -40,24 +40,34 @@ $(document).ready(function() {
                 {
                     data: 'url_cv',
                     render: function(data){
-                        return `<a href="${data}" target="_blank">Ver CV</a>`
+                        return data != null ? `<a href="${data}" target="_blank">Ver CV</a>` : "Sin CV";
                     }
                 },
-                { data: 'ciudad' },
-                { data: 'pais' },
+                {
+                    data: 'ciudad',
+                    render: function(data) {
+                        return data || "Sin datos"
+                    }
+                },
+                {
+                    data: 'pais',
+                    render: function(data){
+                        return data || "Sin datos"
+                    }
+                },
                 {
                     data: 'updated_at',
                     render: function(data, type, row) {
                         if (type === 'sort' || type === 'type') {
                             return new Date(data).getTime();
                         }
-                        return new Date(data).toLocaleDateString('es-ES', {
+                        return data != null ? new Date(data).toLocaleDateString('es-ES', {
                             year: 'numeric',
                             month: '2-digit',
                             day: '2-digit',
                             hour: '2-digit',
                             minute: '2-digit'
-                        });
+                        }) : "Sin actualizaciones";
                     }
                 },
                 { 

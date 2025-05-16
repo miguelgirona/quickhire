@@ -1,131 +1,209 @@
+/* --- Título y cabecera de la oferta --- */
 #titulo {
-    padding: 3vw 1vw;
+    padding: 2.5vw 1vw;
     background-color: #e9e1fc;
-    color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 3vw;
-
+    color: #595bd4;
+    border-radius: 14px;
+    box-shadow: 0 4px 16px rgba(89,91,212,0.08);
+    margin-bottom: 2vw;
 }
 
-#titulo_oferta,#nombre_empresa{
+#titulo_oferta {
     margin-left: 15px;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #595bd4;
+}
+
+#nombre_empresa {
+    margin-left: 15px;
+    font-size: 1.2rem;
+    color: #4a90e2;
+    font-weight: 500;
 }
 
 #titulo > div:first-child {
     display: grid;
-    grid-template-columns: 23% 67%;
-}
-
-#detalles ul{
-    margin: 20px;
-    display: inline-block;
+    grid-template-columns: 120px 1fr;
+    align-items: center;
+    gap: 18px;
 }
 
 #foto_empresa {
     width: 100%;
-    max-width: 150px;
+    max-width: 110px;
     height: auto;
-    border-radius: 5px;
-    margin-bottom: 1vw;
+    border-radius: 10px;
+    margin-bottom: 0.5vw;
+    background: #fff;
+    box-shadow: 0 1px 6px rgba(89,91,212,0.07);
+    object-fit: cover;
 }
 
+/* --- Detalles de la oferta --- */
+#detalles {
+    margin-top: 1vw;
+    display: flex;
+    gap: 2vw;
+    flex-wrap: wrap;
+}
+
+#detalles ul {
+    margin: 0 20px 0 0;
+    padding: 0;
+    display: inline-block;
+    list-style: none;
+}
 
 #detalles li {
-    font-size: 1.2rem;
-    margin-bottom: 1vw;
+    font-size: 1.08rem;
+    margin-bottom: 0.7vw;
+    color: #333;
+    padding-left: 0;
 }
 
 button.inscribirme {
     padding: 0.8vw 1.5vw;
-    background-color: #4a90e2;
-    color: white;
+    background-color: #595bd4;
+    color: #fff;
     border: none;
-    border-radius: 5px;
-    font-size: 1rem;
+    border-radius: 7px;
+    font-size: 1.1rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s;
+    margin-top: 1vw;
+    margin-bottom: 0.5vw;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 4px rgba(89,91,212,0.07);
     display: block;
 }
 
 button.inscribirme:hover {
-    background-color: #181F1C;
+    background-color: #4a90e2;
+    color: #fff;
 }
 
-/* Requisitos section */
+/* --- Requisitos section --- */
 #requisitos {
     padding: 2vw;
-    background-color: #e9e1fc;
-    border-radius: 10px;
-    margin-bottom: 3vw;
+    background-color: #f4f4f8;
+    border-radius: 12px;
+    margin-bottom: 2vw;
+    box-shadow: 0 2px 8px rgba(89,91,212,0.07);
 }
 
 #requisitos h2 {
     margin-top: 0;
+    color: #595bd4;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+#requisitos h3 {
+    color: #595bd4;
+    font-size: 1.08rem;
+    margin-bottom: 4px;
+    margin-top: 14px;
 }
 
 #requisitos p {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
+    color: #333;
+    margin: 0 0 10px 0;
 }
 
-/* Descripción section */
+/* --- Descripción section --- */
 #descripcion {
     padding: 2vw;
-    background-color: #e9e1fc;
-    border-radius: 10px;
+    background-color: #fff;
+    border-radius: 12px;
+    margin-bottom: 2vw;
+    box-shadow: 0 2px 8px rgba(89,91,212,0.07);
 }
 
 #descripcion h2 {
     margin-top: 0;
+    color: #595bd4;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+#descripcion h3 {
+    color: #595bd4;
+    font-size: 1.08rem;
+    margin-bottom: 4px;
+    margin-top: 14px;
 }
 
 #descripcion p {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
+    color: #333;
+    margin: 0 0 10px 0;
 }
 
-/* Responsiveness for mobile */
-@media (max-width: 768px) {
+/* --- Sector y inscritos --- */
+#sector {
+    font-weight: 500;
+    color: #4a90e2;
+    margin-bottom: 8px;
+}
 
-    .two-cols{
-        display: block;
-    }
-    #content {
-        display: block;
-    }
+#inscritos {
+    color: #595bd4;
+    font-size: 1rem;
+    margin-bottom: 0;
+}
 
+/* --- Responsive --- */
+@media (max-width: 900px) {
+    .two-cols {
+        display: block !important;
+    }
+    #titulo > div:first-child {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    #detalles {
+        flex-direction: column;
+        gap: 1vw;
+    }
+    #foto_empresa {
+        max-width: 80px;
+    }
     #titulo {
-        padding: 2vw;
+        padding: 2vw 1vw;
     }
+}
 
-    #content p, #content li{
-        font-size: 12px;
+@media (max-width: 600px) {
+    #titulo {
+        padding: 2vw 2vw;
+        margin-bottom: 2vw;
     }
-
-    #content h1{
-        font-size: 20px;
+    #titulo_oferta {
+        font-size: 1.2rem;
     }
-
-    #content h2{
-        font-size: 18px;
+    #nombre_empresa {
+        font-size: 1rem;
     }
-
-    #content h3{
-        font-size: 16px;
+    #detalles li {
+        font-size: 0.97rem;
     }
-
+    #requisitos, #descripcion {
+        padding: 3vw 2vw;
+    }
     button.inscribirme {
         width: 100%;
-        font-size: 3.5vw;
+        font-size: 1rem;
+        padding: 10px 0;
     }
-
-    #requisitos, #descripcion {
-        padding: 3vw;
-    }
-
-
-    /* Adjustments for image */
     #foto_empresa {
-        width: 100%;
-        max-width: 100px;
+        max-width: 60px;
     }
 }
+
+/* --- Utilidades y ajustes --- */
+::-webkit-input-placeholder { color: #bbb; }
+::-moz-placeholder { color: #bbb; }
+:-ms-input-placeholder { color: #bbb; }
+::placeholder { color: #bbb; }

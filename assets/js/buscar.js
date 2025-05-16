@@ -236,8 +236,16 @@ $(document).ready(function () {
       });
       
       
+      if(resultados.length == 0){
+        $("#ofertas").append(`
+          <p id='sin-resultados'>No se han encontrado ofertas para tu búsqueda</p>
+        `);
+      }
       // Renderizamos en orden
       resultados.forEach(({ oferta, empresa, foto }) => {
+        console.log('resultados',resultados);
+        
+
         $("#ofertas").append(`
           <div class='oferta' id='${oferta.id}'>
             <img src='${foto.url_imagen}' alt='logo empresa'>

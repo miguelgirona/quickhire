@@ -168,7 +168,6 @@ nav ul li a:hover {
   color: #e74c3c;  /* rojo */
 }
 
-
 /* Responsivo */
 @media (max-width: 768px) {
     .stats-cards {

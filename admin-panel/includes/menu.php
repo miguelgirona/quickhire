@@ -4,8 +4,8 @@
         <li><a href="/quickhire/admin-panel/pages/candidatos">Candidatos</a></li>
         <li><a href="/quickhire/admin-panel/pages/empresas">Empresas</a></li>
         <li><a href="/quickhire/admin-panel/pages/ofertas">Ofertas</a></li>
-        <li><a href="/quickhire/admin-panel/pages/settings.php">Configuración</a></li>
-        <li><a href="/quickhire/login?logout">Cerrar Sesión</a></li>
+        <li><a href="/quickhire/admin-panel/pages/config">Configuración</a></li>
+        <li><a href="javascript:cerrarSesion()">Cerrar Sesión</a></li>
     </ul>
     <button class='menu-toggle' aria-label='Abrir menú'>&#9776;</button>
 </nav>
@@ -13,6 +13,11 @@
     $('.menu-toggle').click(function() {        
         $('.admin-menu').toggleClass('active');
     });
+
+    function cerrarSesion(){
+        sessionStorage.clear();
+        window.location.href = "/quickhire/admin-panel";
+    }
 </script>
 <style>
 /* General */

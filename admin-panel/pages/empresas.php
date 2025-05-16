@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Administrador</title>
     <link rel="stylesheet" href="../css/index.css">
-    <link rel="stylesheet" href="../css/empresas.css">
+    <link rel="stylesheet" href="../css/graficos.css">
     <script src="/quickhire/assets/js/jquery.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>

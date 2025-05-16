@@ -212,7 +212,7 @@ $(document).ready(function() {
             }
 
         });
-
+        
         //eliminar usuario
         $('#tabla').on('click', '.delete', function() {
             const id = $(this).attr('id').split('-')[2];

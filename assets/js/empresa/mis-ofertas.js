@@ -66,6 +66,15 @@ $(document).ready(function(){
             // Obtener el plan de la empresa
             const planEmpresa = empresa.plan; // Plan de la empresa
             const empresaId = empresa.id; // ID de la empresa
+            
+            if(empresa.activa == 0){
+                Swal.fire(
+                    "Activa tu cuenta",
+                    `Activa tu cuenta para empezar a publicar ofertas`,
+                    "warning"
+                );
+                return;
+            }
 
             // Obtener el número de ofertas publicadas
             getOfertas(empresaId).then(ofertas => {

@@ -101,12 +101,8 @@
                     </div>
                 </div>
                 <div>
-                    <h2>Notificaciones</h2>
-                </div>
-                <div>
                     <h3 style="display:inline;">Plan:</h3>
                     <p style="display:inline;" id="plan"></p>
-                    <button id="mejorar-plan">Mejorar plan</button>
                 </div>
             </div>
         </div>
